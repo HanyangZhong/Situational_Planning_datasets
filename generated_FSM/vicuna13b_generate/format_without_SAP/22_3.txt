@@ -1,0 +1,93 @@
+(Butler)Robot(FSM)
+====================
+
+import abstract
+
+class Butler(FSM):
+
+---
+> ** initialize necessary attributes **
+> ** define states as methods on the class **
+> ** track active state with current\_state attribute **
+> ** define state transition logic **
+> ** include helper methods for state actions and checking conditions **
+> ** include a run() method to execute the state machine loop **
+> 
+> 
+
+Attributes
+----------
+
+* `current_state`: str
+* `last_state`: str
+* `action_sequence`: list of tuples
+
+Methods
+-------
+
+** State Transitions **
+```python
+def check_transitions(self):
+    # check for state transitions
+    # if a transition is allowed, call state transition method
+    pass
+
+def do_action(self, action):
+    # perform the action
+    pass
+
+def handle_event(self, event):
+    # handle the event
+    pass
+
+def transition(self, target_state):
+    # transition to the target state
+    pass
+```
+** Initialization **
+```python
+def __init__(self):
+    super().__init__()
+    self.current_state = 'idle'
+    self.last_state = ''
+    self.action_sequence = []
+```
+** State Actions **
+```python
+def get_action(self, action_name):
+    # get the action from the action_sequence list
+    pass
+
+def add_action(self, action):
+    # add an action to the action_sequence list
+    pass
+
+def remove_action(self, action):
+    # remove an action from the action_sequence list
+    pass
+```
+** Helper Methods **
+```python
+def sweep_floor(self):
+    # sweep the floor
+    pass
+
+def wipe_counter(self):
+    # wipe the counter
+    pass
+
+def respond(self, message):
+    # respond to the message
+    pass
+
+def monitor(self):
+    # monitor the environment
+    pass
+```
+** Run **
+```python
+def run(self):
+    # main state machine loop
+    pass
+```
+Note: This is just a basic implementation of the state machine. You may need to add more states, actions, and helper methods based on the specific requirements.

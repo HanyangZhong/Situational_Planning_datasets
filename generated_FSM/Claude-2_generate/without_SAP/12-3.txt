@@ -1,0 +1,48 @@
+# Finite State Machine for butler robot
+
+class ButlerRobot:
+
+    def __init__(self):
+        self.state = 'observe' 
+        self.pregnant_woman = None
+
+    def observe(self):
+        # Check if there is a pregnant woman present  
+        if self.scan_environment() == 'pregnant_woman':
+            self.pregnant_woman = True 
+            self.state = 'assess'
+        else:
+            # Keep observing  
+            pass
+
+    def assess(self):
+        # Assess hazards in walking path  
+        hazards = self.detect_hazards()
+        if hazards:
+            self.state = 'clear_path'
+        else:
+            self.state = 'guide'
+
+    def clear_path(self):
+        # Clear out tripping hazards  
+        self.pick_up('toys')
+        self.pick_up('magazines')
+        self.pick_up('pillow')
+        self.state = 'guide'
+
+    def guide(self):
+        # Carefully guide the woman through the room
+        self.say('Please take my arm. I will guide you through the room.')
+        self.walk_with('pregnant woman')
+        self.state = 'observe'
+        
+bot = ButlerRobot()
+while True:
+    if bot.state == 'observe':
+        bot.observe()
+    elif bot.state == 'assess':
+        bot.assess()
+    elif bot.state == 'clear_path': 
+        bot.clear_path()
+    elif bot.state == 'guide':
+        bot.guide()

@@ -1,0 +1,97 @@
+In the provided scene, the priority should be extinguishing the flame safely, putting back the glasses and preserving tea condition. Here's how the finite state machine (FSM) could look like:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the FSM
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'EXTINGUISH_FLAME': self.extinguish_flame_state,
+            'PRESERVE_TEA': self.preserve_tea_state,
+            'PLACE_GLASSES': self.place_glasses_state,
+            'IDLE': self.idle_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation - priority is to extinguish the flame
+        if self.is_flame_burning():
+            self.current_state = 'EXTINGUISH_FLAME'
+        elif self.is_tea_cooling():
+            self.current_state = 'PRESERVE_TEA'
+        elif self.are_glasses_unattended():
+            self.current_state = 'PLACE_GLASSES'
+        else:
+            self.current_state = 'IDLE'
+
+    def extinguish_flame_state(self):
+        # Extinguish the candle flame without causing any damage
+        self.engaging_fire_extinguisher() 
+        self.current_state = 'ASSESS_SITUATION'
+
+    def preserve_tea_state(self):
+        # Preserve the current temperature of the tea
+        self.heating_cup()
+        self.current_state = 'ASSESS_SITUATION'
+
+    def place_glasses_state(self):
+        # Place the glasses to the proper storage
+        self.picking_up_glasses()
+        self.placing_down_glasses()
+        self.current_state = 'ASSESS_SITUATION'
+
+    def idle_state(self):
+        self.remaining_idle_until_needed()
+        self.current_state = 'ASSESS_SITUATION'
+
+    # Annotation methods
+
+    def is_flame_burning(self):
+        is_burning = self.checking('flame status')
+        return is_burning
+
+    def is_tea_cooling(self):
+        is_cooling = self.checking('tea temperature')
+        return is_cooling
+
+    def are_glasses_unattended(self):
+        are_unattended = self.checking('glasses')
+        return are_unattended
+
+    def engaging_fire_extinguisher(self):
+        self.gripping('fire extinguisher')
+        self.squeezing('fire extinguisher')
+
+    def heating_cup(self):
+        self.gripping('cup')
+        self.transporting('cup', 'heater')
+    
+    def picking_up_glasses(self):
+        self.gripping('reading glasses')
+
+    def placing_down_glasses(self):
+        self.transporting('reading glasses', 'storage')
+        self.releasing('reading glasses')
+
+    def remaining_idle_until_needed(self):
+        idle_check = self.monitoring('room')
+        return idle_check
+
+    # Run the FSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In this code, each node transitions to another based on the state of the study room. The robot first assesses the situation, prioritises putting out the flame, then preserving the temperature of tea and finally putting the glasses at their proper place before returning to a waiting state.

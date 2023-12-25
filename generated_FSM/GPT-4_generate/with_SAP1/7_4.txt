@@ -1,0 +1,99 @@
+Below is a FSM representing the Butler Robot's procedure to clear, clean, and ensure safety in the cluttered hallway. 
+
+Please note, in real-life Python code, all the action / annotation methods should be implemented so that the robot can perform those actions.
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Set up all the states for the robot as functions in the FSM 
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_HALLWAY': self.assess_hallway_state,
+            'CLEAN_HALLWAY': self.clean_hallway_state,
+            'ARRANGE_SHOE_RACK': self.arrange_shoe_rack_state,
+            'FIX_RUG': self.fix_rug_state,
+            'PLACE_LAMP_ON_TABLE': self.place_lamp_on_table_state,
+            'SECURE_LAMP': self.secure_lamp_state,
+            'CHECK_STAIRCASE': self.check_staircase_state,
+        }
+        # Initial state of the FSM is 'INITIAL'
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # The Butler Robot starts by assessing the hallway.
+        self.current_state = 'ASSESS_HALLWAY'
+    
+    def assess_hallway_state(self):
+        # The Butler Robot checks the hallway for clutter and safety.
+        if self.is_hallway_cluttered():
+            self.current_state = 'CLEAN_HALLWAY'
+        return 
+
+    def clean_hallway_state(self):
+        # If the hallway is cluttered, the Robot starts cleaning.
+        # After cleaning, it can arrange the shoe rack.
+        self.cleaning_hallway()
+        self.current_state = 'ARRANGE_SHOE_RACK'
+    
+    def arrange_shoe_rack_state(self):
+        # The robot arranges the shoe rack, before fixing the rug. 
+        self.collecting_scattered_shoes()
+        self.affixing('shoes on rack')
+        self.current_state = 'FIX_RUG'
+    
+    def fix_rug_state(self):
+        # The robot fixes the rug, before moving on to place the lamp on the table.
+        self.lifting('bunched up rug')
+        self.placing_down('rug')
+        self.current_state = 'PLACE_LAMP_ON_TABLE'
+    
+    def place_lamp_on_table_state(self):
+        # The robot places the lamp on the table, reducing the risk of tripping over the cord.
+        self.lift_lamp()
+        self.placing_down('lamp on table')
+        self.current_state = 'SECURE_LAMP'
+        
+    def secure_lamp_state(self):
+        # The robot secures the lamp's cord, before checking the staircase.
+        self.affixing('lamp cord')
+        self.current_state = 'CHECK_STAIRCASE'
+    
+    def check_staircase_state(self):
+        # The robot monitors the staircase to ensure it's safe for use. If cluttered, it cleans it, otherwise, it goes back to the initial state.
+        if self.is_staircase_cluttered():
+            self.cleaning_staircase()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_hallway_cluttered(self):
+        # This method helps to check if the hallway is cluttered.
+        pass
+
+    def cleaning_hallway(self):
+        # This method helps to clean the cluttered hallway.
+        pass
+
+    def collecting_scattered_shoes(self):
+        # This method helps to collect scattered shoes.
+        pass
+
+    def lift_lamp(self):
+        # This method helps to lift the lamp.
+        pass
+
+    def is_staircase_cluttered(self):
+        # This method checks if the staircase is cluttered.
+        pass
+
+    def cleaning_staircase(self):
+        # This method helps to clean the cluttered staircase.
+        pass
+
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+while True:
+    butler_robot.states[butler_robot.current_state]()
+```
+This FSM is defined with a constant state transition cycle. A more adaptive FSM would use sensor inputs to determine the state transitions.

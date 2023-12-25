@@ -1,0 +1,59 @@
+Sure, here is an example of python class to handle this situation:
+
+It would be good for the Butler Robot to have several states:
+
+- `monitor_room_state`: This would be the starting state, monitoring the room for any potential hazards.
+- `collect_hazard_state`: This state would be responsible for collecting any hazards that are found.
+- `fix_rug_state`: In this state, the robot would fix the rug by pressing down on the curled edges.
+- `tidy_up_state`: This state would be activated after all hazards are collected. The butler would tidy up the room by arranging the collected items neatly.
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.current_state = self.monitor_room_state
+        self.hazards = []
+
+    def check_hazards(self):
+        # This would be replaced with code to scan the room for hazards
+        return []
+
+    def collect_hazard(self, hazard):
+        # This would be replaced with code to physically pick up a hazard
+        pass
+
+    def fix_rug(self):
+        # This would be replaced with code for the robot to press down on a rug
+        pass
+
+    def arrange_items(self):
+        # This would be replaced with code for the robot to arrange items neatly
+        pass
+
+    def monitor_room_state(self):
+        if self.check_hazards():
+            self.current_state = self.collect_hazard_state
+        else:
+            self.current_state = self.tidy_up_state
+
+    def collect_hazard_state(self):
+        self.hazards = self.check_hazards()
+        for hazard in self.hazards:
+            self.collect_hazard(hazard)
+        self.current_state = self.fix_rug_state
+
+    def fix_rug_state(self):
+        self.fix_rug()
+        self.current_state = self.tidy_up_state
+
+    def tidy_up_state(self):
+        self.arrange_items()
+        self.current_state = self.monitor_room_state
+
+    def run(self):
+        while True:
+            self.current_state()
+
+```
+
+This is a simple example and assumes that the robots actions are instantaneous. Also the transition conditions may need to be modified based on how the robot's actual sensors work.
+Some helpful methods might include `check_floor_clear()` to confirm that no hazards remain and `alert_human()` to notify the human occupant if the robot encounters a problem it can't resolve on its own.

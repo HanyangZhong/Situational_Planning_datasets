@@ -1,0 +1,89 @@
+In Python, here is a similar state machine for handling the scenario you described:
+
+```python
+class KitchenRobotFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'RECOGNIZE_HAZARD': self.recognize_hazard_state,
+            'CLEANUP_SPILL': self.cleanup_spill_state,
+            'TURN_OFF_STOVE': self.turn_off_stove_state,
+            'RETURN_TO_NORMAL': self.return_to_normal_state,
+            'MONITOR_SITUATION': self.monitor_situation_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        self.current_state = 'RECOGNIZE_HAZARD'
+
+    def recognize_hazard_state(self):
+        # Recognize the hazard in the kitchen (the oil spill)
+        if self.is_floor_wet_and_slippery():
+            self.current_state = 'CLEANUP_SPILL'
+        elif self.is_stove_left_on():
+            self.current_state = 'TURN_OFF_STOVE'
+        else:
+            self.current_state = 'RETURN_TO_NORMAL'
+
+    def cleanup_spill_state(self):
+        # Cleanup the oil spill for safety
+        self.grabbing('mop')
+        self.mopping('kitchen floor')
+        self.current_state = 'MONITOR_SITUATION'
+
+    def turn_off_stove_state(self):
+        # Check if the stove is on and then turn it off
+        self.reaching('stove knob')
+        self.turning('stove knob')
+        self.current_state = 'MONITOR_SITUATION'
+
+    def return_to_normal_state(self):
+        # Back to normal tasks
+        self.placing('mop', 'storage')
+        self.current_state = 'MONITOR_SITUATION'
+
+    def monitor_situation_state(self):
+        # Continuously monitor the kitchen. If a hazard appears, recognize it.
+        if self.is_floor_wet_and_slippery() or self.is_stove_left_on():
+            self.current_state = 'RECOGNIZE_HAZARD'
+        else:
+            self.current_state = 'RETURN_TO_NORMAL'
+
+    # Annotation methods / Actions
+    def is_floor_wet_and_slippery(self):
+        floor_is_wet_and_slippery = self.checking('floor condition')
+        return floor_is_wet_and_slippery
+
+    def is_stove_left_on(self):
+        stove_left_on = self.checking('stove condition')
+        return stove_left_on
+
+    def grabbing(self, item):
+        self.gripping(item)
+        self.lifting(item)
+        
+    def mopping(self, location):
+        self.moving('mop', location)
+        
+    def reaching(self, item):
+        self.extending_hand(item)
+        
+    def turning(self, item):
+        self.rotating(item)
+
+    def placing(self, item, location):
+        self.lowering(item)
+        self.releasing(item)
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+kitchen_robot = KitchenRobotFSM()
+kitchen_robot.run()
+```
+
+In this state machine, the robot initializes in the `INITIAL` state. The robot then goes through each of the states in turn depending on the situation in the kitchen, taking corrective actions where necessary. Once the situation is handled, the robot returns to the `RETURN_TO_NORMAL` state, placing any tools it had used back into storage. The robot continues to monitor the situation in the kitchen, looping back to the `RECOGNIZE_HAZARD` state if the floor becomes wet and slippery again or if the stove is left on. This is a simply designed FSM for the described scenario.

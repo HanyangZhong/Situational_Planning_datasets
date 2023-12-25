@@ -1,0 +1,73 @@
+Here's the finite state machine code for the butler robot in the given bedroom scene:
+
+```python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = (
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REACH_EMERGENCY_BUTTON': self.reach_emergency_button_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        )
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Assess the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if the person is on the floor and unable to reach the emergency button
+        if self.is_person_on_floor() and not self.can_reach_emergency_button():
+            self.current_state = 'REACH_EMERGENCY_BUTTON'
+        else:
+            self.current_state = 'INITIAL'
+
+    def reach_emergency_button_state(self):
+        # Robot reaches for the emergency button
+        self.reach('emergency button')
+        self.press('emergency button')
+        self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for help after pressing the emergency button
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_person_on_floor(self):
+        # Check if the person is on the floor
+        person_on_floor = self.checking('person position')
+        return person_on_floor
+
+    def can_reach_emergency_button(self):
+        # Check if the person can reach the emergency button
+        can_reach_button = self.checking('person reachability to emergency button')
+        return can_reach_button
+
+    def reach(self, item):
+        # Reach for an item
+        print(f"Reaching {item}")
+
+    def press(self, button):
+        # Press a button
+        print(f"Pressing {button}")
+
+    def call_for_help(self):
+        # Call for help
+        print("Calling for help")
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+
+This code represents the steps that the butler robot should take in order to assist the disabled person in the given scenario. The states in the FSM represent different stages of the process, and the actions represent the specific tasks that the butler robot performs in each state.

@@ -1,0 +1,61 @@
+Here's an example of a butler robot finite state machine in Python that addresses the given scenario:
+```python
+class ButlerFSM:
+    def __init__(self):
+        self.current_state = 'idle'
+        self.states = {
+            'idle': [],
+            'trip_hazard_detected': [],
+            'trip_hazard_removed': [],
+            'hallway_cleaned': []
+        }
+
+    def initiate_cleaning(self):
+        self.current_state = 'trip_hazard_detected'
+        self.states['trip_hazard_detected'].append('check_for_trip_hazards')
+
+    def check_for_trip_hazards(self):
+        if self.hallway_is_clear():
+            self.current_state = 'hallway_cleaned'
+            self.states['hallway_cleaned'].append('clean_hallway')
+        else:
+            self.current_state = 'trip_hazard_removed'
+            self.states['trip_hazard_removed'].append('remove_trip_hazards')
+
+    def hallway_is_clear(self):
+        # Implement logic to check if hallway is clear of trip hazards
+        pass
+
+    def clean_hallway(self):
+        # Implement logic to clean the hallway
+        pass
+
+    def remove_trip_hazards(self):
+        # Implement logic to remove trip hazards
+        pass
+
+    def reset(self):
+        self.current_state = 'idle'
+
+    def run(self):
+        while True:
+            self.run_state()
+
+    def run_state(self):
+        state_name = self.states[self.current_state][0]
+        method_name = state_name + '_action'
+        getattr(self, method_name)()
+        if self.states[self.current_state][-1] == 'transition':
+            self.current_state = self.states[self.current_state][-2]
+```
+The `ButlerFSM` class represents the finite state machine for the butler robot. The `init` method initializes the robot's state to "idle". The `initiate_cleaning` method sets the robot's state to "trip\_hazard\_detected" and adds "check\_for\_trip\_hazards" to the state's list of actions.
+
+The `check_for_trip_hazards` method checks if the hallway is clear of trip hazards. If it is, the state transitions to "hallway\_cleaned" and adds "clean\_hallway" to the state's list of actions. If it's not, the state transitions to "trip\_hazard\_removed" and adds "remove\_trip\_hazards" to the state's list of actions.
+
+The `hallway_is_clear`, `clean_hallway`, and `remove_trip_hazards` methods are placeholder functions that would be implemented to perform the respective actions.
+
+The `reset` method resets the robot's state to "idle".
+
+The `run` method is the main loop that runs the state machine. It calls the appropriate method for each state action.
+
+The `run_state` method is called repeatedly by the `run` method. It calls the appropriate method for the current state action and checks if the state's list of actions includes a "transition" action. If it does, the robot's state is updated accordingly.

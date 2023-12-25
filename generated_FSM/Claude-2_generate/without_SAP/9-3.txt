@@ -1,0 +1,51 @@
+class HomeCareAssistant():
+    
+    def __init__(self):
+        self.state = 'observe'
+        
+    def observe(self):
+        print("Observing the environment")  
+        if self.assess_medication() == 'unorganized':
+            self.state = 'organize'
+        elif self.assess_schedule() == 'incomplete':
+            self.state = 'prompt'
+        else:
+            self.state = 'observe'
+            
+    def organize(self):
+        print("Organizing medication bottles")
+        self.grasping('bottles')
+        self.arranging('bottles', 'storage')
+        self.state = 'observe'
+        
+    def prompt(self):
+        print("Prompting to take medication") 
+        self.reminding('medication schedule')
+        self.serving('medication')
+        self.state = 'observe'
+        
+    def assess_medication(self):
+        print("Assessing medication")
+        if self.checking('medication bottles'):
+            return 'unorganized'
+        else: 
+            return 'organized'
+    
+    def assess_schedule(self):
+        print("Assessing medication schedule")
+        if self.checking('weekly organizer'): 
+            return 'complete'
+        else:
+            return 'incomplete'
+        
+    def run(self):
+        while True:
+            if self.state == 'observe':
+                self.observe()
+            elif self.state == 'organize':
+                self.organize()
+            elif self.state == 'prompt':
+                self.prompt()
+                
+robot = HomeCareAssistant()
+robot.run()

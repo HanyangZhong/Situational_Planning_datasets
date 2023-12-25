@@ -1,0 +1,94 @@
+Here is the Finite State Machine code for the butler robot in the given scenario:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'START': self.start_state,
+            'ASSESS': self.assess_state,
+            'NAVIGATE': self.navigate_state,
+            'CLEANUP': self.cleanup_state,
+            'ALERT': self.alert_state,
+            'END': self.end_state
+        }
+        # Set the initial state
+        self.current_state = 'START'
+
+    def start_state(self):
+        # Perform initial actions
+        print("Starting...")
+        self.current_state = 'ASSESS'
+
+    def assess_state(self):
+        # Assess the situation and determine next actions
+        print("Assessing the situation...")
+        if self.is_path_blocked():
+            self.current_state = 'ALERT'
+        elif self.is_cleanup_required():
+            self.current_state = 'CLEANUP'
+        else:
+            self.current_state = 'NAVIGATE'
+
+    def navigate_state(self):
+        # Navigate through the hallway while avoiding obstacles
+        print("Navigating through the hallway...")
+        if self.is_reached_destination():
+            self.current_state = 'END'
+
+    def cleanup_state(self):
+        # Clean up the clutter in the hallway
+        print("Cleaning up the hallway...")
+        self.pick_up_items()
+        self.organize_shoes()
+        self.current_state = 'NAVIGATE'
+        
+    def alert_state(self):
+        # Alert about the blocked path
+        print("Path is blocked! Alerting...")
+        self.call_for_help()
+        self.current_state = 'ASSESS'
+
+    def end_state(self):
+        # Final state, end the process
+        print("Finished.")
+        exit()
+
+    # Actions / Helper methods
+    def is_path_blocked(self):
+        # Check if the path is blocked
+        return True  # Placeholder for actual implementation
+
+    def is_cleanup_required(self):
+        # Check if cleanup is required
+        return True  # Placeholder for actual implementation
+
+    def is_reached_destination(self):
+        # Check if reached destination
+        return True  # Placeholder for actual implementation
+
+    def pick_up_items(self):
+        # Pick up items from the floor
+        print("Picking up items...")
+
+    def organize_shoes(self):
+        # Organize shoes on the shoe rack
+        print("Organizing shoes...")
+
+    def call_for_help(self):
+        # Call for help
+        print("Calling for help...")
+
+    # Run the FSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+butler_robot_fsm = ButlerRobotFSM()
+butler_robot_fsm.run()
+```
+
+Note: The actions in the helper methods are placeholders and should be replaced with appropriate code for the robot to perform those actions.

@@ -1,0 +1,87 @@
+Certainly, we're going to use a similar approach to organize the medications in an elder person's living room.
+
+```python
+class MedicationOrganizerFSM:
+
+    def __init__(self):
+        # Setup states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'COLLECT_PILLS': self.collect_pills_state,
+            'ARRANGE_MEDICATION': self.arrange_medication_state,
+            'CLEAN_AREA': self.clean_area_state,
+            'MONITOR': self.monitor_state
+        }
+        # Set initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess pills and the condition of the area.
+        if self.is_table_messy() and self.is_pills_scattered():
+            self.current_state = 'COLLECT_PILLS'
+        elif not self.is_area_clean():
+            self.current_state = 'CLEAN_AREA'
+        else:
+            self.current_state = 'MONITOR'
+
+    def collect_pills_state(self):
+        # Collect all the scattered pills
+        self.collect_scattered_pills()
+        self.current_state = 'ARRANGE_MEDICATION'
+
+    def arrange_medication_state(self):
+        # Arrange the pills according to the prescription
+        self.arrange_pills_in_organizer()
+        self.current_state = 'CLEAN_AREA'
+
+    def clean_area_state(self):
+        # Clean the table, wipe spilled water and sort out newspaper
+        self.clean_table()
+        self.current_state = 'MONITOR'
+
+    def monitor_state(self):
+        # Monitor if the area is still in good condition.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def is_table_messy(self):
+        # Check for scattered pills
+        table_messy = self.checking('table condition')
+        return table_messy
+    
+    def is_pills_scattered(self):
+        # Check for scattered pills
+        pills_scattered = self.checking('pills location')
+        return pills_scattered
+
+    def is_area_clean(self):
+        # Check if the area is clean
+        area_clean = self.checking('area cleanliness')
+        return area_clean
+
+    def collect_scattered_pills(self):
+        self.gripping('pills')
+        self.transporting('pills','organizer')
+
+    def clean_table(self):
+        self.collecting('disposables')
+        self.wiping('clean table')
+
+    def arrange_pills_in_organizer(self):
+        self.gripping('pills')
+        self.placing down('pills', 'in organizer')
+
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+medication_organizer = MedicationOrganizerFSM()
+medication_organizer.run()
+```
+This script is a representation of an FSM for a butler robot. It represents the robot navigating through different states: assessing the situation, collecting pills, arranging medication, cleaning the area, and monitoring. Please note I've made programming assumptions like Methods: checking(), gripping(), placing_down(), etc, are part of an external robot programming library. If not, you can create them suiting your robot's requirements.

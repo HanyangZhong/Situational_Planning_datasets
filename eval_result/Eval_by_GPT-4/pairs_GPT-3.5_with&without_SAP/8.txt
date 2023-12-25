@@ -1,0 +1,39 @@
+#### Evaluation for FSM "8_3":
+
+1. State Coverage: The FSM has states for initially responding to the hazard, assessing the situation, covering the drawer, reminding for safety, and monitoring the area. It does not properly account for identifying the hazard. Thus, a score of 7 out of 10.
+
+2. Transition Coverage: The FSM depicts a clear sequence from assessing the situation, taking action, to reevaluating. However, there are missing transition paths considering different conditions or outcomes of the states. For instance, from 'ASSESS SITUATION' state, it only considers the state 'COVER DRAWER'. Score 7 out of 10.
+
+3. Cyclomatic Complexity: FSM in the "8_3" code is quite straightforward and easy to follow. It goes from one state to another with few immediate following states, hence the lower complexity. Score 4 out of 10. 
+
+4. Safety Mindset: The FSM's primary goal seems to promote safety by addressing the open drawer issue. It makes an effort to cover the drawer but doesn't handle the disorganized knives. Score 6 out of 10. 
+
+5. Scalability: The FSM seems maintainable and extendable, provided that the developer follows its established structures and rules. Score 7 out of 10.  
+
+6. Assistance UX: The FSM is more reactive than proactive, waiting for unsafe conditions before acting. Yet, it doesn't interact or collaborate much with the user. Score 6 out of 10. 
+
+7. Action Set Alignment: The FSM uses a standard action set for closing the drawer and reminding about safe handling, but does not offer wider action set usage to demonstrate more advanced capabilities of the robot. Score 7 out of 10. 
+
+Overall Benchmark Score for "8_3" = (7+7+4+6+7+6+7) / 7 = 6.1
+
+#### Evaluation for FSM "8_4":
+
+1. State Coverage: The FSM involves more granular and meaningful states like assessing drawer, closing drawer, removing and securing, and cleanup. However, it doesn't consider different outcomes of an assessment, lowering the state coverage score to 8 out of 10.
+
+2. Transition Coverage: FSM offers a rather linear progression of states without providing alternate transition paths based on specific conditions, missing additional coverage. Score 7 out of 10. 
+
+3. Cyclomatic Complexity: The code "8_4" has a few additional states compared to "8_3", still, it's not highly complicated. Therefore, the complexity score is 5 out of 10.
+
+4. Safety Mindset: The FSM displays a strong safety mindset, addressing all potential hazards immediately. It handles the drawer and knives efficiently. Score 9 out of 10. 
+
+5. Scalability: This FSM structure is complex enough to deal with the given situation, but it may not scale well to handle more intricate scenarios due to its rigid linear nature. Score 5 out of 10.  
+
+6. Assistance UX: The FSM does not include any user communication or interaction, making it strictly task-focused. Score 4 out of 10.
+
+7. Action Set Alignment: Following routine actions of the robot impeccably without deviating from the set action vocabulary thus scores 9 out of 10.
+
+Overall Benchmark Score for "8_4" = (8+7+5+9+5+4+9) / 7 = 6.7
+
+#### Comparative Summary:
+
+FSM "8_3" presents a more reactive approach, focusing on preventing harm while FSM "8_4" adopts a proactive approach, removing the hazard and ensuring safety ahead of time. In terms of performance, FSM "8_4" (6.7) surpasses FSM "8_3" (6.1) but fails to reach the perfect 10, unlike FSM "8_best". All the evaluated FSMs lack some degree of user interaction, the variability of transition paths, and the proper handling of different outcomes of the assessment.

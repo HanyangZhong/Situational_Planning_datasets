@@ -1,0 +1,92 @@
+To create a finite state machine (FSM) for a butler robot in the described kitchen scenario, we'll follow the steps to address the situation effectively and safely. We'll use the provided verbs to define actions in each state. Here's the Python code for the FSM:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'TURN_OFF_STOVE': self.turn_off_stove_state,
+            'REMOVE_HAZARDS': self.remove_hazards_state,
+            'IMPROVE_VENTILATION': self.improve_ventilation_state,
+            'CHECK_ENVIRONMENT': self.check_environment_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'IDLE': self.idle_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # The initial state to start the situation assessment
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the kitchen for any immediate dangers
+        if self.detect_flame_and_hazards():
+            self.current_state = 'TURN_OFF_STOVE'
+        else:
+            self.current_state = 'IDLE'
+
+    def turn_off_stove_state(self):
+        # Safely turn off the stove
+        self.turning('stove knob', 'off')
+        self.current_state = 'REMOVE_HAZARDS'
+
+    def remove_hazards_state(self):
+        # Remove any hazardous items away from the stove
+        self.grasping('oil bottle')
+        self.placing_down('oil bottle', 'safe place')
+        self.grasping('dish towel')
+        self.hanging('dish towel', 'safe place')
+        self.current_state = 'IMPROVE_VENTILATION'
+
+    def improve_ventilation_state(self):
+        # Improve ventilation in the kitchen
+        self.opening('window')
+        self.turning('extractor fan', 'on')
+        self.current_state = 'CHECK_ENVIRONMENT'
+
+    def check_environment_state(self):
+        # Check if the environment is safe
+        if self.is_environment_safe():
+            self.current_state = 'IDLE'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for human assistance in case of unresolved issues
+        self.calling_for_help()
+        self.current_state = 'IDLE'
+
+    def idle_state(self):
+        # Idle state, waiting for further instructions or monitoring
+        self.monitoring('kitchen')
+
+    # Helper functions for state actions
+    def detect_flame_and_hazards(self):
+        # Detects if there is an unattended flame and nearby hazards
+        # Simulated detection logic
+        return True
+
+    def is_environment_safe(self):
+        # Checks if the environment is now safe
+        # Simulated safety check logic
+        return True
+
+    def calling_for_help(self):
+        # Simulates calling for help
+        print("Calling for human assistance.")
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create and run the Butler Robot FSM
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+This code defines a series of states that the robot can be in, with transitions between them based on the situation in the kitchen. Each state corresponds to an action or a set of actions that the robot should perform to ensure safety. The helper functions are placeholders for the actual implementation of sensing and acting methods. The `run` method keeps the FSM running, continuously checking and reacting to the kitchen's state.

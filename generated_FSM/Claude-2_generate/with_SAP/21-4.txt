@@ -1,0 +1,57 @@
+class ButlerRobotFSM:
+    def __init__(self): 
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,  
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'COMFORT_PERSON': self.comfort_person_state,
+            'AWAIT_HELP': self.await_help_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Butler Robot activated.")
+        self.current_state = 'ASSESS_SITUATION'
+        
+    def assess_situation_state(self):
+        print("Assessing the situation...")
+        if self.is_person_injured():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'COMFORT_PERSON'
+    
+    def call_for_help_state(self):
+        print("Calling emergency services for help...")
+        self.call_emergency_services()
+        self.current_state = 'AWAIT_HELP'  
+        
+    def comfort_person_state(self):
+        print("Comforting the person...")
+        self.bring_blanket_and_water()  
+        self.current_state = 'INITIAL'
+    
+    def await_help_state(self): 
+        print("Awaiting the arrival of emergency help...")
+        if self.has_help_arrived():
+            self.current_state = 'INITIAL'
+        else:
+            self.check_on_person()
+            
+    # Helper annotation methods
+    def is_person_injured(self):
+        return self.checking('person for injuries') 
+    
+    def call_emergency_services(self):
+        return self.calling('emergency services for help')
+    
+    def bring_blanket_and_water(self):
+        return self.bringing('blanket and water to person')
+        
+    def has_help_arrived(self):
+        return self.checking('if emergency help has arrived')
+    
+    def check_on_person(self):
+        return self.checking('on person periodically')
+        
+fsm = ButlerRobotFSM()
+fsm.run()

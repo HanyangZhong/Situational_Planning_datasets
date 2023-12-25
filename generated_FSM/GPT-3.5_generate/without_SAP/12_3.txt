@@ -1,0 +1,85 @@
+```python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = (
+            'INITIAL', self.initial_state,
+            'ASSESS_SITUATION', self.assess_situation_state,
+            'AVOID_TRIPPING_HAZARD', self.avoid_tripping_hazard_state,
+            'AVOID_OBSTACLES', self.avoid_obstacles_state,
+            'NAVIGATE_FURNITURE', self.navigate_furniture_state,
+            'ADJUST_TO_LIGHTING', self.adjust_to_lighting_state,
+            'FINISH', self.finish_state
+        )
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial state of the butler robot
+        print('Starting navigation')
+
+        # Move to the next state
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation and determine the next state
+        if self.is_tripping_hazard_present():
+            self.current_state = 'AVOID_TRIPPING_HAZARD'
+        else:
+            self.current_state = 'AVOID_OBSTACLES'
+
+    def avoid_tripping_hazard_state(self):
+        # Avoid the tripping hazard by navigating around it
+        print('Avoiding tripping hazard')
+
+        # Move to the next state
+        self.current_state = 'AVOID_OBSTACLES'
+
+    def avoid_obstacles_state(self):
+        # Avoid the obstacles on the floor by stepping around them
+        print('Avoiding obstacles')
+
+        # Move to the next state
+        self.current_state = 'NAVIGATE_FURNITURE'
+
+    def navigate_furniture_state(self):
+        # Navigate through the furniture by carefully moving around it
+        print('Navigating furniture')
+
+        # Move to the next state
+        self.current_state = 'ADJUST_TO_LIGHTING'
+
+    def adjust_to_lighting_state(self):
+        # Adjust to the lighting conditions by being cautious of shadows
+        print('Adjusting to lighting conditions')
+
+        # Move to the next state
+        self.current_state = 'FINISH'
+
+    def finish_state(self):
+        # Finish the navigation
+        print('Finished navigation')
+
+    # Actions / Annotation methods
+
+    def is_tripping_hazard_present(self):
+        # Check if the rug's edges are curled up
+        return self.checking('rug tripping hazard')
+
+    def checking(self, item):
+        # Perform a check on an item
+        print(f'Checking {item}')
+        return False  # Placeholder for actual check
+
+    # Run the HFSM loop    
+    def run(self):
+        while self.current_state != 'FINISH':
+            state_fn = self.states[self.states.index(self.current_state) + 1]
+            state_fn()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```

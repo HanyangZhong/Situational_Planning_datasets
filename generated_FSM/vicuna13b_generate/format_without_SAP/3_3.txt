@@ -1,0 +1,55 @@
+Here's a Python class definition for the butler robot to handle the described scenario using a finite state machine:
+```python
+class ButlerRobot(FSM):
+    def __init__(self):
+        super().__init__()
+        self.current_state = 'ready'
+
+    def ready(self):
+        self.helper_methods['check_candle_and_books']
+        self.helper_methods['monitor_candle_and_books']
+
+    def check_candle_and_books(self):
+        if self.is_candle_in_danger():
+            self.error('Candle is in danger!')
+        elif self.are_books_in_danger():
+            self.error('Books are in danger!')
+
+    def is_candle_in_danger(self):
+        # Implement logic to check if the candle is in danger
+        pass
+
+    def are_books_in_danger(self):
+        # Implement logic to check if the books are in danger
+        pass
+
+    def monitor_candle_and_books(self):
+        # Implement logic to monitor the candle and books
+        pass
+
+    def action(self):
+        if self.current_state == 'ready':
+            self.goto_state('reaching')
+
+    def reaching(self):
+        self.helper_methods['grab_candle']
+        self.helper_methods['place_on_stable_surface']
+        self.goto_state('done')
+
+    def grab_candle(self):
+        # Implement logic to grab the candle
+        pass
+
+    def place_on_stable_surface(self):
+        # Implement logic to place the candle on a stable surface
+        pass
+
+    def done(self):
+        # Implement logic to complete the task
+        pass
+```
+This class definition creates a `ButlerRobot` class that inherits from the `FSM` class. The `ready` state checks for potential hazards with the candle and books, while `monitor_candle_and_books` is a placeholder for additional monitoring logic. The `action` method transitions the robot to the `reaching` state.
+
+In the `reaching` state, the robot grabs the candle and places it on a stable surface. Once the task is done, the `done` state is entered.
+
+You can further implement the helper methods, such as `is_candle_in_danger()`, `are_books_in_danger()`, `grab_candle()`, and `place_on_stable_surface()`, to provide the required functionality.

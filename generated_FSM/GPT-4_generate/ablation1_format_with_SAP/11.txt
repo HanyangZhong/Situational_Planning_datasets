@@ -1,0 +1,53 @@
+Sure, here is a Python class that implements a Finite State Machine for the Butler Robot Helper.
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.current_state = self.check_patient
+        self.patient_needs_medicine = False
+
+    def run(self):
+        while True:
+            self.current_state = self.current_state()
+
+    # This state checks the patient's condition
+    def check_patient(self):
+        # if patient needs medicine, change state to 'grab_medicine'
+        if self.patient_needs_medicine:
+            return self.grab_medicine
+        else:
+            return self.monitor_patient
+
+    # This state is for monitoring the patient
+    def monitor_patient(self):
+        # implement monitoring code here
+        # if patient needs help, change state
+        if self.need_help():
+            self.patient_needs_medicine = True
+            return self.check_patient
+        else:
+            # stay in monitor_patient state
+            return self.monitor_patient
+
+    # This state is for grabbing the medicine
+    def grab_medicine(self):
+        # implement reaching, gripping and lifting the medicine here
+        # after medicine is grabbed, move to next state
+        return self.deliver_medicine
+
+    # This state is for delivering the medicine to the patient
+    def deliver_medicine(self):
+        # implement approaching and serving the medicine here
+        # after medicine is delivered, reset the flag and return to 'check_patient' state
+        self.patient_needs_medicine = False
+        return self.check_patient
+
+    # Helper method
+    def need_help(self):
+        # implement checking the patient's condition here
+        # return true if patient need help, otherwise false
+        pass
+
+```
+
+In this FSM, the Butler starts by checking the patient's condition. If the patient needs medicine, it grabs and delivers the medicine. Otherwise, it monitors the patient's condition in a dedicated state. If the patient's condition changes and they need help, the FSM switches back to the "grab_medicine" state. After the medicine is delivered, the FSM returns to monitoring the patient.

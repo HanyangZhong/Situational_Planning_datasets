@@ -1,0 +1,83 @@
+To create a finite state machine (FSM) for a butler robot in the described living room scene, we'll design the states and transitions based on the scenario. The FSM will follow the steps to ensure the child's safety by addressing the risk posed by the uncovered electrical outlet. Here's an example of how this can be implemented in Python:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REMOVE_DANGER': self.remove_danger_state,
+            'ENGAGE_CHILD': self.engage_child_state,
+            'MONITOR_SAFETY': self.monitor_safety_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial state, start by assessing the situation
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation: Check if the child is near the dangerous outlet
+        if self.is_child_near_danger():
+            self.current_state = 'REMOVE_DANGER'
+        else:
+            self.current_state = 'MONITOR_SAFETY'
+
+    def remove_danger_state(self):
+        # If the child is near the outlet, take steps to remove the danger
+        self.grasping('outlet cover')
+        self.inserting('outlet cover', 'into the outlet')
+        self.current_state = 'ENGAGE_CHILD'
+
+    def engage_child_state(self):
+        # Engage the child away from the outlet
+        self.collecting('safe toys')
+        self.delivering('safe toys', 'to the child')
+        self.current_state = 'MONITOR_SAFETY'
+
+    def monitor_safety_state(self):
+        # Continuously monitor the child's safety
+        if self.is_child_in_danger_again():
+            self.current_state = 'REMOVE_DANGER'
+        elif self.is_help_needed():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance in case of an unresolved safety issue
+        self.calling_for_help()
+        self.current_state = 'INITIAL'
+
+    # Helper methods for actions and checks
+    def is_child_near_danger(self):
+        # Check if the child is near the dangerous outlet
+        return self.monitoring('child', 'electrical outlet')
+
+    def is_child_in_danger_again(self):
+        # Check if the child is in danger again
+        return self.monitoring('child', 'safety risk')
+
+    def is_help_needed(self):
+        # Determine if additional help is needed
+        return self.checking('safety conditions')
+
+    def calling_for_help(self):
+        # Implement the logic to call for help
+        self.calling('emergency services')
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create and run the Butler Robot FSM
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In this FSM, the robot starts by assessing the situation. If the child is near the outlet, the robot moves to the 'REMOVE_DANGER' state to cover the outlet. It then engages the child with safe toys in the 'ENGAGE_CHILD' state. The robot continuously monitors the child's safety, returning to the 'REMOVE_DANGER' state if necessary or calling for help if the situation cannot be resolved safely.

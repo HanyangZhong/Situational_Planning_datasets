@@ -1,0 +1,63 @@
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Initialize the current state
+        self.current_state = self.start
+        
+        # Initialize the surfaces status
+        self.floor_status = "wet"
+        self.mirror_status = "foggy"
+        self.mat_status = "displaced"
+        self.towel_status = "damp"
+
+    def start(self):
+        # The robot should start by checking the status of the bathroom
+        self.check_bathroom_status()
+
+    def check_bathroom_status(self):
+        # The robot will check the status of the different areas of the bathroom
+
+        # If the floor is wet, it will start by mopping it
+        if self.floor_status == "wet":
+            self.mop_floor()
+        # If the mirror is foggy, it will wipe it
+        elif self.mirror_status == "foggy":
+            self.wipe_mirror()
+        # If the mat is displaced, it will arrange it
+        elif self.mat_status == "displaced":
+            self.arrange_mat()
+        # If the towel is damp and on the floor, it will hang it
+        elif self.towel_status == "damp":
+            self.hang_towel()
+
+    def mop_floor(self):
+        # Action: mopping the floor
+        
+        # After the floor is mopped, the robot will check again the bathroom status
+        self.current_state = self.check_bathroom_status
+
+    def wipe_mirror(self):
+        # Action: wiping the mirror
+        
+        # After the mirror is wiped, the robot will check again the bathroom status
+        self.current_state = self.check_bathroom_status
+
+    def arrange_mat(self):
+        # Action: arranging the mat
+        
+        # After the mat is arranged, the robot will check again the bathroom status
+        self.current_state = self.check_bathroom_status
+
+    def hang_towel(self):
+        # Action: Hanging the towel
+        
+        # After the towel is hanged, the robot will check again the bathroom status
+        self.current_state = self.check_bathroom_status
+
+    def run(self):
+        # Run the FSM loop
+        while True:
+            self.current_state()  
+```
+
+Each state corresponds to an action needed in the bathroom (mopping, wiping, arranging, hanging), and after each action, the robot goes back to the checking state, to reassess the conditions of the bathroom and decide the next action. The initial condition assumes everything needs cleaning/arranging. For a more complex FSM, conditions to transit between states would be determined by environment observations or sensor inputs.

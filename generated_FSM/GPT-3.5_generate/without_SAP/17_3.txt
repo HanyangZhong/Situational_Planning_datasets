@@ -1,0 +1,111 @@
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'GET_SAFETY_GATE': self.get_safety_gate_state,
+            'PLACE_SAFETY_GATE': self.place_safety_gate_state,
+            'MONITOR_CHILD': self.monitor_child_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot's initial state. Start with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if the staircase lacks a safety gate and if the child is near the edge of the stairs.
+        if self.has_safety_gate():
+            self.current_state = 'MONITOR_CHILD'
+        else:
+            self.current_state = 'GET_SAFETY_GATE'
+
+    def get_safety_gate_state(self):
+        # Get the safety gate for the staircase.
+        self.open_closet()
+        self.reach_for_safety_gate()
+        self.take_safety_gate()
+        self.current_state = 'PLACE_SAFETY_GATE'
+
+    def place_safety_gate_state(self):
+        # Place the safety gate at the top of the staircase to protect the child.
+        self.position_safety_gate()
+        self.install_safety_gate()
+        self.close_closet()
+        self.current_state = 'MONITOR_CHILD'
+
+    def monitor_child_state(self):
+        # Continuously monitor the child's proximity to the staircase.
+        if self.is_child_near_stairs():
+            self.call_for_help()
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance to ensure the child's safety.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def has_safety_gate(self):
+        safety_gate_present = self.checking('safety gate')
+        return safety_gate_present
+
+    def open_closet(self):
+        self.turning('closet doorknob', 'counter-clockwise')
+        self.opening('closet door')
+
+    def reach_for_safety_gate(self):
+        self.reaching('safety gate', 'inside the closet')
+
+    def take_safety_gate(self):
+        self.grasping('safety gate')
+        self.removing('safety gate', 'from the closet')
+
+    def close_closet(self):
+        self.closing('closet door')
+        self.turning('closet doorknob', 'clockwise')
+
+    def position_safety_gate(self):
+        self.placing_down('safety gate')
+        self.adjusting('safety gate position', 'at the top of the stairs')
+
+    def install_safety_gate(self):
+        self.screwing('safety gate', 'into the wall')
+
+    def is_child_near_stairs(self):
+        child_near = self.monitoring('child', 'proximity to stairs')
+        return child_near
+
+    def call_for_help(self):
+        self.calling('for human assistance')
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In this FSM, the butler robot's states are as follows:
+
+- `INITIAL`: The initial state of the butler robot. It starts with assessing the situation.
+- `ASSESS_SITUATION`: The butler robot assesses if the staircase lacks a safety gate and if the child is near the edge of the stairs. If a safety gate is present, it goes to the `MONITOR_CHILD` state. If not, it moves to the `GET_SAFETY_GATE` state.
+- `GET_SAFETY_GATE`: The butler robot gets the safety gate for the staircase. It opens the closet, reaches for the safety gate, and takes it. Once done, it moves to the `PLACE_SAFETY_GATE` state.
+- `PLACE_SAFETY_GATE`: The butler robot places the safety gate at the top of the staircase to protect the child. It positions the safety gate and installs it. Then it closes the closet and goes back to the `MONITOR_CHILD` state.
+- `MONITOR_CHILD`: The butler robot continuously monitors the child's proximity to the staircase. If the child is near the stairs, it calls for help and goes to the `CALL_FOR_HELP` state. Otherwise, it goes back to the `INITIAL` state.
+- `CALL_FOR_HELP`: The butler robot calls for human assistance to ensure the child's safety. Once done, it goes back to the `INITIAL` state.
+
+The actions/annotation methods in the FSM represent the specific tasks/actions that the butler robot performs in each state. They include actions like checking, reaching, grasping, placing down, and calling for help.
+
+Please note that the actions in the code are placeholders and should be replaced with the appropriate actions based on the specific capabilities and functionalities of the butler robot.

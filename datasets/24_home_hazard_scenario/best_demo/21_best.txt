@@ -1,0 +1,109 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'PROVIDE_IMMEDIATE_ASSISTANCE': self.provide_immediate_assistance_state,
+            'ACTIVATE_EMERGENCY_BUTTON': self.activate_emergency_button_state,
+            'ASSESS_INJURIES': self.assess_injuries_state,
+            'PROVIDE_NEEDED_HELP': self.provide_needed_help_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'MONITOR_SITUATION': self.monitor_situation_state
+        }
+        # The initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.detect_person_fallen():
+            self.current_state = 'PROVIDE_IMMEDIATE_ASSISTANCE'
+        else:
+            self.current_state = 'MONITOR_SITUATION'
+
+    def provide_immediate_assistance_state(self):
+        self.assisting_person_on_floor()
+        self.current_state = 'ACTIVATE_EMERGENCY_BUTTON'
+
+    def activate_emergency_button_state(self):
+        self.grasping('emergency_button')
+        self.pressing('emergency_button')
+        self.current_state = 'ASSESS_INJURIES'
+
+    def assess_injuries_state(self):
+        # Check for injuries and assess the condition of the disabled person
+        if self.detect_injuries():
+            self.current_state = 'PROVIDE_NEEDED_HELP'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def provide_needed_help_state(self):
+        # Provide help based on the identified needs or injuries
+        self.providing_appropriate_help()
+        self.current_state = 'MONITOR_SITUATION'
+
+    def call_for_help_state(self):
+        self.calling_for_help()
+        self.current_state = 'MONITOR_SITUATION'
+
+    def monitor_situation_state(self):
+        if self.help_has_arrived():
+            self.current_state = 'INITIAL'
+        else:
+            self.current_state = 'PROVIDE_NEEDED_HELP'
+
+    # Helper methods for actions
+    def detect_person_fallen(self):
+        fallen = self.monitoring('person')
+        # Logic to detect a fallen person
+        return fallen
+
+    def assisting_person_on_floor(self):
+        self.checking('person')
+        # Assist the person who has fallen
+        pass
+
+    def grasping(self, item):
+        # Grasp and operate the emergency button
+        pass
+
+    def pressing(self, item):
+        # Grasp and operate the emergency button
+        pass
+
+    def checking(self, item):
+        pass
+
+    def placing_down(self, item, place):
+        pass
+
+    def detect_injuries(self):
+        injuries = self.monitoring('person')
+        return injuries
+
+    def providing_appropriate_help(self):
+        self.grasping('medicine')
+        self.placing_down('medicine','person')
+        # Provide help based on assessed needs or injuries
+        pass
+
+    def calling_for_help(self):
+        # Call for additional help
+        pass
+
+    def help_has_arrived(self):
+        help = self.monitoring('help')
+        # Logic to detect a fallen person
+        return help
+
+    def run(self):
+        # Run the HFSM loop
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()

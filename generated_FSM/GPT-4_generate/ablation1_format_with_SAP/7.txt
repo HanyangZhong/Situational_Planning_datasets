@@ -1,0 +1,60 @@
+Sure, here is a Python class definition, called ButlerRobotFSM that implements a Finite State Machine (FSM). This class is designed to deal with cluttered hallway:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        self.state = self.start
+        self.hallway = None
+        self.target_object = None
+
+    def check_hallway(self):
+        # Implementation of the object recognition and hazard evaluation
+        # Set target_object to the object posing most immediate hazard
+        pass
+
+    def pick_object(self):
+        # Implementation of picking up the target_object
+        pass
+
+    def clear_path(self):
+        # Implementation of removing the target_object to a safe place
+        pass
+
+    def start(self):
+        self.hallway = "cluttered"
+        self.state = self.scanning
+
+    def scanning(self):
+        self.check_hallway()
+        if self.target_object is not None:
+            self.state = self.reaching
+        else:
+            self.state = self.idle
+
+    def reaching(self):
+        self.pick_object()
+        self.state = self.transporting
+
+    def transporting(self):
+        self.clear_path()
+        self.target_object = None
+        self.state = self.scanning
+
+    def idle(self):
+        print("Hallway is clear and safe.")
+
+    def run(self):
+        while self.state != self.idle:
+            self.state()
+
+```
+This FSM is actively scanning until the hallway is clear. The individual methods would need to be implemented with regard to the robotics' hardware and software capabilities.
+
+The `check_hallway` method should use sensor input to find out cluttered objects in the hallway and identifying which pose immediate hazard. 
+
+The `pick_object` method would be responsible for setting robotic arm to reach, grip and lift the identified hazardous object. 
+
+The `clear_path` method involves transporting the object to an identified safe place and lowering or placing it down. 
+
+The FSM loop continues to identify cluttered objects and remove them one by one until the hallway is clear. It then transitions the FSM to an `idle` state, where it would wait for further instructions or perform other programmed tasks.

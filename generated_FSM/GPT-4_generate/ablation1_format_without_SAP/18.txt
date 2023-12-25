@@ -1,0 +1,68 @@
+```python
+class ButlerRobotFSM:
+    """A Finite State Machine model for a Butler Robot."""
+
+    def __init__(self):
+        self.child_safe = False # To keep a track whether child is safe or not
+        self.child_playing = True # Whether child is still playing or not
+        self.current_state = self.monitoring_child
+        self.mobile = True # Whether the robot is mobile or not
+
+    # State 1 - Normal state, monitoring the child
+    def monitoring_child(self):
+        if not self.child_safe:
+            print("Child is approaching danger. Changing to approaching_child state.")
+            # transitioning to state 2
+            self.child_safe = False
+            self.current_state = self.approaching_child
+
+    # State 2 - When child is approaching the plug point
+    def approaching_child(self):
+        print("Closely monitoring child and reaching towards him.")
+        # call helper method
+        self.reaching_child()
+        if self.child_safe:
+            print("Child is now safe. Changing to child_playing state.")
+            # transitioning to state 3
+            self.current_state = self.moving_away
+
+    # State 3 - Checking whether child starts playing again or not
+    def moving_away(self):
+        print("Moving away from child and monitoring.")
+        # call helper method
+        self.monitoring_child()
+        if self.child_playing:
+            print("Child has started playing again. Stay in child_playing state.")
+            self.current_state = self.monitoring_child
+        else:
+            print("Child is not playing. Changing to idle state.")
+            self.current_state = self.idle
+
+    # State 4 - Cardinal state, idle when not interacting with child or preventing child from danger
+    def idle(self):
+        print("Idle and awaiting for next command.")
+        if self.child_playing:
+            print("Child has started playing again. Changing to child_playing state.")
+            self.current_state = self.monitoring_child
+
+    # Helper method for reaching and saving child from danger
+    def reaching_child(self):
+        print("Quickly moving towards the child.")
+        print("Gripping the metal toy from the child's hand.")
+        print("Placing down the toy away from the child.")
+        self.child_safe = True
+
+    def run(self):
+        while self.mobile:
+            self.current_state()
+
+bot = ButlerRobotFSM()
+bot.run()
+```
+
+[start]
+In this code, the robot will stay in the state 1 (monitoring the child) as long as the child is safe. If child is not safe (here meaning child begins to interact with the electrical socket with a metal object in the hand), it enters state 2 where the butler_robot approaches the child, grips the metal object from the child's hand, and places it down where the child can't reach it. Then, the robot moves away from the child and monitors him from a distance. If the child starts to play again, robot again starts from state 1 and continues the loop as long as child's safety is the priority and the robot is mobile.
+
+The `run()` method executes the FSM loop, and keeps the robot going from one state to another, based on the actions observed.
+
+This keeps the child safe from the hazard of electrical shock. Certainly, it's not the only way one could implement this FSM, but it's one of many paths that can be taken.

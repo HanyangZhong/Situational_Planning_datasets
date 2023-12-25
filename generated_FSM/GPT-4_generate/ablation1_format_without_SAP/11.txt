@@ -1,0 +1,62 @@
+Sure, here is a Python finite state machine implemented in a class coded for the butler robot in the described scene. The robot has five required states: Starting, Checking_Conditions, Reaching_Medicine, Delivering_Medicine, and Resting.
+
+```python
+class ButlerRobotFSM:
+    # The possible states of the robot
+    STATES = ['Starting', 'Checking_Conditions', 'Reaching_Medicine', 'Delivering_Medicine', 'Resting']
+
+    def __init__(self):
+        # Initially the robot is not active yet
+        self.current_state = 'Starting'
+        # Perform any necessary initialization here
+
+    # The different states as methods:
+
+    def starting(self):
+        # The robot starts its operation
+        print("Starting operation.")
+        self.current_state = 'Checking_Conditions'            
+
+    def checking_conditions(self):
+        # Check whether the patient is suffering or not
+        print("Checking patient conditions.")
+        # If patient is suffering then the robot should reach the medicine, else it goes to resting state
+        if self.patient_suffering() is True:
+            self.current_state = 'Reaching_Medicine'
+        else:
+            self.current_state = 'Resting'
+            self.resting()
+
+    def reaching_medicine(self):
+        # The robot reaches the medicine
+        print("Reaching for the medicine.")
+        # Once it has the medicine, it goes to the next state: delivering the medicine
+        self.current_state = 'Delivering_Medicine'
+
+    def delivering_medicine(self):
+        # The robot delivers the medicine to the patient
+        print("Delivering the medicine to the patient.")
+        # After delivering the medicine, the robot goes to the resting state
+        self.current_state = 'Resting'
+
+    def resting(self):
+        # The robot is resting now
+        print("Resting.")
+
+    # Helper methods:
+    def patient_suffering(self):
+        # This is a placeholder for a more complex condition check
+        return True
+
+    def run(self):
+        while True:
+            if self.current_state == 'Starting':
+                self.starting()
+            elif self.current_state == 'Checking_Conditions':
+                self.checking_conditions()
+            elif self.current_state == 'Reaching_Medicine':
+                self.reaching_medicine()
+            elif self.current_state == 'Delivering_Medicine':
+                self.delivering_medicine()
+```
+Above class models your scenario. Your butler robot begins by Checking_Conditions. If a patient is suffering, they Reaching_Medicine, then transition to Delivering_Medicine, and finally Resting. The robot goes back to checking the condition until it finds another task to do. Please note that, in a practical application, the `run` method would likely run in a new thread not to block other parts of your application.

@@ -1,0 +1,72 @@
+Below is the python code representation of the scene you described using a finite state machine.
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        self.states = {
+             'INITIAL': self.initial_state,
+             'ASSESS_SITUATION': self.assess_situation_state,
+             'PICKUP_ITEMS': self.pickup_items_state,
+             'ARRANGE_ITEMS': self.arrange_items_state,
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.is_hallway_messy():
+            self.current_state = 'PICKUP_ITEMS'
+
+    def pickup_items_state(self):
+        while self.is_item_present():
+            self.reaching('cluttered item')
+            self.gripping('item')
+            self.lifting('item')
+            self.transporting('item', 'storage')
+            self.releasing('item')
+        self.current_state = "ARRANGE_ITEMS"
+
+    def arrange_items_state(self):
+        self.straightening('rug')
+        self.placing_down('shoe rack')
+        self.rearranging('shoes')
+        self.releasing('shoes')
+        self.current_state = 'INITIAL'
+
+    def is_hallway_messy(self):
+        return self.checking('hallway')
+
+    def is_item_present(self):
+        return self.checking('item')
+
+    def reaching(self, name):
+        print(f"Reaching for: {name}")
+
+    def gripping(self, name):
+        print(f"Gripping: {name}")
+
+    def lifting(self, name):
+        print(f"Lifting: {name}")
+
+    def transporting(self, item, location):
+        print(f"Transporting {item} to {location}")
+
+    def releasing(self, name):
+        print(f"Releasing: {name}")
+
+    def straightening(self, name):
+        print(f"Straightening: {name}")
+
+    def placing_down(self, name):
+        print(f"Placing down: {name}")
+
+    def rearranging(self, name):
+        print(f"Rearranging: {name}")
+
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In our FSM, we're first assessing the situation, if the hallway is cluttered, we move to the `PICKUP_ITEMS` state where each item is picked up, transported to storage, and released in a loop while items still exist. After all items are picked up and transported, we move to the `ARRANGE_ITEMS` section,  where the rug and shoes are straightened and replaced. Finally, we loop back to the initial state. The FSM should keep the cycle of cleanup as long as items are present in the hallway.

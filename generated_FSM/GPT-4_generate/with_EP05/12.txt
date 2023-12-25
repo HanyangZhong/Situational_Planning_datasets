@@ -1,0 +1,80 @@
+Based on the scenario you've described, where a pregnant woman is navigating a cluttered living room with potential tripping hazards, the butler robot's Finite State Machine (FSM) should prioritize safety and assistance. The robot should identify and mitigate hazards, ensuring a safe environment for the woman. Here's an implementation that reflects this:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REMOVE_HAZARDS': self.remove_hazards_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'ASSIST_WOMAN': self.assist_woman_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial state of the Butler Robot
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the environment for potential hazards
+        if self.detect_hazards():
+            self.current_state = 'REMOVE_HAZARDS'
+        else:
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def remove_hazards_state(self):
+        # Remove clutter and hazards from the floor
+        self.collecting('items on floor')
+        self.placing_down('items in safe area')
+        self.straightening('rug edges')
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        # Continuously monitor the environment for safety
+        if self.detect_new_hazards():
+            self.current_state = 'REMOVE_HAZARDS'
+        elif self.need_to_assist_woman():
+            self.current_state = 'ASSIST_WOMAN'
+        else:
+            self.current_state = 'INITIAL'
+
+    def assist_woman_state(self):
+        # Offer assistance to the pregnant woman
+        self.reminding('woman', 'to be cautious')
+        self.offering('support', 'walking')
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def call_for_help_state(self):
+        # Call for human assistance in case of an emergency
+        self.calling('emergency services')
+        self.current_state = 'INITIAL'
+
+    # Helper methods to simulate actions and conditions
+    def detect_hazards(self):
+        # Detect hazards in the environment
+        return True  # Assuming hazards are detected for illustration
+
+    def detect_new_hazards(self):
+        # Detect any new hazards that may have arisen
+        return False  # Placeholder for actual detection logic
+
+    def need_to_assist_woman(self):
+        # Determine if the woman needs assistance
+        return False  # Placeholder for actual detection logic
+
+    # Run the FSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create and run the Butler Robot FSM
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+This code sets up a FSM for a butler robot to ensure the safety and comfort of a pregnant woman in a cluttered living room. Each state in the FSM is designed to address specific aspects of the scenario, from assessing the situation to actively removing hazards and assisting the woman. The `run` method keeps the FSM operational, continuously cycling through the states based on the conditions in the environment and the needs of the woman.

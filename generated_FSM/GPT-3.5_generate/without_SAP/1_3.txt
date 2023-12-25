@@ -1,0 +1,111 @@
+class BathroomButler:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = (
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'CLEAN_FLOOR': self.clean_floor_state,
+            'FIX_BATH_MAT': self.fix_bath_mat_state,
+            'FIX_TOWEL': self.fix_towel_state,
+            'CLEAN_SINK': self.clean_sink_state,
+            'DONE': self.done_state
+        )
+        
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Start by assessing the situation of the bathroom
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Check if the bathroom needs cleaning
+        if self.is_floor_dirty() or self.is_bath_mat_displaced() or self.is_towel_left_on_sink():
+            self.current_state = 'CLEAN_FLOOR'
+        else:
+            self.current_state = 'DONE'
+
+    def clean_floor_state(self):
+        # Clean the floor by sweeping and mopping
+        self.sweep_floor()
+        self.mop_floor()
+        
+        # Fix the displacement of the bath mat
+        self.current_state = 'FIX_BATH_MAT'
+
+    def fix_bath_mat_state(self):
+        # Move the bath mat back to its original position
+        self.drag_bath_mat_to_original_position()
+        
+        # Fix the towel left on the sink
+        self.current_state = 'FIX_TOWEL'
+
+    def fix_towel_state(self):
+        # Fold and hang the towel properly on a towel rack
+        self.fold_towel()
+        self.hang_towel_on_rack()
+        
+        # Clean the sink
+        self.current_state = 'CLEAN_SINK'
+
+    def clean_sink_state(self):
+        # Clean the sink by wiping and spraying with cleaning solution
+        self.wipe_sink()
+        self.spray_cleaning_solution_on_sink()
+        
+        # Assess the situation again after cleaning
+        self.current_state = 'ASSESS_SITUATION'
+        
+    def done_state(self):
+        # All tasks are completed, done with the bathroom duties
+        pass
+
+    # Actions / Annotation methods
+    def is_floor_dirty(self):
+        # Check if the bathroom floor is dirty based on the presence of water droplets
+        floor_dirty = self.checking('water droplets on floor')
+        return floor_dirty
+
+    def is_bath_mat_displaced(self):
+        # Check if the bath mat is displaced from its original position
+        bath_mat_displaced = self.checking('displaced bath mat')
+        return bath_mat_displaced
+
+    def is_towel_left_on_sink(self):
+        # Check if a towel is left haphazardly on the sink
+        towel_left_on_sink = self.checking('towel left on sink')
+        return towel_left_on_sink
+    
+    def sweep_floor(self):
+        # Sweep the bathroom floor to remove dirt and water droplets
+        self.sweeping('bathroom floor')
+    
+    def mop_floor(self):
+        # Mop the bathroom floor to remove any remaining water droplets
+        self.mopping('bathroom floor')
+
+    def drag_bath_mat_to_original_position(self):
+        # Drag the bath mat back to its original position
+        self.dragging('bath mat', 'original position')
+
+    def fold_towel(self):
+        # Fold the towel neatly
+        self.folding('towel')
+
+    def hang_towel_on_rack(self):
+        # Hang the towel on a towel rack
+        self.hanging('towel', 'towel rack')
+    
+    def wipe_sink(self):
+        # Wipe the sink to remove any dirt or grime
+        self.wiping('sink')
+    
+    def spray_cleaning_solution_on_sink(self):
+        # Spray cleaning solution on the sink to disinfect it
+        self.spraying('cleaning solution', 'sink')
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()

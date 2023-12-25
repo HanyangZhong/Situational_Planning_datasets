@@ -1,0 +1,57 @@
+Below is a Python implementation of a finite state machine for the ButlerRobotFSM considering the scenario provided:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Initializing robot's initial state 
+        self.current_state = self.monitor_room
+        self.candle_safe = True
+
+    # State 1: Constantly monitor room
+    def monitor_room(self):
+        # For now, this method is abstract and does not have any actual implementation
+        self.detect_danger()  # Detects dangerous situations
+
+        if not self.candle_safe:
+            self.current_state = self.reach_candle
+            return
+        # else continue monitoring
+    
+    # Action: Reaching out to the candle
+    def reach_candle(self):
+        # For now, this method is abstract and does not have any actual implementation
+
+        self.current_state = self.lift_candle
+
+    # Action: Lifting the candle
+    def lift_candle(self):
+        # For now, this method is abstract and does not have any actual implementation
+
+        self.current_state = self.transport_candle
+
+    # Action: Transporting the candle
+    def transport_candle(self):
+        # Here we are assuming that robot has a dedicated safe zone to place risky objects
+        # For now, this method is abstract and does not have any actual implementation
+
+        # We assume that the robot has successfully transported the candle to safe zone
+        self.candle_safe = True
+        self.current_state = self.monitor_room
+
+    # Helper method: Detect dangerous scenarios
+    def detect_danger(self):
+        # This function would use some sensors or other means to detect danger
+        # For now, we are hard coding that there is a risky candle situation
+
+        self.candle_safe = False  # True if candle is safe, False otherwise
+
+    # Run method: To run the FSM
+    def run(self):
+        while True:
+            self.current_state()
+```
+
+The robot begins in the "monitor_room" state, where it checks for any potentially dangerous scenarios, like a candle being too close to the books. If a dangerous situation is detected, it navigates the states to reach the candle, lift it, and then safely transport it to a safe zone. 
+After that, the robot returns to its initial position to continue monitoring the room. The "run" method calls the current state method in an infinite loop, allowing the robot to react to changes as they occur. 
+
+Note: Currently, all actions are assumed to be successful (eg. reaching the candle, lifting it, etc.). In a real-world scenario, error-checking would be indispensable.

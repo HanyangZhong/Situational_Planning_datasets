@@ -1,0 +1,86 @@
+Below is the code that models the situation described in Python using a Hierarchical Finite State Machine. 
+
+The Butler Robot has to fulfill a dual role in this scenario - to help the pregnant woman by removing potential tripping hazards and to keep the living room orderly and neat by managing clutter and adjusting furniture to widen the walking space.
+
+Note: The robot is expected to not interact directly with the woman, since that could cause discomfort or unexpected incidents.
+
+```python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states and finite state machine's main states and functions 
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'CLEAR_HAZARDS': self.clear_hazards_state,
+            'ADJUST_FURNITURE': self.adjust_furniture_state,
+            'MONITOR_SPACE': self.monitor_space_state
+        }
+
+        # Define the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Assessment of situation / environment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if there are visible obstacles on the floor or the furniture is too tightly spaced.
+        if self.is_floor_cluttered() or self.is_furniture_tightly_spaced():
+            self.current_state = 'CLEAR_HAZARDS'
+        else:
+            self.current_state = 'MONITOR_SPACE'
+
+    def clear_hazards_state(self):
+        # If the floor is cluttered, remove the clutter for safety.
+        self.grasping('items')
+        self.lifting('items')
+        self.placing_down('items', 'storage')
+        if self.is_rug_curled():
+            self.straightening('rug')
+        self.current_state = 'ADJUST_FURNITURE'
+
+    def adjust_furniture_state(self):
+        # If the furniture is too close together, adjust for better spacing.
+        self.grasping('furniture')
+        self.sliding('furniture', 'ideal position')
+        self.current_state = 'MONITOR_SPACE'
+
+    def monitor_space_state(self):
+        # Continuously monitor the living room. If the room becomes cluttered or furniture moved, re-engaged.
+        if self.is_floor_cluttered() or self.is_furniture_moved():
+            self.current_state = 'ASSESS_SITUATION'
+        else:
+            self.current_state = 'MONITOR_SPACE'
+
+    # Actions / Annotation methods
+    def is_floor_cluttered(self):
+        floor_cluttered = self.checking('floor')
+        return floor_cluttered
+
+    def is_furniture_tightly_spaced(self):
+        furniture_tightly_spaced = self.checking('furniture')
+        return furniture_tightly_spaced
+
+    def is_rug_curled(self):
+        rug_curled = self.checking('rug')
+        return rug_curled
+
+    def straightening(self, item):
+        self.reaching(item)
+        self.flipping(item)
+
+    def is_furniture_moved(self):
+        furniture_moved = self.checking('furniture position')
+        return furniture_moved
+
+    # Run the HFSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the Robotic Butler and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+Please note that the physical actions in the status functions are conceptual. In real world, specifics of how the robot takes actions, such as grasping, lifting, or sliding items, would depend on the robot's hardware / abilities. Also, "monitor_space_state" should have a delay or wait period to it doesn't hog valuable CPU cycles.

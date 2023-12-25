@@ -1,0 +1,100 @@
+It's understandable that your scenario is about a pregnant woman navigating a room with potential hazards. Here is the FSM code for this scenario:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'CLEAN_ROOM': self.clean_room_state,
+            'ARRANGE_FURNITURE': self.arrange_furniture_state,
+            'UNFOLD_RUG': self.unfold_rug_state,
+            'MONITOR_WOMAN': self.monitor_woman_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if there are obvious hazards present
+        if self.is_room_dirty() and self.is_furniture_squeezed():
+            self.current_state = 'CLEAN_ROOM'
+        elif self.is_rug_curled():
+            self.current_state = 'UNFOLD_RUG'
+        else:
+            self.current_state = 'MONITOR_WOMAN'
+
+    def clean_room_state(self):
+        # Clean the room to provide a safe environment
+        self.collect_items()
+        self.sweep_floor()
+        self.arrange_items()
+        self.current_state = 'ARRANGE_FURNITURE'
+
+    def arrange_furniture_state(self):
+        # Arrange the furniture to provide a safe path
+        self.move_furniture()
+        self.current_state = 'UNFOLD_RUG'
+
+    def unfold_rug_state(self):
+        # Unfold the curled rug so it does not become a tripping hazard
+        self.flatten_rug()
+        self.current_state = 'MONITOR_WOMAN'
+
+    def monitor_woman_state(self):
+        # Continuously monitor the woman's situation. If hazards are detected, return to the assessment state.
+        if self.is_room_dirty() or self.is_furniture_squeezed() or self.is_rug_curled():
+            self.current_state = 'ASSESS_SITUATION'
+
+    # Actions / Annotation methods
+    def is_room_dirty(self):
+        # Checking if room is dirty
+        room_dirty = self.checking('room cleanliness')
+        return room_dirty
+
+    def is_furniture_squeezed(self):
+        # Checking if furniture is too close together
+        furniture_squeezed = self.checking('furniture positions')
+        return furniture_squeezed
+
+    def is_rug_curled(self):
+        # Checking if the rug is curled
+        rug_curled = self.checking('rug edges')
+        return rug_curled
+
+    def collect_items(self):
+        # Collecting clutter on the floor
+        self.collecting('floor items')
+
+    def sweep_floor(self):
+        # Sweeping the floor
+        self.sweeping('floor')
+
+    def arrange_items(self):
+        # Re-position items
+        self.arranging('items')
+
+    def move_furniture(self):
+        # Move furniture to adequate positions
+        self.pushing('furniture')
+
+    def flatten_rug(self):
+        # Flatten the curled rug 
+        self.unfolding('rug edges')
+
+    # Run the FSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+This is a simplified FSM, the following steps would need more precise implementations for the actions (like move_furniture or flatten_rug), because they involve complex manipulations that would require additional states and/or sub-HFSMs to be implemented in the real robot.

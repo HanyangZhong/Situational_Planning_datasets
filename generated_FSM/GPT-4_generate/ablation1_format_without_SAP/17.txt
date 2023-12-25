@@ -1,0 +1,60 @@
+Sure. Here python Class to handle the given scene:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.current_state = self.monitoring_state
+        self.is_child_near_stairs = False
+
+    # Monitoring state: The butler robot assesses the situation
+    def monitoring_state(self):
+        self.check_child_position()
+        if self.is_child_near_stairs:
+            self.current_state = self.reaching_state
+        else:
+            print("The child is safe.")
+
+    # Reaching state: The butler robot approaches the child
+    def reaching_state(self):
+        print("The child is near the stairs. The butler robot is reaching out for the child.")
+        self.current_state = self.gripping_state
+
+    # Gripping state: The butler robot grabs the child
+    def gripping_state(self):
+        print("The butler robot is gripping the child gently.")
+        self.current_state = self.transporting_state
+    
+    # Transporting state: The butler robot safely transports the child away from the stairs
+    def transporting_state(self):
+        print("The butler robot is transporting the child away from the hazardous place.")
+        self.current_state = self.placing_down_state
+    
+    # Placing_down state: The butler robot places the child down safely
+    def placing_down_state(self):
+        print("The butler robot is placing the child down safely.")
+        self.current_state = self.calling_for_help_state
+    
+    # Calling_for_help state: The butler robot calls for an adult's attention
+    def calling_for_help_state(self):
+        print("The butler robot is calling for an adult's attention.")
+        self.current_state = self.monitoring_state
+
+    # Helper method to check the position of the child
+    def check_child_position(self):
+        # Here would be actual implementation to check child's position
+        # For the sake of this example, this function will randomly set 'is_child_near_stairs' as True
+        import random
+        self.is_child_near_stairs = bool(random.getrandbits(1))
+
+    def run(self):
+        while True:
+            self.current_state()
+
+# Testing
+robot = ButlerRobotFSM()
+robot.run()
+```
+
+This class has an initializing method (__init__) which assigns 'monitoring_state' as the initial state and 'is_child_near_stairs' as False. The 'check_child_position' method randomly (for example sake) assigns True or False to 'is_child_near_stairs' which indicates if the child is near the stairs. In the presence of True, the bot proceeds from reaching the child to safely placing them away from the stairs and finally calling an adult for attention. This cycle continues as long as the FSM is running.
+
+Please note that it is essential to replace the 'check_child_position' method with an implementation suitable for actual execution.

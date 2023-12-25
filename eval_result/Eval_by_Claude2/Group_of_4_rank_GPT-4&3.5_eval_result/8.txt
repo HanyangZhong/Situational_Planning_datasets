@@ -1,0 +1,43 @@
+ Here are detailed benchmark scores and analysis for the additional FSMs compared to the example "8_best":
+
+FSM 8_1:
+1. State Coverage: 8 - Covers key states but lacks detail for more complex scenarios 
+2. Transition Coverage: 7 - Connects states reasonably well
+3. Cyclomatic Complexity: 6 - Fairly simple interconnectivity between states 
+4. Safety Mindset: 7 - Considers safety but no final check
+5. Scalability: 5 - Hardcoded states resist extension  
+6. Assistance UX: 4 - Limited contextual interactions  
+7. Action Set Alignment: 2 - Uses custom actions instead of standard vocabulary
+Overall Benchmark Score: 5.7
+
+FSM 8_2:  
+1. State Coverage: 7 - Handles key aspects but gaps for safety checks  
+2. Transition Coverage: 8 - Connects most relevant states
+3. Cyclomatic Complexity: 6 - Generally linear transitions
+4. Safety Mindset: 5 - Focuses more on procedures than safety
+5. Scalability: 7 - Modular states aid extension
+6. Assistance UX: 6 - Some awareness of user context   
+7. Action Set Alignment: 1 - Entirely custom actions
+Overall Benchmark Score: 5.4
+
+FSM 8_3:
+1. State Coverage: 5 - Covers closer of drawer but omits details
+2. Transition Coverage: 6 - Connects somewhat logically  
+3. Cyclomatic Complexity: 2 - Strictly linear transitions 
+4. Safety Mindset: 7 - Prioritizes safety at points  
+5. Scalability: 3 - States are broad, resist detailed extension
+6. Assistance UX: 3 - Minimal situational awareness 
+7. Action Set Alignment: 0 - No alignment with standard actions
+Overall Benchmark Score: 3.4 
+
+FSM 8_4:  
+1. State Coverage: 9 - Thoroughly covers risk scenarios
+2. Transition Coverage: 8 - Models likely event sequences 
+3. Cyclomatic Complexity: 5 - Generally linear with some branches 
+4. Safety Mindset: 10 - Core focus on safety and monitoring
+5. Scalability: 8 - Abstracts complexity for modular extension   
+6. Assistance UX: 8 - Contextual interactions   
+7. Action Set Alignment: 0 - Uses all custom actions
+Overall Benchmark Score: 6.6
+
+In summary, FSM 8_1 has fairly good coverage but lacks safety checks and uses custom actions. FSM 8_2 focuses more on procedures over safety. FSM 8_3 is basic in coverage but prioritizes safety. FSM 8_4 has the best safety mindset but uses no standard actions. Comparing to the ideal "8_best", there are opportunities for these FSMs to improve state coverage, transitions, scalability, UX, and action alignment.

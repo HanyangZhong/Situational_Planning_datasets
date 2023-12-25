@@ -1,0 +1,90 @@
+The given scene depicts a kitchen with a wet floor caused by an overturned bottle of olive oil. The objective of the Butler Robot is to assess the situation, clean up the spill, and ensure the safety of the inhabitants. 
+
+Based on this, the following finite state machine (FSM) is designed:
+
+1. INITIAL State: 
+   - Purpose: Start with an assessment of the situation.
+   - Actions:
+     - Assess the spill on the floor.
+     - Check if there are any immediate potential risks or hazards.
+   - Transition:
+     - If the spill is significant and poses immediate risks, transition to the CLEANUP state.
+     - Otherwise, transition to the MONITOR state.
+
+2. CLEANUP State:
+   - Purpose: Clean up the spill to prevent accidents and ensure safety.
+   - Actions:
+     - Wipe the spill with a mop or absorbent material.
+     - Dispose of the used cleaning material properly.
+   - Transition:
+     - Once the spill is cleaned up, transition to the MONITOR state.
+
+3. MONITOR State:
+   - Purpose: Continuously monitor the kitchen for any potential risks or hazards.
+   - Actions:
+     - Check if the floor is still wet or slippery.
+     - Observe the activity in the kitchen and assess if any precautions or assistance are needed.
+   - Transition:
+     - If the floor is still wet or slippery, transition back to the CLEANUP state to ensure safety.
+     - If there are no immediate risks, transition back to the INITIAL state to continue monitoring.
+
+The code for the Butler Robot FSM can be implemented in Python as follows:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'CLEANUP': self.cleanup_state,
+            'MONITOR': self.monitor_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Assessment of the situation
+        if self.is_spill_significant():
+            self.current_state = 'CLEANUP'
+        else:
+            self.current_state = 'MONITOR'
+
+    def cleanup_state(self):
+        # Cleaning up the spilled liquid
+        self.wipe_spill()
+        self.dispose_cleaning_material()
+        self.current_state = 'MONITOR'
+
+    def monitor_state(self):
+        # Continuous monitoring for potential risks or hazards
+        if self.is_floor_wet():
+            self.current_state = 'CLEANUP'
+        else:
+            self.current_state = 'INITIAL'
+
+    # Actions / Annotation Methods
+    def is_spill_significant(self):
+        spill_significant = self.checking('spill')
+        return spill_significant
+
+    def wipe_spill(self):
+        self.wiping('spill')
+
+    def dispose_cleaning_material(self):
+        self.dispensing('used cleaning material')
+
+    def is_floor_wet(self):
+        floor_wet = self.checking('floor wetness')
+        return floor_wet
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the Butler Robot FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+Note: The action annotations (e.g., `self.wiping('spill')`) can be implemented using external functions or methods that perform the specific actions. These annotations serve as placeholders in the code to indicate the actions to be performed at each state. The actual implementation of these actions will depend on the specific environment and available robot capabilities.

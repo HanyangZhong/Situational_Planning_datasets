@@ -1,0 +1,53 @@
+class KitchenFirePreventionFSM:
+    
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS': self.assess_state, 
+            'MITIGATE': self.mitigate_state,
+            'MONITOR': self.monitor_state,
+            'GET_HELP': self.get_help_state
+        }
+        self.current_state = 'INITIAL'
+ 
+    def initial_state(self):
+        print("Starting kitchen fire prevention") 
+        self.current_state = 'ASSESS'
+
+    def assess_state(self):
+        print("Assessing kitchen for fire hazards...")
+        if self.is_fire_hazard_detected():  
+            self.current_state = 'MITIGATE'
+        else:
+            self.current_state = 'MONITOR'
+            
+    def mitigate_state(self):
+        print("Taking steps to mitigate fire hazard")
+        self.turning_off('stove') 
+        self.removing('nearby combustibles')
+        self.opening('window')
+        self.current_state = 'MONITOR'
+
+    def monitor_state(self):
+        print("Monitoring kitchen for hazards")
+        if self.is_fire_hazard_detected():
+            self.current_state = 'MITIGATE'
+        else: 
+            self.current_state = 'MONITOR'
+        
+    def get_help_state(self):
+        print("Calling for emergency assistance") 
+        self.calling('emergency services')
+        self.current_state = 'MONITOR'
+
+    # Helper annotation methods  
+    def is_fire_hazard_detected(self):
+        return self.checking('fire hazards') > 0
+    
+    # Run the FSM
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+            
+kitchen_monitor = KitchenFirePreventionFSM()
+kitchen_monitor.run()

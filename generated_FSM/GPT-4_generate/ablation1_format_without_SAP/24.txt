@@ -1,0 +1,80 @@
+```python
+class PlayroomSafetyRobotFSM:
+    """
+    A safety-oriented FSM robot class that monitors and manages children's 
+    playful interaction with small toys in order to prevent choking hazards.
+    """
+
+    def __init__(self):
+        """
+        Initialize attributes and startup state.
+        """
+        self.current_state = self.monitoring_scene
+
+    def monitoring_scene(self):
+        """
+        A state where the robot continuously monitors the scene.
+        """
+        if self.is_toy_near_child():
+            self.current_state = self.reaching_toy
+        else:
+            pass  # Continue monitoring
+
+    def reaching_toy(self):
+        """
+        A state where the robot reaches for small toys near child.
+        """
+        if self.is_toy_in_hand():
+            self.current_state = self.removing_toy
+        else:
+            pass  # Continue reaching
+
+    def removing_toy(self):
+        """
+        A state where the robot moves toys away from the child's reach.
+        """
+        if self.is_toy_removed():
+            self.current_state = self.monitoring_scene
+        else:
+            pass  # Continue removing
+
+    def is_toy_near_child(self):
+        """
+        Checks if a toy is near the child.
+        """
+        # Abstract method: actual implementation is omitted
+        pass
+
+    def is_toy_in_hand(self):
+        """
+        Checks if the robot has successfully gripped the toy.
+        """
+        # Abstract method: actual implementation is omitted
+        pass
+
+    def is_toy_removed(self):
+        """
+        Checks if the toy has been successfully removed from near the child.
+        """
+        # Abstract method: actual implementation is omitted
+        pass
+
+    def run(self):
+        """
+        Run the state machine in a loop.
+        """
+        while True:
+            self.current_state()
+```
+
+The FSM operates as follows: 
+
+Initially, the robot is in the monitoring_scene state where it's watching the child and the playroom. If it detects a choking hazard toy near the child, it transitions into the reaching_toy state. 
+
+In the reaching_toy state, the robot extends its arm to grip the toy. Once it has a firm grip on the toy, it transitions into the removing_toy state. 
+
+In the removing_toy state, the robot transports the toy away from the child's vicinity, placing it in a secured container or high shelf. Once the toy is removed, it reverts back to the monitoring_scene state, ready to detect further potential choking risks.
+
+The run() method ensures the FSM operates continuously, actively surveiling and making the playroom safe for the child.
+
+Please note that this is a skeleton implementation of the FSM. Real-world implementation may need more detailed states, error handling, and additional safety measures to ensure the child's safety.

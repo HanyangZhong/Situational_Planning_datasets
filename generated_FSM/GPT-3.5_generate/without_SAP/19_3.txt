@@ -1,0 +1,83 @@
+Here is a possible implementation of a finite state machine in Python code for the given kitchen scene:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Define the states of the FSM
+        self.states = {
+            'INITIAL': self.initial_state,
+            'CHECK_STOVE': self.check_stove_state,
+            'REACHING_FOR_POT': self.reaching_for_pot_state,
+            'ALERT_DANGER': self.alert_danger_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Check if the child is in danger at the stove
+        if self.is_child_in_danger():
+            self.current_state = 'CHECK_STOVE'
+        else:
+            self.current_state = 'INITIAL'
+    
+    def check_stove_state(self):
+        # Check if the burner is on and the pot is boiling
+        if self.is_burner_on() and self.is_water_boiling():
+            self.current_state = 'REACHING_FOR_POT'
+        else:
+            self.current_state = 'INITIAL'
+
+    def reaching_for_pot_state(self):
+        # Try to stop the child from reaching for the pot
+        if self.is_child_reaching_for_pot():
+            # Take action to prevent the child from reaching for the pot
+            self.call_for_help()
+            self.current_state = 'ALERT_DANGER'
+        else:
+            self.current_state = 'INITIAL'
+    
+    def alert_danger_state(self):
+        # Continuously monitor the child's actions and repeat the alert if necessary
+        if self.is_child_reaching_for_pot():
+            self.call_for_help()
+        else:
+            # Reset to initial state if the child is no longer in danger
+            self.current_state = 'INITIAL'
+    
+    def call_for_help_state(self):
+        # Call for human assistance
+        self.call_for_help()
+
+    # Actions / Helper methods
+    def is_child_in_danger(self):
+        # Check if the child is standing close to the stove
+        return True  # Placeholder - Replace with actual implementation
+    
+    def is_burner_on(self):
+        # Check if the stove burner is on
+        return True  # Placeholder - Replace with actual implementation
+    
+    def is_water_boiling(self):
+        # Check if the pot of water is boiling
+        return True  # Placeholder - Replace with actual implementation
+
+    def is_child_reaching_for_pot(self):
+        # Check if the child is reaching out towards the pot
+        return True  # Placeholder - Replace with actual implementation
+    
+    def call_for_help(self):
+        # Perform the action to call for help
+        print("Calling for help!")
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot_fsm = ButlerRobotFSM()
+butler_robot_fsm.run()
+```
+
+Please note that the code provided is a basic framework for the FSM logic and contains placeholder functions for the actual implementations of checking the stove, monitoring the child, and calling for help. You will need to replace these placeholders with your own implementations based on the specific functionality and hardware of your butler robot system.

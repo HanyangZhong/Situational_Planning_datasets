@@ -1,0 +1,93 @@
+Here is a similar model to address your kitchen situation:
+
+```python
+class ButlerRobotHFSM:
+    def __init__(self):
+        # Setup the state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation,
+            'REMOVE_ITEMS': self.remove_items,
+            'TURN_OFF_STOVE': self.turn_off_stove,
+            'VENTILATE_ROOM': self.ventilate_room,
+            'TURN_ON_LIGHTS': self.turn_on_lights,
+            'MONITOR_SITUATION': self.monitor_situation,
+            'CALL_FOR_HELP': self.call_for_help
+        }
+
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Transition to the assessment state
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation(self):
+        # If any items are near the flame or if the stove is on change state 
+        if self.is_fire_risk():
+            self.current_state = 'REMOVE_ITEMS'
+        elif self.is_stove_on():
+            self.current_state = 'TURN_OFF_STOVE'
+            
+    def remove_items(self):
+        # Remove flammable items from near the stove
+        self.gripping('lantern')
+        self.lifting('lantern')
+        self.transporting('lantern','safe place')
+        self.releasing('lantern')
+        self.current_state = 'ASSESS_SITUATION'
+
+    def turn_off_stove(self):
+        # Turn off the stove
+        self.reaching('stove')
+        self.turning('stove knob', 'off')
+        self.current_state = 'ASSESS_SITUATION'
+
+    def ventilate_room(self):
+        # Open the window to ventilate gas build-up
+        self.reaching('window')
+        self.opening('window')
+        self.current_state = 'ASSESS_SITUATION'
+
+    def turn_on_lights(self):
+        # Turn on lights in the room
+        self.reaching('light switch')
+        self.flipping('light switch', 'on')
+        self.current_state = 'ASSESS_SITUATION'
+
+    def monitor_situation(self):
+        # Monitor the situation. If there's still fire risk or some issue, call for help
+        if self.is_fire_risk() or self.is_stove_on() or self.is_gas_build_up() or self.is_light_off():
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help(self):
+        # Call for human help
+        self.calling('human help')
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_fire_risk(self):
+        fire_risk = self.checking('fire risk')
+        return fire_risk
+
+    def is_stove_on(self):
+        stove_on = self.monitoring('stove', 'on')
+        return stove_on
+
+    def is_gas_build_up(self):
+        gas_build_up = self.checking('gas level')
+        return gas_build_up
+
+    def is_light_off(self):
+        light_off = self.monitoring('light', 'off')
+        return light_off
+    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+Note: the checking, monitoring, reaching, gripping, lifting, transporting, releasing, turning, opening, flipping, and calling methods are just placeholders here. They represent robot actions that would need to be implemented with actual robot commands.

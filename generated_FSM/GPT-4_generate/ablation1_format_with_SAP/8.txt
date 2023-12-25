@@ -1,0 +1,70 @@
+Here is an example of a ButlerRobotFSM class. 
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Initial state
+        self.current_state = self.check_environment
+
+        # Safety level for drawer
+        self.drawer_safety = False
+
+    def run(self):
+        while True:
+            self.current_state()
+
+    # State Methods:
+
+    def check_environment(self):
+        # Check the surrounding environment for any potential danger
+        if self.check_knife_drawer():
+            self.current_state = self.make_drawer_safe
+        else:
+            self.current_state = self.assist_cooking
+
+    def make_drawer_safe(self):
+        # Make the drawer safe
+        self.close_drawer()
+        self.organize_knives()
+        self.install_safety_lock()
+        self.drawer_safety = True
+        print('Drawer is now safe.')
+        self.current_state = self.check_environment
+
+    def assist_cooking(self):
+        # Assist in meal preparation
+        if not self.drawer_safety:
+            self.current_state = self.check_environment
+        else:
+            print('Assisting in cooking...')
+
+    # Helper Methods:
+
+    def check_knife_drawer(self):
+        # Check the safety of the knife drawer
+        # This function would contain the logic to analyze the scene
+        print('Checking knife drawer...')
+        return True  # For this example, we'll assume drawer is always unsafe initially
+
+    def close_drawer(self):
+        # Close the knife drawer
+        print('Closing the drawer...')
+
+    def organize_knives(self):
+        # Organize the knives
+        print('Organizing the knives...')
+
+    def install_safety_lock(self):
+        # Install a safety lock
+        print('Installing safety lock...')
+
+if __name__ == '__main__':
+    robot = ButlerRobotFSM()
+    robot.run()
+```
+
+In this example, the butler robot initially checks the environment in particular for hazard points such as the knife drawer in the kitchen, if it's not safely arranged it takes action to make it safe by closing the drawer, organizing the knives, and installing a safety lock. 
+
+After ensuring the safety in the kitchen, the robot then turns its focus onto assisting in the cooking process. This loop goes on infinitely in the run method until the program is terminated. We have assumed for simplicity that once the drawer is made safe, it remains safe, which in a real-world scenario, would not be the case, hence a continuous monitoring system would be needed.
+
+Following the list of verbs/actions, in each of the helper methods, the robot is supposed to perform the actual action specified by the print statements.

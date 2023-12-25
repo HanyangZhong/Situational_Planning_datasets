@@ -1,0 +1,79 @@
+Python code for a butler robot FSM in the kitchen scenario:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_DANGER': self.assess_danger_state,
+            'REACH_OUT': self.reach_out_state,
+            'STOP_REACHING': self.stop_reaching_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Assess the danger in the kitchen.
+        if self.is_pot_boiling():
+            self.current_state = 'ASSESS_DANGER'
+        else:
+            print("No danger present in the kitchen.")
+            self.current_state = 'INITIAL'
+
+    def assess_danger_state(self):
+        # Assess the danger level and decide the appropriate action
+        if self.is_child_reaching():
+            self.current_state = 'REACH_OUT'
+        else:
+            print("Child not reaching towards the pot.")
+            self.current_state = 'INITIAL'
+
+    def reach_out_state(self):
+        # Signal the child to stop reaching out towards the pot
+        print("Butler Robot reaches out and gently stops the child.")
+        self.current_state = 'STOP_REACHING'
+
+    def stop_reaching_state(self):
+        # Confirm that the child has stopped reaching out
+        if self.is_child_reaching():
+            print("Child still reaching. Continue monitoring.")
+            self.current_state = 'STOP_REACHING'
+        else:
+            print("Child has stopped reaching. Danger averted.")
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the danger is not resolved
+        print("Danger is not being resolved. Butler Robot calls for help.")
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_pot_boiling(self):
+        # Check if the pot on the stove is boiling
+        return True  # Assume the pot is boiling for the demonstration
+
+    def is_child_reaching(self):
+        # Check if the child is reaching towards the pot
+        return True  # Assume the child is reaching for the demonstration
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+The FSM for the butler robot in this scenario has four states:
+- `INITIAL`: This is the initial state where the robot assesses the danger in the kitchen.
+- `ASSESS_DANGER`: In this state, the robot assesses the danger level by checking if the pot is boiling and if the child is reaching towards it.
+- `REACH_OUT`: If the child is reaching towards the pot, the robot reaches out and gently stops the child.
+- `STOP_REACHING`: Once the robot has reached out, it confirms whether the child has stopped reaching. If the child is still reaching, it continues monitoring; otherwise, it considers the danger averted.
+- `CALL_FOR_HELP`: If the danger is not resolved, the robot calls for human assistance.
+
+The FSM is implemented as a loop, where the current state determines which function is called. The actions or annotations are implemented as separate methods within the FSM class.

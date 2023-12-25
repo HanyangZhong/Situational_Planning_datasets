@@ -1,0 +1,55 @@
+"""
+Butler Robot Finite State Machine
+Monitors child playing with dog and intervenes if play gets too rough.
+"""
+
+class ButlerRobot:
+
+    def __init__(self):
+        # Define states
+        self.state = 'observing'
+        
+        # Allowed actions
+        self.actions = ['move', 'speak', 'grab', 'lead']
+
+    def observing(self):
+        """Check if play is getting too rough"""
+        if self.is_play_too_rough():
+            self.state = 'warning'
+        else:
+            print("Child and dog playing nicely. Continuing to observe.")
+
+    def warning(self):
+        """Verbal warning to be gentle""" 
+        self.speak("Please play gently. Be careful not to hurt each other.")
+        self.state = 'observing'
+
+    def intervening(self):
+        """Physically separate child and dog"""
+        self.move_between(child, dog) 
+        self.grab(dog)
+        self.lead(dog, corner)
+        self.state = 'concluding'
+
+    def concluding(self):
+        print("Play session concluded. Monitoring child and dog closely.")
+        self.state = 'observing'
+
+    def is_play_too_rough(self):
+        """Check if play has become too rough"""
+        # Vision analysis, sound detection, etc
+        return True 
+
+# Create FSM instance    
+butler = ButlerRobot()
+
+# Run FSM
+while True:
+    if butler.state == 'observing':
+        butler.observing()
+    elif butler.state == 'warning':
+        butler.warning()
+    elif butler.state == 'intervening':
+        butler.intervening()
+    elif butler.state == 'concluding':
+        butler.concluding()

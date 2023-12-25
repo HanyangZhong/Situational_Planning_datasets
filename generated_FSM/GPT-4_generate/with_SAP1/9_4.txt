@@ -1,0 +1,88 @@
+Here's how I would design the FSM logic for this Butler robot in Python:
+
+```python
+class ButlerMedicationHFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'CHECK_ENVIRONMENT': self.check_environment_state,
+            'CLEANUP_MESS': self.cleanup_mess_state,
+            'ORGANIZE_MEDICATION': self.organize_medication_state,
+            'CHECK_PILL_ORGANIZER': self.check_pill_organizer_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Start with an environment check.
+        self.current_state = 'CHECK_ENVIRONMENT'
+
+    def check_environment_state(self):
+        # Start by checking the environment
+        if self.is_mess_present():
+            self.current_state = 'CLEANUP_MESS'
+        else:
+            self.current_state = 'ORGANIZE_MEDICATION'
+
+    def cleanup_mess_state(self):
+        # If there is a mess, start cleanup
+        self.cleanup_table()
+        self.current_state = 'ORGANIZE_MEDICATION'
+
+    def organize_medication_state(self):
+        # Next we organize the medication
+        self.organize_medications()
+        self.current_state = 'CHECK_PILL_ORGANIZER'
+
+    def check_pill_organizer_state(self):
+        # Check the pill organizer
+        pill_organizer_correct = self.check_pill_organizer()
+        if not pill_organizer_correct:
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # If the pill organizer is not correct, call for help
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_mess_present(self):
+        mess_present = self.checking('table condition')
+        return mess_present
+
+    def cleanup_table(self):
+        self.gathering('spilled items')
+        self.wiping('table surface')
+
+    def organize_medications(self):
+        self.collecting('medication bottles')
+        self.arranging('medication bottles', 'by type')
+
+    def check_pill_organizer(self):
+        pill_organizer_correct = self.checking('pill organizer compartments')
+        return pill_organizer_correct
+
+    def call_for_help(self):
+        self.calling('human assistance')
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerMedicationHFSM()
+butler_robot.run()
+```
+
+This code is for a hierarchical finite state machine that has five states: INITIAL, CHECK_ENVIRONMENT, CLEANUP_MESS, ORGANIZE_MEDICATION, CHECK_PILL_ORGANIZER, and CALL_FOR_HELP. Each state has a corresponding method in the ButlerMedicationHFSM class that encapsulates the state's behavior and next state logic.
+
+This FSM starts in the INITIAL state and first checks the environment. If there is a mess, it proceeds to cleaning up the mess and then it organizes the medications. After this, it checks the pill organizer. If the pill organizer is not correctly filled, it calls for help. It then cycles back to the initial state to check the environment again.
+
+The METHODS indicated in capital letters in the python code are ACTIONS listed by you which are represented in lower case letters in my python code.
+
+Remember, you should implement the methods/functions called from each state, which actually are the concrete actions the robot should perform (like checking the environment, cleaning up, and organizing medications).

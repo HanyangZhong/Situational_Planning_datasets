@@ -1,0 +1,50 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MOVE_TO_KITCHEN': self.move_to_kitchen_state, 
+            'SECURE_HAZARDS': self.secure_hazards_state,
+            'ENGAGE_CHILD': self.engage_child_state,
+            'MONITOR_CHILD': self.monitor_child_state
+        }
+        
+        # Set initial state
+        self.current_state = 'INITIAL' 
+
+    def initial_state(self):
+        print("Initializing...")
+        self.current_state = 'MOVE_TO_KITCHEN'
+
+    def move_to_kitchen_state(self):
+        print("Navigating to kitchen...")
+        self.moving('to the kitchen') 
+        self.current_state = 'SECURE_HAZARDS'
+
+    def secure_hazards_state(self):
+        print("Securing sharp objects...")
+        self.grasping('knives')
+        self.grasping('scissors')
+        self.placing('sharp objects', 'drawer') 
+        self.closing('drawer')
+        self.current_state = 'ENGAGE_CHILD'
+
+    def engage_child_state(self):
+        print("Engaging child...")       
+        self.reminding('child', 'kitchen safety')
+        self.offering('alternative activity')
+        self.current_state = 'MONITOR_CHILD'
+        
+    def monitor_child_state(self):
+        print("Monitoring child...")
+        if self.checking('child safety'): 
+            self.current_state = 'INITIAL'
+        else:
+            self.current_state = 'ENGAGE_CHILD'
+            
+# Create FSM instance            
+butler = ButlerRobotHFSM()
+
+# Execute FSM
+butler.run()

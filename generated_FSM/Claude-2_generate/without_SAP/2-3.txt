@@ -1,0 +1,61 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            "INITIAL": self.initial_state,
+            "ASSESS": self.assess_state,
+            "BARRIER": self.barrier_state,
+            "CLEAN": self.clean_state,
+            "CHECK": self.check_state,
+        }
+        
+        # Set initial state
+        self.state = "INITIAL" 
+
+    def initial_state(self):
+        # Transition to assessing the situation
+        print("Initializing")
+        self.state = "ASSESS"
+
+    def assess_state(self):
+        # Check if there is a spill
+        if self.detect_spill():  
+            print("Liquid spill detected")
+            self.state = "BARRIER"
+        else:
+            print("No issues detected")
+            self.state = "CHECK"
+
+    def barrier_state(self):
+        # Put up warning signs 
+        print("Putting up caution barriers") 
+        self.place_warning_signs()
+        self.state = "CLEAN"
+
+    def clean_state(self):
+        # Clean up the spill
+        print("Cleaning spill")
+        self.mop_spill()
+        self.state = "CHECK"
+
+    def check_state(self):
+        # Check if spill handled
+        if self.detect_spill():
+            self.state = "CLEAN"
+        else:
+            print("Kitchen safe")
+            self.state = "INITIAL"
+            
+    # Helper annotation methods
+    def detect_spill(self):
+        return True
+    
+    def place_warning_signs(self):
+        pass
+    
+    def mop_spill(self):
+        pass
+
+butler = ButlerRobotFSM()
+butler.run()

@@ -1,0 +1,43 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_HAZARDS': self.assess_hazards_state, 
+            'CLEAR_PATH': self.clear_path_state,
+            'ASSIST_NAVIGATION': self.assist_navigation_state
+        }
+        
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Transition to assessing the room
+        self.current_state = 'ASSESS_HAZARDS'
+
+    def assess_hazards_state(self):
+        # Check if there are tripping hazards
+        hazards = self.checking('rug, toys, clutter') 
+        
+        if hazards:
+            # If hazards, clear them
+            self.current_state = 'CLEAR_PATH'
+        else: 
+            # If no hazards, assist navigation 
+            self.current_state = 'ASSIST_NAVIGATION'
+
+    def clear_path_state(self):
+        # Clear out tripping hazards
+        self.grasping('toys, magazines, pillow')
+        self.transporting('items', 'out of the way')  
+        self.unfolding('rug edges')
+        self.current_state = 'ASSIST_NAVIGATION'
+
+    def assist_navigation_state(self):
+        # Help the woman navigate the room
+        self.guiding('woman')  
+        self.current_state = 'INITIAL'
+        
+if __name__ == '__main__':
+    butler = ButlerRobotHFSM()
+    butler.run()

@@ -1,0 +1,137 @@
+Here is a finite state machine in Python code for a butler robot in the given scene:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'COVER_POOL': self.cover_pool_state,
+            'ENGAGE_CHILDREN': self.engage_children_state,
+            'MONITOR_PLAY': self.monitor_play_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Perform initial actions
+        print("Performing initial actions...")
+        # Assess the situation
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the current situation
+        print("Assessing the situation...")
+        
+        # Check if the candle is a fire hazard
+        if self.is_candle_dangerous():
+            self.current_state = 'COVER_POOL'
+        else:
+            self.current_state = 'MONITOR_PLAY'
+
+    def cover_pool_state(self):
+        # Perform actions to cover the pool
+        print("Covering the pool for safety...")
+        
+        # Take appropriate actions to cover the pool and prevent accidents
+        self.reaching('pool cover')
+        self.gripping('pool cover handle')
+        self.lowering('pool cover handle')
+        self.transporting('pool cover handle', 'over the pool')
+        
+        # Remind children of the pool safety rules
+        self.reminding('children', 'pool safety rules')
+        
+        self.current_state = 'ENGAGE_CHILDREN'
+
+    def engage_children_state(self):
+        # Engage the children with safe activities
+        print("Engaging children with safe activities...")
+        
+        # Offer safe games to the children
+        self.collecting('safe games')
+        self.delivering('safe games', 'children')
+        
+        self.current_state = 'MONITOR_PLAY'
+
+    def monitor_play_state(self):
+        # Monitor the play and assess if immediate action is required
+        print("Monitoring children's play...")
+        
+        # Check if the children are near the candle or if the candle poses a risk
+        if self.are_children_near_candle() or self.is_candle_risk():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'ASSESS_SITUATION'
+
+    def call_for_help_state(self):
+        # Call for human assistance if necessary
+        print("Calling for help...")
+        
+        # Call for human assistance to handle the existing risk
+        self.calling('human assistance')
+        
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_candle_dangerous(self):
+        # Check if the candle poses a fire hazard
+        # Implement the logic to check if the candle is dangerously close to the books or if the wax pool is overflowing
+        return True  # Replace with actual implementation
+
+    def reaching(self, target):
+        # Perform reaching action
+        print(f"Reaching {target}...")
+
+    def gripping(self, target):
+        # Perform gripping action
+        print(f"Gripping {target}...")
+
+    def lowering(self, target):
+        # Perform lowering action
+        print(f"Lowering {target}...")
+
+    def transporting(self, item, destination):
+        # Perform transporting action
+        print(f"Transporting {item} to {destination}...")
+
+    def reminding(self, target, message):
+        # Perform reminding action
+        print(f"Reminding {target} of {message}...")
+
+    def collecting(self, item):
+        # Perform collecting action
+        print(f"Collecting {item}...")
+
+    def delivering(self, item, recipient):
+        # Perform delivering action
+        print(f"Delivering {item} to {recipient}...")
+
+    def are_children_near_candle(self):
+        # Check if the children are near the candle
+        # Implement the logic to check if the children are within a certain range of the candle
+        return True  # Replace with actual implementation
+
+    def is_candle_risk(self):
+        # Check if the candle poses a risk
+        # Implement the logic to check if the flame is flickering dangerously or if the wax pool is overflowing
+        return True  # Replace with actual implementation
+
+    def calling(self, recipient):
+        # Perform calling action
+        print(f"Calling {recipient} for help...")
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+butler_robot_fsm = ButlerRobotFSM()
+butler_robot_fsm.run()
+```
+
+Note: The code above includes the basic structure of the finite state machine (FSM) and the actions/annotations as mentioned in the scene. You will need to replace the placeholder implementation in the action methods with the actual logic/code for each action.

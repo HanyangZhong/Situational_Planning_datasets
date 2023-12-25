@@ -1,0 +1,75 @@
+class BathroomCleanupFSM:
+    
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS': self.assess_state, 
+            'PICKUP_TOWEL': self.pickup_towel_state,
+            'WIPE_SINK': self.wipe_sink_state,
+            'DRY_FLOOR': self.dry_floor_state, 
+            'REPLACE_MAT': self.replace_mat_state,
+            'CHECK_MIRROR': self.check_mirror_state
+        }
+        self.current_state = 'INITIAL'
+        
+    def initial_state(self):
+        # Start assessment upon entering bathroom
+        print("Entering bathroom")  
+        self.current_state = 'ASSESS'
+
+    def assess_state(self):
+        # Check for wet areas and objects
+        print("Assessing situation in bathroom")
+        if self.is_towel_wet():
+            self.current_state = 'PICKUP_TOWEL'
+        elif self.is_floor_wet():
+            self.current_state = 'DRY_FLOOR'
+        else: 
+            self.current_state = 'CHECK_MIRROR'
+            
+    def pickup_towel_state(self):
+        # Remove damp towel from sink edge
+        print("Picking up towel")
+        self.grasping("towel")
+        self.current_state = "WIPE_SINK"
+        
+    def wipe_sink_state(self):
+        # Use towel to dry sink area
+        print("Wiping sink") 
+        self.wiping("sink", "towel") 
+        self.current_state = "REPLACE_MAT"
+        
+    def dry_floor_state(self):
+        # Use towel to dry floor
+        print("Drying floor")
+        self.grasping("towel")
+        self.wiping("floor","towel")
+        self.current_state = "REPLACE_MAT"
+        
+    def replace_mat_state(self):
+        # Return bath mat to original location
+        print("Replacing bath mat")
+        self.grasping("bath mat")
+        self.placing_down("bath mat", "original location")
+        self.current_state = "CHECK_MIRROR"
+        
+    def check_mirror_state(self):
+        # Check if mirror is still foggy
+        print("Checking mirror clarity")
+        if self.is_mirror_foggy():
+            self.wiping("mirror","towel")
+        print("Bathroom cleaning complete!")
+        self.current_state = 'INITIAL'
+
+    # Helper annotation methods
+    def is_towel_wet(self):
+        return True 
+    
+    def is_floor_wet(self):
+        return True
+    
+    def is_mirror_foggy(self):
+        return True
+    
+fsm = BathroomCleanupFSM()
+fsm.run()

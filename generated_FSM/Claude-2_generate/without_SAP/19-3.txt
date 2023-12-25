@@ -1,0 +1,44 @@
+from time import sleep
+
+class ButlerRobot:
+
+    def __init__(self):
+        self.states = {
+            "INITIAL": self.initial_state,
+            "APPROACH_CHILD": self.approach_child_state, 
+            "MOVE_CHILD": self.move_child_state,
+            "TURN_OFF_STOVE": self.turn_off_stove_state,
+            "CALL_FOR_HELP": self.call_for_help_state
+        }
+        self.state = "INITIAL"
+
+    def initial_state(self):
+        print("Assessing situation in kitchen...")
+        self.state = "APPROACH_CHILD"
+
+    def approach_child_state(self):
+        print("Approaching child and introducing self...")
+        sleep(2)
+        print("Advising child to step away from stove...") 
+        self.state = "MOVE_CHILD"
+
+    def move_child_state(self):
+        print("Gently grasping child's hand...") 
+        sleep(1)        
+        print("Guiding child away from stove...")
+        self.state = "TURN_OFF_STOVE"
+
+    def turn_off_stove_state(self):
+        print("Reaching to stove and turning off burner...") 
+        sleep(2)
+        print("Removing pot from stove...")
+        self.state = "CALL_FOR_HELP"
+
+    def call_for_help_state(self):
+        print("Calling parents for assistance...")
+        self.state = "INITIAL"
+
+butler = ButlerRobot()
+while True:
+    butler.states[butler.state]()
+    sleep(0.5)

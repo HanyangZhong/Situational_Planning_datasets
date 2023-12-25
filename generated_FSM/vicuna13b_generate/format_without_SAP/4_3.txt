@@ -1,0 +1,86 @@
+Here's an example implementation of a butler robot to handle the scenario:
+```python
+class ButlerRobot(FSM):
+    def __init__(self):
+        super().__init__()
+        self.current_state = 'idle'
+        self.butler = ButterKnife()
+
+    def idle(self):
+        """
+        Idle state.
+        """
+        pass
+
+    def detect_danger(self):
+        """
+        Check for dangerous situations in the environment.
+        """
+        if self.butler.check_danger():
+            self.send_command('alert')
+
+    def alert(self):
+        """
+        Alert state.
+        """
+        pass
+
+    def take_action(self):
+        """
+        Take action to mitigate the danger.
+        """
+        if self.butler.is_danger_close():
+            self.send_command('sweep')
+        elif self.butler.is_ingredient_on_fire():
+            self.send_command('put_out_fire')
+
+    def sweep(self):
+        """
+        Sweep state.
+        """
+        pass
+
+    def put_out_fire(self):
+        """
+        Put out fire state.
+        """
+        pass
+
+    def respond_to_alert(self):
+        """
+        Respond to alert by switching to the take_action state.
+        """
+        self.send_command('take_action')
+
+    def respond_to_sweep(self):
+        """
+        Respond to sweep by switching to the take_action state.
+        """
+        self.send_command('take_action')
+
+    def respond_to_put_out_fire(self):
+        """
+        Respond to put_out_fire by switching to the take_action state.
+        """
+        self.send_command('take_action')
+
+    def run(self):
+        """
+        Run the state machine loop.
+        """
+        while True:
+            self.current_state = self.current_state
+            if self.current_state == 'idle':
+                self.detect_danger()
+            elif self.current_state == 'alert':
+                self.respond_to_alert()
+            elif self.current_state == 'sweep':
+                self.respond_to_sweep()
+            elif self.current_state == 'put_out_fire':
+                self.respond_to_put_out_fire()
+```
+This implementation defines several states: `idle`, `alert`, `sweep`, and `put_out_fire`. The `idle` state does nothing, while the `alert` state checks for dangerous situations and sends a command to switch to the `take_action` state if necessary. The `sweep` and `put_out_fire` states are for cleaning up after a fire and putting out the flames, respectively.
+
+The `respond_to_*` methods are used to transition between the states. For example, the `respond_to_alert` method transitions from the `alert` state to the `take_action` state when an alert is received.
+
+The `run` method is the state machine loop, which repeats until the robot is turned off.

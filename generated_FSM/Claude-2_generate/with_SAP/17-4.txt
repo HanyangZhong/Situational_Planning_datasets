@@ -1,0 +1,79 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_RISK': self.assess_risk_state, 
+            'MOVE_CHILD': self.move_child_state,
+            'BLOCK_STAIRS': self.block_stairs_state,
+            'CALM_CHILD': self.calm_child_state,
+            'MONITOR_CHILD': self.monitor_child_state,
+            'GET_HELP': self.get_help_state
+        }
+        
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Butler robot activated...")
+        self.current_state = 'ASSESS_RISK'
+
+    def assess_risk_state(self):
+        print("Assessing risk to child near stairs...")        
+        if self.is_child_at_risk():  
+            self.current_state = 'MOVE_CHILD'
+        else:
+            self.current_state = 'MONITOR_CHILD'
+
+    def move_child_state(self):
+        print("Gently moving child away from stairs...")
+        self.move('child', 'away from stairs') 
+        self.current_state = 'BLOCK_STAIRS'
+
+    def block_stairs_state(self):
+        print("Finding objects to block stairs...")        
+        self.block('stairs')
+        self.current_state = 'CALM_CHILD'
+
+    def calm_child_state(self):
+        print("Comforting child and explaining situation...")
+        self.comfort('child')
+        self.explain('danger of stairs')
+        self.current_state = 'MONITOR_CHILD'
+            
+    def monitor_child_state(self):
+        if self.is_situation_unsafe():
+            self.current_state = 'GET_HELP' 
+        else:
+            # Situation now safe, continue monitoring
+            self.current_state = 'MONITOR_CHILD'
+
+    def get_help_state(self):
+        print("Calling parents for additional assistance...")
+        self.call('parents')
+        self.current_state = 'MONITOR_CHILD'
+
+    # Helper annotation methods
+    def is_child_at_risk(self):
+        return self.check('child near edge') 
+
+    def is_situation_unsafe(self):
+        return self.check('high risk')
+        
+    def move(self, object, location):
+        print(f"Moving {object} to {location}")
+
+    def block(self, object):
+        print(f"Blocking access to {object} with nearby furniture")
+        
+    def comfort(self, object):
+        print(f"Comforting {object}.")
+
+    def explain(self, topic):
+        print(f"Explaining {topic}.")
+
+    def call(self, recipient):
+        print(f"Calling {recipient}.")
+
+fsm = ButlerRobotFSM()
+fsm.run()

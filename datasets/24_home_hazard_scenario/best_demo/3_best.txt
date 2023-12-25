@@ -1,0 +1,91 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'JUDGE_HAZARD': self.judge_hazard_state,
+            'EXTINGUISH_CANDLE': self.extinguish_candle_state,
+            'VERIFY_SUCCESS': self.verify_success_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'SECURE_AREA': self.secure_area_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to simulate the robot's decision-making
+        self.room_occupied = False
+        self.candle_extinguished = False
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.detect_candle_hazard():
+            self.current_state = 'JUDGE_HAZARD'
+        else:
+            self.current_state = 'INITIAL'
+
+    def judge_hazard_state(self):
+        # Assess if the room is likely to be unoccupied for an extended period
+        self.room_occupied = self.monitoring('people in room')
+        if not self.room_occupied:
+            self.current_state = 'EXTINGUISH_CANDLE'
+        else:
+            # Continue monitoring if the room is expected to be occupied soon
+            self.current_state = 'INITIAL'
+
+    def extinguish_candle_state(self):
+        self.reaching('candle cover')
+        self.grasping('candle cover')
+        self.placing_down('candle cover',"candle")
+        self.current_state = 'VERIFY_SUCCESS'
+
+    def verify_success_state(self):
+        self.candle_extinguished = self.monitoring('candle')
+        if self.candle_extinguished:
+            self.current_state = 'SECURE_AREA'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        self.calling_for_help()
+        self.current_state = 'INITIAL'
+
+    def secure_area_state(self):
+        self.placing_down('candle', 'safe_place')
+        self.checking('area')
+        self.current_state = 'INITIAL'
+
+    def detect_candle_hazard(self):
+        state = monitoring('candle')
+        # Detect candle hazard using robot's sensors
+        return state  # Assuming hazard is always detected for this scenario
+
+    def reaching(self, item):
+        pass
+
+    def grasping(self, item):
+        pass
+
+    def placing_down(self, item, location):
+        pass
+
+    def checking(self, area):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def monitoring(self,item):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The run method would have a condition for graceful exit in a real-world implementation.

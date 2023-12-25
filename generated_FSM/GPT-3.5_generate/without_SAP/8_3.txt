@@ -1,0 +1,78 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'COVER_DRAWER': self.cover_drawer_state,
+            'REMIND_SAFE_HANDLING': self.remind_safe_handling_state,
+            'MONITOR_KITCHEN': self.monitor_kitchen_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+        self.drawer_covered = False
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation of the open drawer and knives.
+        if self.drawer_covered:
+            self.current_state = 'MONITOR_KITCHEN'
+        else:
+            self.current_state = 'COVER_DRAWER'
+
+    def cover_drawer_state(self):
+        # If the drawer is open, cover it to prevent accidents.
+        self.close_drawer()
+        self.current_state = 'REMIND_SAFE_HANDLING'
+
+    def remind_safe_handling_state(self):
+        # Remind the user to handle the knives safely.
+        self.remind_safety_rules()
+        self.current_state = 'MONITOR_KITCHEN'
+
+    def monitor_kitchen_state(self):
+        # Continuously monitor the kitchen. If there is a safety risk, engage the user.
+        if self.is_safety_risk():
+            self.current_state = 'CALL_FOR_HELP'
+        elif self.is_drawer_open():
+            self.current_state = 'COVER_DRAWER'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for assistance if there is a safety risk.
+        self.call_for_assistance()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def close_drawer(self):
+        self.closing('drawer')
+
+    def remind_safety_rules(self):
+        self.reminding('user', 'knife safety rules')
+
+    def is_safety_risk(self):
+        safety_risk = self.monitoring('kitchen', 'safety risk')
+        return safety_risk
+
+    def is_drawer_open(self):
+        drawer_open = self.checking('drawer open')
+        return drawer_open
+
+    def call_for_assistance(self):
+        self.calling('for assistance')
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()

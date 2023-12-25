@@ -1,0 +1,105 @@
+The FSM code for the butler robot in the given scene, focusing on assisting the visibly pregnant woman, can be structured as follows:
+
+```python
+class PregnantButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = (
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'NAVIGATE_ROOM': self.navigate_room_state,
+            'CHECK_RUG': self.check_rug_state,
+            'AVOID_OBSTACLES': self.avoid_obstacles_state,
+            'ADJUST_LIGHTING': self.adjust_lighting_state,
+            'FINISH': self.finish_state
+        )
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the current situation to determine the next course of action
+        if self.is_rug_curling_up():
+            self.current_state = 'CHECK_RUG'
+        elif self.are_obstacles_present():
+            self.current_state = 'AVOID_OBSTACLES'
+        elif self.is_lighting_adjustment_needed():
+            self.current_state = 'ADJUST_LIGHTING'
+        else:
+            self.current_state = 'FINISH'
+
+    def navigate_room_state(self):
+        # Assist the pregnant woman in navigating the room
+        self.keeping_distance('pregnant woman')
+        self.navigating('room', 'pregnant woman')
+        self.current_state = 'ASSESS_SITUATION'
+
+    def check_rug_state(self):
+        # Check and take action regarding the curled up rug
+        if self.is_trip_hazard_present():
+            self.current_state = 'NAVIGATE_ROOM'
+        elif self.is_rug_damage_present():
+            self.current_state = 'FINISH'
+        else:
+            self.current_state = 'ASSESS_SITUATION'
+
+    def avoid_obstacles_state(self):
+        # Help the pregnant woman avoid the obstacles in the room
+        self.navigating('pregnant woman', 'obstacles')
+        self.current_state = 'ASSESS_SITUATION'
+
+    def adjust_lighting_state(self):
+        # Assist in adjusting the lighting in the room
+        self.assisting('pregnant woman', 'lighting adjustment')
+        self.current_state = 'ASSESS_SITUATION'
+
+    def finish_state(self):
+        # The FSM execution finishes here
+        self.current_state = 'FINISH'
+
+    # Actions / Annotation methods
+    def is_rug_curling_up(self):
+        rug_curling_up = self.checking('rug curling')
+        return rug_curling_up
+
+    def are_obstacles_present(self):
+        obstacles_present = self.checking('obstacles')
+        return obstacles_present
+
+    def is_lighting_adjustment_needed(self):
+        lighting_adjustment_needed = self.checking('lighting adjustment')
+        return lighting_adjustment_needed
+
+    def is_trip_hazard_present(self):
+        trip_hazard_present = self.checking('trip hazard')
+        return trip_hazard_present
+
+    def is_rug_damage_present(self):
+        rug_damage_present = self.checking('rug damage')
+        return rug_damage_present
+
+    def keeping_distance(self, person):
+        self.monitoring(person, 'distance')
+
+    def navigating(self, from_location, to_location):
+        self.navigating(from_location, to_location)
+
+    def assisting(self, person, action):
+        self.assisting(person, action)
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+pregnant_butler_robot = PregnantButlerRobotFSM()
+pregnant_butler_robot.run()
+```
+
+Please note that I have used some generic action names (e.g., `keeping_distance`, `navigating`, `assisting`) in the code, since the specific actions may vary depending on the capabilities of the robot. You can replace these action names with the appropriate actions for your specific robot implementation.

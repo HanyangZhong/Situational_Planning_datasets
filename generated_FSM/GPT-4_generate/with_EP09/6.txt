@@ -1,0 +1,84 @@
+To design a finite state machine (FSM) for a butler robot in a scenario involving a messy laundry room with potentially hazardous cleaning products, we need to define the states and the transitions based on the actions the robot should take. The FSM will follow the logic of assessing the situation, taking appropriate actions to mitigate any hazards, and ensuring safety in the environment. Here's a Python implementation of such an FSM:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'SECURE_HAZARDS': self.secure_hazards_state,
+            'CLEAN_UP': self.clean_up_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial state: Start with assessing the situation
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation for any immediate hazards
+        if self.hazards_present():
+            self.current_state = 'SECURE_HAZARDS'
+        else:
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def secure_hazards_state(self):
+        # Secure any immediate hazards (e.g., uncapped bleach)
+        self.cap_chemicals()
+        self.upright_spilled_containers()
+        self.current_state = 'CLEAN_UP'
+
+    def clean_up_state(self):
+        # Clean up any spills or hazards
+        self.wiping('spills')
+        self.collecting('hazardous materials')
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        # Continuously monitor the environment for safety
+        if self.new_hazards_detected():
+            self.current_state = 'ASSESS_SITUATION'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the situation is beyond the robot's capability
+        self.calling_for_help()
+        self.current_state = 'INITIAL'
+
+    # Helper methods for actions and conditions
+    def hazards_present(self):
+        # Check for hazards in the environment
+        return self.checking('environment for hazards')
+
+    def cap_chemicals(self):
+        # Secure uncapped chemicals
+        self.closing('chemical containers')
+
+    def upright_spilled_containers(self):
+        # Upright any tipped over containers
+        self.placing_down('spilled containers')
+
+    def new_hazards_detected(self):
+        # Check for new hazards
+        return self.monitoring('environment for new hazards')
+
+    def calling_for_help(self):
+        # Call for human assistance
+        self.calling('for human assistance')
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In this FSM, the robot initially assesses the situation, takes steps to secure any hazards, cleans up any mess, and continuously monitors the environment. It can also call for help if the situation requires human intervention. Each state is responsible for transitioning to the next appropriate state based on the conditions and actions performed.

@@ -1,0 +1,89 @@
+Sure, here is the similar case where the Butler Robot is obstructing access to the open staircase and diverting the child to a safe area.
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'BLOCK_STAIRS': self.block_stairs_state,
+            'LIFT_CHILD': self.lift_child_state,
+            'PLACE_CHILD_SAFE': self.place_child_safe_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.is_child_near_stairs() and self.are_stairs_open():
+            self.current_state = 'BLOCK_STAIRS'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def block_stairs_state(self):
+        self.positioning_self_at_stairs()
+        if self.is_child_reachable():
+            self.current_state = 'LIFT_CHILD'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def lift_child_state(self):
+        self.grip_child_safely()
+        self.lift_child_up()
+        self.current_state = 'PLACE_CHILD_SAFE'
+
+    def place_child_safe_state(self):
+        self.transporting_child_safely()
+        self.lowering_child_on_floor()
+        self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        self.calling_for_help()
+        self.current_state = 'INITIAL'
+
+    # Helper methods for actions
+    def is_child_near_stairs(self):
+        child_near = self.monitoring('child', 'stairs')
+        return child_near
+
+    def are_stairs_open(self):
+        stairs_open = self.checking('stairs safety gate')
+        return stairs_open
+
+    def positioning_self_at_stairs(self):
+        # Insert movement guidance logic here
+        self.checking('stairs')
+
+    def is_child_reachable(self):
+        child_reachable = self.checking('child distance from robot')
+        return child_reachable
+
+    def grip_child_safely(self):
+        self.lowering('arm to child height')
+        self.grasping('child gently')
+
+    def lift_child_up(self):
+        self.lifting('child from ground')
+
+    def transporting_child_safely(self):
+        # Insert guidance logic to the safe area here
+        self.turning('away from stairs')
+
+    def lowering_child_on_floor(self):
+        self.lowering('child to ground')
+        self.releasing('child')
+
+    def calling_for_help(self):
+        self.calling('house occupants')
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+This code creates a finite-state machine for a robot butler reacting to a situation where a young child is near an open staircase. In different states it observes, blocks the stairs, lifts and moves the child away, and calls for help. All potentially dangerous actions (like lifting a child) should be filled in by professional engineers to ensure safety.

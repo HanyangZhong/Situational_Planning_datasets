@@ -1,0 +1,71 @@
+```python
+class ButlerFSM:
+    def __init__(self, name):
+        self.name = name
+        self.current_state = 'idle'
+        
+    def states(self):
+        return {
+            'idle': [
+                'check_spill',
+                'monitor',
+                'alert_user'
+            ],
+            'cleaning': [
+                'reach_towel',
+                'pick_up_spill',
+                'sweep_floor',
+                'alert_user'
+            ]
+        }
+        
+    def transition(self, action):
+        if action in self.states()[self.current_state]:
+            self.current_state = action
+            
+    def run(self):
+        while True:
+            if self.current_state == 'idle':
+                self.idle()
+            elif self.current_state == 'cleaning':
+                self.cleaning()
+                
+    def idle(self):
+        print(f"{self.name} is idle.")
+        
+    def cleaning(self):
+        print(f"{self.name} is cleaning up the spill.")
+        
+    def reach_towel(self):
+        print(f"{self.name} is reaching for a towel.")
+        
+    def pick_up_spill(self):
+        print(f"{self.name} is picking up the spill.")
+        
+    def sweep_floor(self):
+        print(f"{self.name} is sweeping the floor.")
+        
+    def alert_user(self):
+        print(f"{self.name} is alerting the user.")
+        
+    def check_spill(self):
+        if self._check_spill():
+            self.transition('cleaning')
+        
+    def _check_spill(self):
+        # Logic to check if spill is present and needs to be cleaned
+        return True
+        
+    def monitor(self):
+        # Monitor the kitchen for additional hazards (e.g. heat source left on)
+        pass
+        
+    def respond_to_alert(self):
+        # Logic for responding to alerts, such as notifying the user or taking action
+        pass
+        
+    def call_for_help(self):
+        # Logic for calling for help if necessary
+        pass
+```
+This code defines a `ButlerFSM` class that models the behavior of a butler robot in a spacious kitchen with a hazardous spill. The class includes an `__init__` method to initialize the robot's name, a `states` method that defines the high-level states and the actions associated with each state, a `transition` method that handles state transitions, a `run` method that executes the state machine loop, and methods for each of the high-level states. The `_check_spill` method contains the logic to check if the spill needs to be cleaned, and the other helper methods are abstract and don't need actual implementation. The `current_state` attribute tracks the active state, and the `respond_to_alert` and `call_for_help` methods are examples of additional behaviors that could be added as needed.

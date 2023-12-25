@@ -1,0 +1,108 @@
+Here is an example of a finite state machine for the given scene:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'START': self.start_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'COVER_CANDLE': self.cover_candle_state,
+            'REMOVE_CANDLE': self.remove_candle_state,
+            'EXTINGUISH_FIRE': self.extinguish_fire_state,
+            'FINISH': self.finish_state,
+        }
+        
+        # Set the initial state
+        self.current_state = 'START'
+        
+        # Set initial variables
+        self.is_fire_extinguished = False
+    
+    def start_state(self):
+        print("Butler Robot: Assessing the situation.")
+        # Check if the candle is in a dangerous position
+        if self.is_candle_dangerous():
+            self.current_state = 'ASSESS_SITUATION'
+        else:
+            self.current_state = 'FINISH'
+    
+    def assess_situation_state(self):
+        print("Butler Robot: Assessing the situation.")
+        # Check if the candle needs to be covered or removed
+        if self.is_candle_near_books():
+            self.current_state = 'COVER_CANDLE'
+        else:
+            self.current_state = 'REMOVE_CANDLE'
+    
+    def cover_candle_state(self):
+        print("Butler Robot: Covering the candle.")
+        self.reach('candle')
+        self.place_down('candle')
+        self.place_down('book')
+        self.current_state = 'FINISH'
+    
+    def remove_candle_state(self):
+        print("Butler Robot: Removing the candle.")
+        self.reach('candle')
+        self.grasp('candle')
+        self.remove('candle')
+        self.current_state = 'FINISH'
+    
+    def extinguish_fire_state(self):
+        print("Butler Robot: Extinguishing the fire.")
+        # Check if the fire is already extinguished
+        if self.is_fire_extinguished:
+            self.current_state = 'FINISH'
+        else:
+            self.reach('candle')
+            self.blow('candle')
+            self.current_state = 'FINISH'
+            self.is_fire_extinguished = True
+    
+    def finish_state(self):
+        print("Butler Robot: Finished.")
+    
+    # Actions
+    def is_candle_dangerous(self):
+        # Check if the candle is dangerously close to the books
+        return self.checking('candle', 'books')
+    
+    def is_candle_near_books(self):
+        # Check if the candle is near the books
+        return self.checking('candle', 'books')
+        
+    def reach(self, obj):
+        # Reach for an object
+        print(f"Butler Robot: Reaching for {obj}.")
+    
+    def grasp(self, obj):
+        # Grasp an object
+        print(f"Butler Robot: Gripping {obj}.")
+    
+    def remove(self, obj):
+        # Remove an object
+        print(f"Butler Robot: Removing {obj}.")
+        
+    def place_down(self, obj):
+        # Place an object down
+        print(f"Butler Robot: Placing down {obj}.")
+    
+    def blow(self, obj):
+        # Blow on an object to extinguish fire
+        print(f"Butler Robot: Blowing on {obj} to extinguish the fire.")
+    
+    def checking(self, obj1, obj2):
+        # Check if the two objects are in a dangerous position
+        print(f"Butler Robot: Checking if {obj1} is dangerously close to {obj2}.")
+    
+    def run(self):
+        while self.current_state != 'FINISH':
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+The above code represents a finite state machine for a butler robot that assesses the situation and takes appropriate actions depending on the presence of danger from the candle. The robot goes through different states such as assessing the situation, covering the candle, removing the candle, extinguishing the fire, and finishing the task. Each state is implemented as a method in the `ButlerRobotFSM` class, and the transitions between states are defined by updating the `current_state` variable. The actions involved in each state are represented by methods such as `reach`, `grasp`, `remove`, etc., which print the corresponding actions to simulate the robot's behavior.

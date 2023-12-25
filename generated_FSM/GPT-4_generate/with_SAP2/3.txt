@@ -1,0 +1,77 @@
+To create a Finite State Machine (FSM) in Python for a butler robot encountering the described scene, we need to consider the specific steps the robot should take to ensure safety and maintain the environment. The FSM will include states like assessing the situation, safely handling the candle, and ensuring the room's safety. Here's an example of how such a code might look:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'EXTINGUISH_CANDLE': self.extinguish_candle_state,
+            'CLEAN_AREA': self.clean_area_state,
+            'CHECK_ROOM': self.check_room_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial state to start with situation assessment
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the danger posed by the candle
+        if self.is_candle_dangerous():
+            self.current_state = 'EXTINGUISH_CANDLE'
+        else:
+            self.current_state = 'CHECK_ROOM'
+
+    def extinguish_candle_state(self):
+        # Safely extinguish the candle to prevent fire
+        self.gripping('candle snuffer')
+        self.lowering('candle snuffer', 'onto candle')
+        self.current_state = 'CLEAN_AREA'
+
+    def clean_area_state(self):
+        # Clean the area to prevent any wax spillage damage
+        self.sweeping('wax spills')
+        self.wiping('area around candle')
+        self.current_state = 'CHECK_ROOM'
+
+    def check_room_state(self):
+        # Check the room for any other hazards or tasks
+        if self.is_room_safe():
+            self.current_state = 'INITIAL'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for human assistance in case of unresolved issues
+        self.calling_for_help()
+        self.current_state = 'INITIAL'
+
+    # Helper methods to simulate actions and checks
+    def is_candle_dangerous(self):
+        # Logic to check if the candle poses a danger
+        return True
+
+    def is_room_safe(self):
+        # Check if the room is safe
+        return True
+
+    def calling_for_help(self):
+        # Simulate calling for help
+        print("Calling for help")
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the ButlerRobotFSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In this code, each state represents a step in the process of ensuring safety and cleanliness in the room. The robot transitions between states based on the situation's assessment and the tasks' completion. The helper methods (`is_candle_dangerous`, `is_room_safe`, `calling_for_help`) are placeholders for the actual logic the robot would use to make decisions and perform actions.

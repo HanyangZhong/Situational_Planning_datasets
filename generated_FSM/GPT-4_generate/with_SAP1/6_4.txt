@@ -1,0 +1,98 @@
+Here is a slightly modified version that includes the household cleaning products on the loose. 
+
+```python
+class ButlerRobotHFSM:
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'CLEANUP_MESS': self.cleanup_mess_state,
+            'SAFESTORE_CHEMICALS': self.safestore_chemicals_state,
+            'MONITOR_SCENARIO': self.monitor_scenario_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the current mess and see if the cleaning products are safely stored
+        if self.is_mess_present() and self.are_chemicals_unsafely_stored():
+            self.current_state = 'CLEANUP_MESS'
+            return
+        self.current_state = 'MONITOR_SCENARIO'
+
+    def cleanup_mess_state(self):
+        # If there's a mess, the robot starts cleaning it up.
+        self.cleanup_mess()
+        if not self.is_mess_present() and self.are_chemicals_unsafely_stored():
+            self.current_state = 'SAFESTORE_CHEMICALS'
+            return
+        self. current_state = 'CALL_FOR_HELP'
+
+    def safestore_chemicals_state(self):
+        # If chemicals are unsafely stored, robot starts making sure they are stored away properly 
+        self.safestore_chemicals()
+        self.current_state = 'MONITOR_SCENARIO'
+
+    def monitor_scenario_state(self):
+        # Continuously monitor the situation. If there's a mess or chemicals are unsafely stored, take action.
+        if self.is_mess_present() and self.are_chemicals_unsafely_stored():
+            self.current_state = 'INITIAL'
+            return
+        elif self.are_chemicals_unsafely_stored():
+            self.current_state = 'SAFESTORE_CHEMICALS'
+            return
+        elif self.is_mess_present():
+            self.current_state = 'CLEANUP_MESS'
+            return
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the robot cannot complete the tasks.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_mess_present(self):
+        mess_present = self.checking('mess')
+        return mess_present
+
+    def are_chemicals_unsafely_stored(self):
+        chemicals_unsafely_stored = self.checking('chemicals')
+        return chemicals_unsafely_stored
+
+    def cleanup_mess(self):
+        # Robot starts the cleanup process
+        self.grasping('cleaning tools')
+        self.mopping('floor')
+        self.wiping('stains')
+
+    def safestore_chemicals(self):
+        # Robot safely stores the chemicals
+        self.grasping('chemicals')
+        self.lifting('chemicals')
+        self.placing_down('chemicals','on shelf')
+
+    def call_for_help(self):
+        # Butler Robot calls for human assistance.
+        self.calling_for_help()
+
+    def calling_for_help(self):
+        print('Calling for human assistance.')
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+The program starts by assessing the situation, then cleans up the mess if it detects any, then takes care of the chemicals that are not safely stored away. If it cannot do either of the tasks, then it'll call for help. Once it has done its tasks, it'll keep monitoring the situation and only act accordingly when there are issues it was programmed to address.

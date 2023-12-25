@@ -1,0 +1,89 @@
+Here's a possible implementation of the bedroom scene as a finite state machine in Python:
+```python
+class ButlerFSM:
+    def __init__(self):
+        self.current_state = 'idle'
+        self.actions = ['reaching', 'gripping', 'lifting', 'lowering', 'transporting', 'rotating', 'turning', 'folding', 'hanging', 'unfolding', 'wiping', 'sweeping', 'mopping', 'scrubbing', 'dusting', 'spraying', 'squeezing', 'shaking', 'stirring', 'whisking', 'pouring', 'scooping', 'checking', 'opening', 'closing', 'pushing', 'pulling', 'dragging', 'sliding', 'pressing', 'grasping', 'releasing', 'placing_down', 'collecting', 'inserting', 'removing', 'gathering', 'dispensing', 'serving', 'portioning', 'arranging', 'loading', 'unloading', 'mixing', 'assembling', 'disassembling', 'connecting', 'disconnecting', 'affixing', 'screwing', 'delivering', 'reminding', 'responding', 'monitoring', 'calling_for_help']
+        self.helper_methods = {
+            'reaching': None,
+            'gripping': None,
+            'lifting': None,
+            'lowering': None,
+            'transporting': None,
+            'rotating': None,
+            'turning': None,
+            'folding': None,
+            'hanging': None,
+            'unfolding': None,
+            'wiping': None,
+            'sweeping': None,
+            'mopping': None,
+            'scrubbing': None,
+            'dusting': None,
+            'spraying': None,
+            'squeezing': None,
+            'shaking': None,
+            'stirring': None,
+            'whisking': None,
+            'pouring': None,
+            'scooping': None,
+            'checking': None,
+            'opening': None,
+            'closing': None,
+            'pushing': None,
+            'pulling': None,
+            'dragging': None,
+            'sliding': None,
+            'pressing': None,
+            'grasping': None,
+            'releasing': None,
+            'placing_down': None,
+            'collecting': None,
+            'inserting': None,
+            'removing': None,
+            'gathering': None,
+            'dispensing': None,
+            'serving': None,
+            'portioning': None,
+            'arranging': None,
+            'loading': None,
+            'unloading': None,
+            'mixing': None,
+            'assembling': None,
+            'disassembling': None,
+            'connecting': None,
+            'disconnecting': None,
+            'affixing': None,
+            'screwing': None,
+            'delivering': None,
+            'reminding': None,
+            'responding': None,
+            'monitoring': None,
+            'calling_for_help': None
+        }
+
+    def set_action(self, action):
+        self.actions[action] = self.helper_methods[action]
+
+    def set_all_actions(self):
+        for action in self.actions:
+            self.helper_methods[action] = None
+
+    def current_state(self):
+        return self.current_state
+
+    def set_state(self, state):
+        self.current_state = state
+
+    def set_start_state(self, state):
+        self.current_state = state
+        self.actions['reaching'] = self.handle_reaching
+        self.actions['gripping'] = self.handle_gripping
+        self.actions['lifting'] = self.handle_lifting
+        self.actions['lowering'] = self.handle_lowering
+        self.actions['transporting'] = self.handle_transporting
+        self.actions['rotating'] = self.handle_rotating
+        self.actions['turning'] = self.handle_turning
+        self.actions['folding'] = self.handle_folding
+        self.actions
+```

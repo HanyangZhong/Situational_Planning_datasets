@@ -1,0 +1,63 @@
+Sure, based on your provided scene, the butler robot's finite state machine would be similar to the following:
+
+```Python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'CHECK_SITUATION': self.check_situation_state,
+            'REACH_BUTTON': self.reach_button_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with situation checking.
+        self.current_state = 'CHECK_SITUATION'
+
+    def check_situation_state(self):
+        # Assess if the disabled person has fallen
+        if self.is_person_fallen():
+            self.current_state = 'REACH_BUTTON'
+        else:
+            self.current_state = 'INITIAL'
+
+    def reach_button_state(self):
+        # If the disabled person has fallen, reach the help button for them.
+        self.reach_for_button()
+        self.press_button()
+        self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for human assistance.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions
+    def is_person_fallen(self):
+        person_fallen = self.checking('person on the floor')
+        return person_fallen
+
+    def reach_for_button(self):
+        self.moving('towards the button')
+        self.reaching('for the button')
+
+    def press_button(self):
+        self.pressing('the button')
+
+    def call_for_help(self):
+        self.calling_for_help()
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+In the above FSM, the robot continuously checks the scene (checks if the person is on the floor) and checks if the person has fallen and cannot reach the panic button. It then moves toward the button, reaches for it, and presses it, which should call for help. The cycle goes on continuously, with the robot reverting to the initial state of situation checking after each call for help. Please adapt this according to your actual use case scenario and fill in the action methods (checking, moving, reaching, pressing, calling_for_help) with your own implementation.

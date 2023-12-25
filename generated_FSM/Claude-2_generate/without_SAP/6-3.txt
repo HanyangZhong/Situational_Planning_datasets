@@ -1,0 +1,51 @@
+class ButlerRobot:
+    
+    def __init__(self):
+        self.states = {
+            "INITIAL": self.initial_state,
+            "ASSESS": self.assess_state,
+            "SECURE_ROOM": self.secure_room_state,
+            "CLEAN_SPILLS": self.clean_spills_state, 
+            "CHECK_SUPPLIES": self.check_supplies_state,
+        }
+        self.state = "INITIAL"
+        
+    def initial_state(self):
+        print("Starting butler duties...")
+        self.state = "ASSESS"
+        
+    def assess_state(self):
+        print("Assessing laundry room situation...")
+        if self.is_room_hazardous():
+            self.state = "SECURE_ROOM"
+        else: 
+            self.state = "CHECK_SUPPLIES"
+            
+    def secure_room_state(self):
+        print("Securing room from access...")
+        self.closing("door")
+        self.state = "CLEAN_SPILLS"
+        
+    def clean_spills_state(self):
+        print("Cleaning up spills...")        
+        self.mopping("floor")
+        self.wiping("shelves")
+        self.capping("open containers")
+        self.righting("tipped containers") 
+        self.state = "CHECK_SUPPLIES"
+        
+    def check_supplies_state(self):
+        print("Checking supply levels...")
+        if self.are_supplies_low():
+            self.refilling("supplies")
+        else:
+            self.state = "ASSESS"
+            
+    def is_room_hazardous(self):
+        return True # hardcoded true for this example
+        
+    def are_supplies_low(self):
+        return False # hardcoded false for this example
+        
+butler = ButlerRobot()
+butler.run()

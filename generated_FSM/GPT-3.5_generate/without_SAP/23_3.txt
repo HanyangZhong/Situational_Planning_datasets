@@ -1,0 +1,67 @@
+class ButlerRobotFSM:
+    
+    def __init__(self):
+        # Initialize the FSM states
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_PLAY': self.assess_play_state,
+            'ENGAGE_PLAY': self.engage_play_state,
+            'MONITOR_PLAY': self.monitor_play_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+    
+    def initial_state(self):
+        # Assess the situation to determine next steps
+        self.current_state = 'ASSESS_PLAY'
+    
+    def assess_play_state(self):
+        # Check if play is becoming too rough and potentially unsafe
+        if self.is_play_too_rough():
+            self.current_state = 'ENGAGE_PLAY'
+        else:
+            self.current_state = 'MONITOR_PLAY'
+    
+    def engage_play_state(self):
+        # Take action to ensure the safety of the child
+        self.intervene_play()
+        self.current_state = 'MONITOR_PLAY'
+    
+    def monitor_play_state(self):
+        # Continuously monitor the play and assess the situation
+        if self.is_play_too_rough():
+            self.current_state = 'ENGAGE_PLAY'
+        elif self.is_play_safe():
+            self.current_state = 'INITIAL'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+    
+    def call_for_help_state(self):
+        # Call for additional assistance to ensure the safety of the child
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+    
+    # Actions / Annotation methods
+    def is_play_too_rough(self):
+        # Check if the play between the child and dog is becoming too rough
+        return self.monitoring('play_roughness')
+    
+    def intervene_play(self):
+        # Intervene to ensure the safety of the child
+        self.grasping('dog_collar')
+        selfpulling('dog_away_from_child')
+     
+    def is_play_safe(self):
+        # Check if the play is safe and not posing a hazard to the child
+        return self.monitoring('play_safety')
+    
+    def call_for_help(self):
+        # Call for additional assistance to ensure the safety of the child
+        self.calling('additional_assistance')
+    
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+            

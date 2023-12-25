@@ -1,0 +1,77 @@
+Here is a Python class definition for a butler robot that handles the situation in the kitchen:
+```python
+class PregnantWomanButler(FSMRobot):
+    def __init__(self, name):
+        self.name = name
+        self.current_state = 'idle'
+        self.helper_methods = {
+            'reaching': self.reach,
+            'gripping': self.grip,
+            'lifting': self.lift,
+            ' lowering': self.lower,
+            'transporting': self.transport,
+            'rotating': self.rotate,
+            'turning': self.turn,
+            'flipping': self.flip,
+            'folding': self.fold,
+            'hanging': self.hang,
+            'unfolding': self.unfold,
+            'wiping': self.wipe,
+            'sweeping': self.sweep,
+            'mopping': self.mop,
+            'scrubbing': self.scrub,
+            'dusting': self.dust,
+            'spraying': self.spray,
+            'squeezing': self.squeeze,
+            'shaking': self.shake,
+            'stirring': self.stir,
+            'whisking': self.whisk,
+            'pouring': self.pour,
+            'scooping': self.scoop,
+            'checking': self.check,
+            'opening': self.open,
+            'closing': self.close,
+            'pushing': self.push,
+            'pulling': self.pull,
+            'dragging': self.drag,
+            'sliding': self.slide,
+            'pressing': self.press,
+            'grasping': self.grasp,
+            'releasing': self.release,
+            'placing down': self.place_down,
+            'collecting': self.collect,
+            'inserting': self.insert,
+            'removing': self.remove,
+            'gathering': self.gather,
+            'dispensing': self.dispense,
+            'serving': self.serve,
+            'portioning': self.portion,
+            'arranging': self.arrange,
+            'loading': self.load,
+            'unloading': self.unload,
+            'mixing': self.mix,
+            'assembling': self.assemble,
+            'disassembling': self.disassemble,
+            'connecting': self.connect,
+            'disconnecting': self.disconnect,
+            'affixing': self.affix,
+            'screwing': self.screw,
+            'delivering': self.deliver,
+            'reminding': self.remind,
+            'responding': self.respond,
+            'monitoring': self.monitor,
+            'calling for help': self.call_for_help
+        }
+
+    def current_action(self, action):
+        if action in self.helper_methods:
+            return self.helper_methods[action]()
+        else:
+            return None
+
+    def do_nothing(self):
+        pass
+
+    def transition(self, action):
+        self.current_state = action
+```

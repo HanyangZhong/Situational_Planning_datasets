@@ -1,0 +1,66 @@
+class ButlerRobotKFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            'INITIAL': self.initial_state, 
+            'ASSESS': self.assess_state,
+            'MITIGATE': self.mitigate_state,
+            'MONITOR': self.monitor_state,
+            'GET_HELP': self.get_help_state
+        }
+        
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Transition to assessing the situation
+        print("Starting assessment")
+        self.current_state = 'ASSESS'
+
+    def assess_state(self):
+        # Check if there is an unsafe condition
+        hazard = self.sensing_hazard()
+        if hazard:
+            # If unsafe, begin mitigation sequence
+            self.current_state = 'MITIGATE'
+        else:
+            # If no hazard, start monitoring
+            self.current_state = 'MONITOR'
+
+    def mitigate_state(self):
+        # Take actions to reduce risk from hazard
+        self.isolating_hazard_source()  
+        self.creating_safe_condition()
+        print("Hazard mitigated")
+            
+        # Transition to monitoring 
+        self.current_state = 'MONITOR'
+
+    def monitor_state(self):
+        # Continuously monitor for new hazards
+        if self.sensing_hazard():
+            self.current_state = 'MITIGATE'
+        else:
+            self.current_state = 'MONITOR'
+
+    def get_help_state(self):
+        # If unable to mitigate, get human assistance
+        self.requesting_help()
+        self.current_state = 'MONITOR'
+
+    # Helper annotation methods
+    def sensing_hazard(self):
+        return True
+    
+    def isolating_hazard_source(self):
+        print("Isolating hazard source")
+        
+    def creating_safe_condition(self):
+        print("Creating safe condition") 
+
+    def requesting_help(self):
+        print("Requesting help")
+
+# Create and run the FSM
+fsm = ButlerRobotKFSM()
+fsm.run()

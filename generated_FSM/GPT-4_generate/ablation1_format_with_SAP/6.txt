@@ -1,0 +1,71 @@
+Here's how you could implement mentioned scene with the finite state machine with states: Basic, Cleaning, and Safeguarding.  
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # setting initial state to Basic
+        self.current_state = self.basic_state
+        self.is_clean = False
+        self.products_safeguarded = False
+
+    # Defining state methods
+
+    # The basic state, where the robot observes the environment.
+    def basic_state(self):
+        # Checking condition if cleaning needed
+        if not self.is_clean:
+            self.start_cleaning()
+            self.current_state = self.cleaning_state
+        # Checking condition if safeguarding of products is needed
+        elif not self.products_safeguarded:
+            self.start_safeguarding()
+            self.current_state = self.safeguarding_state
+
+    # The cleaning state, where the robot cleans the laundry room.
+    def cleaning_state(self):
+        # Performing cleaning action
+        self.clean()
+        # Marking cleaning as done
+        self.is_clean = True
+        # Switching to basic state once cleaning is done
+        self.current_state = self.basic_state
+
+    # Safeguarding state, where the robot safeguards cleaning products.
+    def safeguarding_state(self):
+        # Performing safeguarding action
+        self.safeguard()
+        # Marking safeguarding as done
+        self.products_safeguarded = True
+        # Switching to basic state once safeguarding is done
+        self.current_state = self.basic_state
+
+    # Defining helper methods
+
+    # Helper method to start cleaning
+    def start_cleaning(self):
+        # Code for initializing cleaning
+        pass
+
+    # Helper method to start safeguarding
+    def start_safeguarding(self):
+        # Code for initializing safeguarding
+        pass
+
+    # Helper method to perform cleaning action
+    def clean(self):
+        # Actions can include picking up, arranging and storing, closing household chemicals, 
+        # mopping up spilled detergent, etc.
+        pass
+
+    # Helper method to safeguard cleaning products
+    def safeguard(self):
+        # Actions can include moving the cleaning products to a safer location, closing containers, etc.
+        pass
+
+    # Method to execute the state machine loop
+    def run(self):
+        while True:
+            self.current_state()
+
+```
+This code does not account for error states or transition conditions, that would require sensing capabilities like checking if cleaning is needed or if products are safeguarded. Those checking or sensing capabilities would need to be created. The script also assumes that after a state transition, the FSM will continue running in a while loop. In a real robot, you would want to have a more controlled way of stopping this execution, or transitioning to a sleep or low power state when appropriate. You may also want to consider exception handling to deal with unexpected situations, although that would complicate the design further.

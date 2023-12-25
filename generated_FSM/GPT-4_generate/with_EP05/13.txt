@@ -1,0 +1,76 @@
+Based on the scenario you provided, the finite state machine (FSM) for a butler robot in a small kitchen where a pregnant woman is exposed to cleaning chemicals will be structured to ensure her safety and well-being. The FSM will involve states and transitions that enable the robot to mitigate the hazard posed by the open cleaning chemicals. Here's a Python implementation of such an FSM:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define the states of the FSM
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REMOVE_CHEMICALS': self.remove_chemicals_state,
+            'VENTILATE_AREA': self.ventilate_area_state,
+            'ENSURE_SAFETY': self.ensure_safety_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial state: start with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation: check for hazardous chemicals.
+        if self.detect_hazardous_chemicals():
+            self.current_state = 'REMOVE_CHEMICALS'
+        else:
+            self.current_state = 'ENSURE_SAFETY'
+
+    def remove_chemicals_state(self):
+        # Remove hazardous chemicals from the pregnant woman's vicinity.
+        self.gripping('chemical bottles')
+        self.transporting('chemical bottles', 'safe location')
+        self.current_state = 'VENTILATE_AREA'
+
+    def ventilate_area_state(self):
+        # Ventilate the area to remove any lingering chemical odors.
+        self.opening('windows')
+        self.current_state = 'ENSURE_SAFETY'
+
+    def ensure_safety_state(self):
+        # Ensure the safety of the pregnant woman.
+        if self.is_woman_safe():
+            self.current_state = 'INITIAL'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the situation is not resolved.
+        self.calling_for_help('emergency services')
+        self.current_state = 'INITIAL'
+
+    # Helper methods for actions and checks
+    def detect_hazardous_chemicals(self):
+        # Detect hazardous chemicals in the vicinity.
+        return self.checking('chemical bottles')
+
+    def is_woman_safe(self):
+        # Check if the pregnant woman is safe.
+        return self.monitoring('woman', 'safety')
+
+    def calling_for_help(self, service):
+        # Call for help (placeholder action).
+        print(f"Calling {service} for assistance.")
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Instantiate and run the butler robot FSM
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+This code creates a butler robot FSM with states corresponding to the different actions the robot should take in the given scenario. Each state is dedicated to a specific task like assessing the situation, removing chemicals, ventilating the area, ensuring safety, and calling for help if needed. The transitions between these states are determined by the conditions and results of actions in each state. The helper methods (`detect_hazardous_chemicals`, `is_woman_safe`, `calling_for_help`) are placeholders and should be implemented with actual sensing and actuation logic suitable for a real robot.

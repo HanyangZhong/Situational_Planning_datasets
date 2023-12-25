@@ -1,0 +1,37 @@
+Scoring for "6_3" FSM:
+
+1. State Coverage: Score 9 - The "6_3" FSM does cover almost all the necessary state coverage, but it does not contain a state for verifying the safety of the area after cleaning the spills. 
+
+2. Transition Coverage: Score 10 - Transitions are covered completely and very well in this FSM code of "6_3". All states are interconnected.
+
+3. Cyclomatic Complexity: Score 7 - The FSM for "6_3" has modest complexity with a few states following one another. However, it does not have a pervasive interconnectivity.
+
+4. Safety Mindset: Score 8 - Safety is primarily taken into account, but the FSM does not verify the safety of the area after cleaning spills which is a crucial step to ensure safety.
+
+5. Scalability: Score 9 - The FSM structure of "6_3" is simple and not highly complex. This allows for easy adjustments and modifications for potential scenarios. 
+
+6. Assistance UX: Score 7 - The user experience is satisfactory but not very personalised. The FSM does not consider human interaction, for example to communicate the process or the results of its tasks.
+
+7. Action Set Alignment: Score 10 - The FSM uses actions such as collecting and placing down which are part of the set action vocabulary.
+
+Overall Benchmark Score (Average of the seven dimensions): 8.6
+
+Scoring for "6_4" FSM:
+
+1. State Coverage: Score 7 - The "6_4" FSM is missing a state to monitor the area after the tasks have been completed which is needed to detect any further problems.
+
+2. Transition Coverage: Score 8 - The FSM for "6_4" handles state transitions effectively, but a transition to a monitoring state for further vigilance is missing.
+
+3. Cyclomatic Complexity: Score 5 - It contains low interconnectivity with few states having an immediate following state.
+
+4. Safety Mindset: Score 8 - Safety is prioritized but without a state for monitoring after the completion of tasks, it is not certain if the room remains safe.
+
+5. Scalability: Score 7 - The "6_4" FSM is designed to be adaptable to a specific situation, however, it has less flexibility to additional contexts than the "6_3" FSM.
+
+6. Assistance UX: Score 6 - The User experience is reasonable but there's a lack of interaction or update about the robot's task processes.
+
+7. Action Set Alignment: Score 9 - The majority of actions used in "6_4" FSM align with our vocabulary set, but we noticed usage of actions like "closing containers" that does not strictly align with the list.
+
+Overall Benchmark Score (Average of the seven dimensions): 7.1
+
+The "6_3" FSM is closer to the "6_best" FSM compared with "6_4" FSM with higher scores across all presented dimensions, especially in terms of state and transition coverage.

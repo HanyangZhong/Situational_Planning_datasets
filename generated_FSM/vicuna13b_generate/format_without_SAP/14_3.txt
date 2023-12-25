@@ -1,0 +1,135 @@
+(Butler)FSM(StateMachine)
+/************************************************************\
+* This class represents a state machine for a butler robot.         *
+* It contains methods for managing the state transitions and         *
+* executing helper methods for each state.                           *
+\************************************************************/
+
+class ButlerFSM(StateMachine):
+
+# Initialize necessary attributes
+"""
+Initialize the current state, helper methods, and any other
+attributes that may be needed for the state machine.
+"""
+def __init__(self):
+# Initialize the current state
+self.current\_state = 'idle'
+# Initialize helper methods
+self.reaching\_helper = self._reaching\_helper
+self.lifting\_helper = self._lifting\_helper
+self.turning\_helper = self._turning\_helper
+# ... and so on
+```
+# Define states
+"map out all the states the robot can be in and their associated actions"
+
+S = [
+    'idle',
+    'monitoring',
+    'reminding',
+    'responding',
+    'calling_for_help',
+    'transporting',
+    'checking',
+    'opening',
+    'closing',
+    'pushing',
+    'pulling',
+    'dragging',
+    'sliding',
+    'pressing',
+    'grasping',
+    'releasing',
+    'placing_down',
+    'collecting',
+    'inserting',
+    'removing',
+    'gathering',
+    'dispensing',
+    'serving',
+    'portioning',
+    'arranging',
+    'loading',
+    'unloading',
+    'mixing',
+    'assembling',
+    'disassembling',
+    'connecting',
+    'disconnecting',
+    'affixing',
+    'screwing',
+    'delivering',
+    'reminding',
+    'monitoring',
+    'calling_for_help'
+]
+
+self.current_state = S[0]
+
+# Define state transitions
+"map out all the transitions between states and their associated actions"
+
+transitions = [
+    {
+        'source': 'idle',
+        'target': 'monitoring',
+        'event': 'detect_animal',
+        'action': self.monitoring_helper
+    },
+    {
+        'source': 'monitoring',
+        'target': 'reminding',
+        'event': 'animal_near_toxic_foods',
+        'action': self.reminding_helper
+    },
+    {
+        'source': 'reminding',
+        'target': 'responding',
+        'event': 'animal_not_responding',
+        'action': self.responding_helper
+    },
+    {
+        'source': 'responding',
+        'target': 'calling_for_help',
+        'event': 'animal_injured',
+        'action': self.calling_for_help_helper
+    },
+    {
+        'source': 'monitoring',
+        'target': 'checking',
+        'event': 'animal_injured',
+        'action': self.checking_helper
+    },
+    {
+        'source': 'checking',
+        'target': 'opening',
+        'event': 'toxic_foods_in_reach',
+        'action': self.opening_helper
+    },
+    {
+        'source': 'opening',
+        'target': 'closing',
+        'event': 'animal_not_injured',
+        'action': self.closing_helper
+    },
+    {
+        'source': 'closing',
+        'target': 'idle',
+        'event': 'animal_not_injured',
+        'action': self.idling_helper
+    }
+]
+
+# Define state actions
+"actions to perform while in each state"
+
+self.actions = {
+    'monitoring': {
+        'animal_near_toxic_foods': self.monitoring_helper
+    },
+    'reminding': {
+        'animal_not_responding': self.reminding_helper
+    },
+    'responding': {
+```

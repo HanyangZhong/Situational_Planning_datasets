@@ -1,0 +1,77 @@
+Here's an example Python class for the butler robot using the Finite State Machine concept.
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Initialize the current_state to "observing" 
+        self.current_state = self.observing
+
+        #Potential tasks that need to be attended to
+        self.tasks = []
+        
+    #State1: observing
+    def observing(self):
+        # Checking the pet and the surroundings
+        if self.check_pet_near_danger(): 
+            self.current_state = self.reaching
+        elif self.check_pet_played_with_toys():
+            self.current_state = self.collecting
+        else:
+            self.current_state = self.observing
+
+    #State2: reaching
+    def reaching(self):
+        if self.check_plug_cover_loose():
+             self.fix_plug_cover()
+        elif self.check_toxic_plant_nearby():
+             self.move_toxic_plant()
+        self.current_state = self.observing
+
+    #State3: collecting
+    def collecting(self):
+        if self.check_dangerous_toy():
+            self.collect_dangerous_toy()
+        self.current_state = self.observing
+
+    #Helper Methods
+    def check_pet_near_danger(self):
+        # Returns True if the pet is near an electrical outlet or toxic plant, False otherwise
+        pass
+
+    def check_plug_cover_loose(self):
+        # Returns True if the electrical outlet cover is loose, False otherwise
+        pass
+
+    def fix_plug_cover(self):
+        # Fixes the loose cover of electrical outlet
+        pass
+
+    def check_toxic_plant_nearby(self):
+        # Returns True if the pet is near a toxic plant, False otherwise
+        pass
+
+    def move_toxic_plant(self):
+        # Moves the toxic plant to a safer place
+        pass
+
+    def check_pet_played_with_toys(self):
+        # Returns True if the pet is playing with a hazardous toy, False otherwise
+        pass
+
+    def check_dangerous_toy(self):
+        # Returns True if the toy is dangerous, False otherwise
+        pass
+
+    def collect_dangerous_toy(self):
+        # Collects and stores the dangerous toy to a safer place
+        pass
+    
+    # Main method to run the State Machine
+    def run(self):
+        while True:
+            self.current_state()
+```
+
+Our Butler Robot FSM has 3 states. It starts in the 'observing' state and continually observes the pet. If a dangerous situation is detected, the state switches to either 'reaching' or 'collecting' as necessary. In each state, the robot performs the task as needed, then goes back to 'observing' again. This cycle continues unless the program is stopped. The helper methods are added to perform the defined tasks, though the actual implementation is not provided in this example.
+  
+This model assumes that our butler robot only does one thing at a time. In real life, some of these tasks may be done concurrently or in a different order.

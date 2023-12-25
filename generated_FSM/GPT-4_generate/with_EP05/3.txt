@@ -1,0 +1,75 @@
+To create a finite state machine (FSM) in Python for a butler robot in the scenario described, we need to tailor the states and actions to the specific situation: a lit candle on a bookshelf posing a fire hazard. Let's break down the tasks that the robot should perform:
+
+1. **Assess the Situation:** Check the proximity of the candle to flammable items.
+2. **Extinguish Candle:** Safely extinguish the candle flame.
+3. **Remove Candle:** Carefully remove the candle from the bookshelf.
+4. **Monitor for Safety:** Keep monitoring the area to ensure safety.
+
+Here's how you could implement this in Python:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Define states
+        self.states = {
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'EXTINGUISH_CANDLE': self.extinguish_candle_state,
+            'REMOVE_CANDLE': self.remove_candle_state,
+            'MONITOR_SAFETY': self.monitor_safety_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Check the proximity of the candle to flammable items
+        if self.is_candle_too_close_to_books():
+            self.current_state = 'EXTINGUISH_CANDLE'
+        else:
+            self.current_state = 'MONITOR_SAFETY'
+
+    def extinguish_candle_state(self):
+        # Extinguish the candle flame
+        self.lowering('flame extinguisher')
+        self.current_state = 'REMOVE_CANDLE'
+
+    def remove_candle_state(self):
+        # Remove the candle from the bookshelf
+        self.gripping('candle holder')
+        self.transporting('candle', 'safe location')
+        self.current_state = 'MONITOR_SAFETY'
+
+    def monitor_safety_state(self):
+        # Keep monitoring the area to ensure safety
+        if self.is_any_new_hazard():
+            self.current_state = 'ASSESS_SITUATION'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the situation is beyond the robot's capability
+        self.calling_for_help()
+
+    # Helper methods for various actions
+    def is_candle_too_close_to_books(self):
+        # Check proximity of candle to books
+        return True  # Placeholder for actual sensing logic
+
+    def is_any_new_hazard(self):
+        # Check for any new hazards
+        return False  # Placeholder for actual sensing logic
+
+    def calling_for_help(self):
+        # Implement logic to call for help
+        pass
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the butler robot and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In this code, each state corresponds to a specific action or set of actions that the robot should perform. The `run` method continuously loops through the current state, executing its corresponding function. The helper methods like `is_candle_too_close_to_books` would contain the actual sensing and decision-making logic, which is simplified here for illustration.

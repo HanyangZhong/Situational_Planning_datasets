@@ -1,0 +1,111 @@
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_OBSTACLE': self.assess_obstacle_state,
+            'MOVE_OBSTACLE': self.move_obstacle_state,
+            'CLEAR_PATH': self.clear_path_state,
+            'REACH_DESK': self.reach_desk_state,
+            'FINISH': self.finish_state
+        }
+
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment of the obstacle.
+        self.current_state = 'ASSESS_OBSTACLE'
+
+    def assess_obstacle_state(self):
+        # Assess the presence and characteristics of the obstacle.
+        if self.obstacle_present():
+            if self.obstacle_reachable():
+                self.current_state = 'CLEAR_PATH'
+            else:
+                self.current_state = 'MOVE_OBSTACLE'
+        else:
+            self.current_state = 'REACH_DESK'
+
+    def move_obstacle_state(self):
+        # Move the office chair out of the way.
+        self.reaching('office chair')
+        self.gripping('office chair')
+        self.lifting('office chair')
+        self.transporting('office chair', 'desk')
+        self.lowering('office chair')
+        self.releasing('office chair')
+        self.current_state = 'CLEAR_PATH'
+
+    def clear_path_state(self):
+        # The path to the desk is now clear.
+        self.current_state = 'REACH_DESK'
+
+    def reach_desk_state(self):
+        # Reach the desk to assist the person in the wheelchair.
+        self.reaching('desk')
+        self.current_state = 'FINISH'
+
+    def finish_state(self):
+        # The task is complete.
+        pass
+
+    # Annotation methods
+    def obstacle_present(self):
+        # Check if the office chair is blocking the path.
+        return self.checking('office chair')
+
+    def obstacle_reachable(self):
+        # Check if the office chair is reachable.
+        return self.reaching('office chair')
+
+    def reaching(self, target):
+        # Perform the action of reaching the target.
+        print("Reaching", target)
+
+    def gripping(self, target):
+        # Perform the action of gripping the target.
+        print("Gripping", target)
+
+    def lifting(self, target):
+        # Perform the action of lifting the target.
+        print("Lifting", target)
+
+    def transporting(self, target, destination):
+        # Perform the action of transporting the target to the destination.
+        print("Transporting", target, "to", destination)
+
+    def lowering(self, target):
+        # Perform the action of lowering the target.
+        print("Lowering", target)
+
+    def releasing(self, target):
+        # Perform the action of releasing the target.
+        print("Releasing", target)
+
+    def checking(self, object):
+        # Perform the action of checking the presence of an object.
+        print("Checking", object)
+
+    def run(self):
+        while self.current_state != 'FINISH':
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+In this FSM implementation, the butler robot's task is to assist the person in the wheelchair in reaching the desk. The FSM has five states:
+
+1. INITIAL: Start with an assessment of the obstacle.
+2. ASSESS_OBSTACLE: Assess the presence and characteristics of the obstacle (office chair). If the obstacle is present and reachable, move to the CLEAR_PATH state. If the obstacle is present but not reachable, move to the MOVE_OBSTACLE state. If there is no obstacle, move to the REACH_DESK state.
+3. MOVE_OBSTACLE: Move the office chair out of the way to clear the path. Once the office chair is moved, move to the CLEAR_PATH state.
+4. CLEAR_PATH: The path to the desk is now clear. Move to the REACH_DESK state.
+5. REACH_DESK: Reach the desk to assist the person in the wheelchair. Once the desk is reached, move to the FINISH state.
+
+The FSM also includes annotation methods that represent the actions performed by the butler robot, such as reaching, gripping, lifting, transporting, lowering, releasing, and checking. These methods can be implemented in the actual butler robot code to perform the corresponding actions.
+
+The FSM loop continuously checks the current state and calls the corresponding method until the FINISH state is reached.

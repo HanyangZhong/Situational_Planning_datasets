@@ -1,0 +1,77 @@
+Sure, below is the Python code for a Finite State Machine that models the task you've described:
+
+```python
+class ButlerRobotStairSafetyFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_STAIRS': self.monitor_stairs_state,
+            'ENGAGE_CHILD': self.engage_child_state,
+            'BLOCK_STAIRS': self.block_stairs_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with monitoring the stairs.
+        self.current_state = 'MONITOR_STAIRS'
+
+    def monitor_stairs_state(self):
+        # Assess if the child is near the stairs
+        if self.is_child_near_stairs():
+            self.current_state = 'ENGAGE_CHILD'
+        else:
+            self.current_state = 'BLOCK_STAIRS'
+
+    def engage_child_state(self):
+        # Engage with the child to distract it from the stairs.
+        self.distract_child()
+        self.current_state = 'MONITOR_STAIRS'
+
+    def block_stairs_state(self):
+        # If the stairs are not blocked, attempt to block them.
+        if not self.are_stairs_blocked():
+            self.block_stairs()
+        self.current_state = 'MONITOR_STAIRS'
+
+    def call_for_help_state(self):
+        # Call for human assistance if child continues to be near stairs.
+        if self.is_child_near_stairs():
+            self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_child_near_stairs(self):
+        child_near_stairs = self.monitoring('child', 'stairs')
+        return child_near_stairs
+
+    def are_stairs_blocked(self):
+        stairs_blocked = self.checking('stairs blockage')
+        return stairs_blocked
+
+    def distract_child(self):
+        self.collecting('toys')
+        self.delivering('toys', 'child')
+
+    def block_stairs(self):
+        self.grasping('stair gate')
+        self.inserting('stair gate', 'stairs')
+
+    def call_for_help(self):
+        self.calling('human assistance')
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+            
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotStairSafetyFSM()
+butler_robot.run()
+```
+
+Each state in our FSM is a unique situation where the robot has to perform a specific action. For example, in 'ENGAGE_CHILD' state, the robot attempts to distract the child by delivering toys. In each state, the robot then decides what is the next best action it can take based on the current state which implements the FSM logic correctly. The pseudo code functions may not run in actual python interpreter because the actions like `checking()`, `monitoring()`, `grasping()`, etc., need to be defined at a lower abstract level (i.e., defining their exact implementation).

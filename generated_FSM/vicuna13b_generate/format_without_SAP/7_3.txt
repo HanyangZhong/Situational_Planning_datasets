@@ -1,0 +1,89 @@
+Here's a Python class definition for a butler robot that handles the scenario:
+```python
+class ClutterButler(FSMRobot):
+    def __init__(self, name):
+        super().__init__(name)
+        self.current_state = 'idle'
+        self.obstacles = [(pair_of_sneakers, "sneakers"),
+                          (overturned_toy_car, "toy_car"),
+                          (dog_leash, "dog_leash"),
+                          (large_hardcover_book, "book"),
+                          (rug_bunch, "rug_bunch"),
+                          (shoe_rack_overflow, "shoe_rack"),
+                          (table_lamp, "table_lamp"),
+                          (light_cord, "light_cord")]
+
+    def is_obstacle_cleared(self, obstacle):
+        return not obstacle.is_obstacle
+
+    def clear_obstacle(self, obstacle):
+        if self.is_obstacle_cleared(obstacle):
+            return
+        obstacle.remove_obstacle()
+
+    def scan_hallway(self):
+        for obstacle in self.obstacles:
+            if not self.is_obstacle_cleared(obstacle):
+                self.move_to_obstacle(obstacle)
+                break
+
+    def move_to_obstacle(self, obstacle):
+        if self.is_obstacle_cleared(obstacle):
+            return
+        self.move_to_position(obstacle.position)
+
+    def move_to_position(self, position):
+        if position == self.position:
+            return
+        self.move_to_position = position
+        return super().move_to_position
+
+    def grip_obstacle(self, obstacle):
+        obstacle.grip_obstacle = True
+
+    def ungrip_obstacle(self, obstacle):
+        if not hasattr(obstacle, 'grip_obstacle'):
+            return
+        obstacle.grip_obstacle = False
+
+    def fold_rug_bunch(self):
+        if not self.is_obstacle_cleared(self.rug_bunch):
+            return
+        self.rug_bunch.fold()
+
+    def sweep_hallway(self):
+        for obstacle in self.obstacles:
+            if self.is_obstacle_cleared(obstacle):
+                continue
+            if obstacle.is_obstacle:
+                self.clear_obstacle(obstacle)
+            else:
+                self.move_to_obstacle(obstacle)
+
+    def call_for_help(self, message):
+        print(f"Calling for help: {message}")
+
+    def run(self):
+        while True:
+            if self.current_state == 'idle':
+                self.scan_hallway()
+            elif self.current_state == 'clearing_obstacles':
+                self.clear_obstacles()
+            elif self.current_state == 'sweeping_hallway':
+                self.sweep_hallway()
+            elif self.current_state == 'finished':
+                break
+            self.current_state = self.transition_logic()
+```
+The `FSMRobot` base class defines the FSM structure and transition logic.
+
+The `ClutterButler` class has the following attributes and methods:
+
+* `current_state`: A class attribute that tracks the current state of the robot.
+* `obstacles`: A class attribute that stores a list of obstacles in the hallway.
+* `transition_logic`: A method that determines the next state based on the current state and the robot's actions.
+* `scan_hallway`, `clear_obstacles`, `sweep_hallway`, `call_for_help`, and `run`: Helper methods for state actions and checking conditions.
+
+The `is_obstacle_cleared` and `is_obstacle` methods are used to check for cleared and non-cleared obstacles. The `clear_obstacle` and `grip_obstacle` methods are used to remove and hold obstacles, respectively. The `fold_rug_bunch` method is used to fold the rug bunch.
+
+The `sweep_hallway` method is the main action taken by the robot in each iteration of the FSM loop. It first scans the hallway for obstacles, then clears obstacles, and finally sweeps the

@@ -1,0 +1,113 @@
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.current_state = self.monitoring
+        self.sneakers_collected = False
+        self.toy_car_collected = False
+        self.leash_collected = False
+        self.books_collected = False
+        self.lamp_cord_checked = False
+        self.shoes_in_shoe_rack = False
+
+    # State: Monitoring
+    def monitoring(self):
+        # Monitoring the hallway for clutter
+        if self.hallway_cluttered():
+            self.current_state = self.collecting
+
+    # State: Collecting
+    def collecting(self):
+        # Collect items one after another
+        if not self.sneakers_collected:
+            self.reaching('sneakers')
+            self.gripping('sneakers')
+            self.transporting('sneakers', 'storage')
+            self.lowering('sneakers', 'storage')
+            self.sneakers_collected = True
+        elif not self.toy_car_collected:
+            self.reaching('toy car')
+            self.gripping('toy car')
+            self.transporting('toy car', 'storage')
+            self.lowering('toy car', 'storage')
+            self.toy_car_collected = True
+        elif not self.leash_collected:
+            self.reaching('leash')
+            self.gripping('leash')
+            self.transporting('leash', 'storage')
+            self.lowering('leash', 'storage')
+            self.leash_collected = True
+        elif not self.books_collected:
+            self.reaching('books')
+            self.gripping('books')
+            self.transporting('books', 'storage')
+            self.lowering('books', 'storage')
+            self.books_collected = True
+        else:
+            self.current_state = self.arranging_shoe_rack
+
+    # State: Arranging Shoe Rack
+    def arranging_shoe_rack(self):
+        if not self.shoes_in_shoe_rack:
+            self.checking('Shoe rack')
+            self.collecting('Shoes from floor')
+            self.inserting('Shoes into shoe rack')
+            self.shoes_in_shoe_rack = True
+        else:
+            self.current_state = self.checking_lamp_cord
+
+    # State: Checking Lamp Cord
+    def checking_lamp_cord(self):
+        if not self.lamp_cord_checked:
+            self.reaching('lamp cord')
+            self.removing('lamp cord from walkway')
+            self.lamp_cord_checked = True
+        else:
+            self.current_state = self.monitoring
+
+    # Helper methods    
+    def hallway_cluttered(self):
+        # This method would use the robot's sensors to check if the hallway is cluttered
+        pass
+
+    # Actions (empty for now, could be filled in with actual robot commands)
+    def reaching(self, item):
+        pass
+
+    def gripping(self, item):
+        pass
+
+    def transporting(self, item, location):
+        pass
+
+    def lowering(self, item, location):
+        pass
+
+    def checking(self, item):
+        pass
+
+    def collecting(self, item):
+        pass
+          
+    def inserting(self, item):
+        pass  
+    
+    def removing(self, item):
+        pass  
+
+    # Run method to execute the state machine loop
+    def run(self):
+        while True:
+            self.current_state()
+```
+
+In the above Python code, `ButlerRobotFSM` is a class that represents a finite state machine modeling the actions of a fictional butler robot. 
+
+The robot starts in the `monitoring` state, and if there's clutter in the hallway (as determined by the `hallway_cluttered` helper method), it changes its current state to `collecting`.
+
+In the `collecting` state, the robot goes through the cluttered items one by one, executing the actions of reaching, gripping, transporting, and lowering to clean up each item. Once all items are collected, it transitions to `arranging_shoe_rack`.
+
+In `arranging_shoe_rack`, the robot checks the shoe rack, collects the shoes from the floor and inserts them into the shoe rack. Afterwards, it transitions to `checking_lamp_cord`.
+
+`checking_lamp_cord` ensures that the lamp cord is not lying in the walkway. Afterwards, it goes back to the `monitoring` state.
+
+The `run` method starts an infinite loop where the butler robot continuously executes its current state's method.

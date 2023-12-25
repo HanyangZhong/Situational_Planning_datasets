@@ -1,0 +1,81 @@
+Here is a simple version of a butler robot that can assist in the given scenario:
+
+```python
+class AssistanceRobotFSM:
+    def __init__(self):
+        # Initiate state to checking
+        self.current_state = self.state_checking
+        self.distress_detected = False
+
+    # The states are defined as methods:
+    def state_checking(self):
+        # Detect if the elderly person is in distress
+        distress_detected = self.detect_distress()
+        if distress_detected:
+            print("Distress detected. Proceeding to assist.")
+            return self.state_reaching
+        else:
+            print("No distress detected. Continuing monitoring.")
+            return self.state_monitoring
+
+    def state_reaching(self):
+        # Reach for the device
+        self.reach_for_device()
+        print("Device has been reached.")
+        return self.state_grasping
+
+    def state_grasping(self):
+        # Grasp the device
+        self.grasp_device()
+        print("Device has been grasped.")
+        return self.state_transporting
+
+    def state_transporting(self):
+        # Transport the device to the elderly person
+        self.transport_device()
+        print("Device has been transported.")
+        return self.state_serving
+
+    def state_serving(self):
+        # Hand the device to the elderly person
+        self.serve_device()
+        print("Device has been served.")
+        return self.state_calling_for_help
+
+    def state_calling_for_help(self):
+        # Trigger alarm on the device
+        self.call_for_help()
+        print("Emergency call has been made.")
+        return self.state_checking
+
+    # Helper methods for checking conditions
+    def detect_distress(self):
+        # Check if the elderly person is in distress
+        return self.distress_detected
+
+    # Helper methods for the state actions:
+    def reach_for_device(self):
+        pass  # actually reach for the device
+
+    def grasp_device(self):
+        pass  # actually grasp the device
+
+    def transport_device(self):
+        pass  # actually transport the device to the elderly person
+
+    def serve_device(self):
+        pass  # actually hand the device to the elderly person
+
+    def call_for_help(self):
+        pass  # actually trigger alarm on the device
+
+    def run(self):
+        while True:
+            state_method = self.current_state
+            self.current_state = state_method()
+            
+robot = AssistanceRobotFSM()
+robot.run()
+```
+
+In this code, state methods define the states and implement transition logic. The methods related to action verbs do the specific tasks. `run()` method lets the FSM execute. The actual implementations of methods like `reach_for_device()`, `grasp_device()`, `transport_device()`, `serve_device()`, and `call_for_help()` are not provided. They should be filled with the actual code for the robot's actions based on your robot's capabilities and the specific devices/sensors used.

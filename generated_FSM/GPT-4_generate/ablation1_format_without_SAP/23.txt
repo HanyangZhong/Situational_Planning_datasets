@@ -1,0 +1,95 @@
+Here's a Python class definition for a Finite State Machine (FSM) that models how a butler robot would handle the described situation:
+
+```python
+class ButlerRobotFSM:
+    """
+    A class representing a finite state machine for a butler robot.
+    """
+    def __init__(self):
+        """
+        Initialize attribute for current_state.
+        """
+        self.current_state = self.monitoring
+
+    def monitoring(self):
+        """
+        The robot monitors the situation.
+        """
+        # If the play gets too rough, transition to the next state.
+        if self.is_play_getting_rough():
+            self.current_state = self.responding
+
+    def responding(self):
+        """
+        The robot responds to the rough play.
+        """
+        # Call for help and distract the dog.
+        self.call_for_help("Parent should come to the living room.")
+        self.distract_dog()
+
+        # If the situation still persists, transition to the next state.
+        if self.is_play_still_rough():
+            self.current_state = self.calling_for_help
+        else:
+            # Go back to monitoring state.
+            self.current_state = self.monitoring
+
+    def calling_for_help(self):
+        """
+        The robot calls for external help.
+        """
+        # Call for external help (e.g., emergency services).
+        self.call_for_external_help("Child safety at risk.")
+
+        # Resume to monitoring state after calling for help.
+        self.current_state = self.monitoring
+
+    # Helper methods
+    def is_play_getting_rough(self):
+        """
+        Determine if the play between the child and the dog is getting too rough.
+        """
+        # Here would be some logic to check the roughness level.
+        pass
+
+    def call_for_help(self, message):
+        """
+        Have the robot call for a parent or guardian.
+        """
+        # Here would be some logic to send a notification or alert to a parent or guardian.
+        pass
+
+    def distract_dog(self):
+        """
+        Have the robot distract the dog.
+        """
+        # Here would be some logic for the robot to attract the dog's attention.
+        pass
+
+    def is_play_still_rough(self):
+        """
+        Determine if the play is still too rough after initial intervention.
+        """
+        # Here would be some logic to check the roughness level.
+        pass
+
+    def call_for_external_help(self, message):
+        """
+        Have the robot dial emergency services in the case of a continued threat.
+        """
+        # Here would be some logic for the robot to call for an external help like emergency services.
+        pass
+
+    def run(self):
+        """
+        Execute the state machine.
+        """
+        while True:
+            self.current_state()
+```
+
+This FSM defines three states of the butler robot: monitoring, responding, and calling for help. The robot starts in the monitoring state, where it watches the interaction between the child and the dog. If the play gets too rough, it transitions to the responding state, where it tries to intervene by calling for a parent/guardian's help and distracting the dog.
+
+In the event that the situation continues to be hazardous, the robot transitions to the calling_for_help state, where it dials emergency services. Afterward, it goes back to the monitoring state to continue watching the child and the dog.
+
+Please note that the actual implementation of helper methods like is_play_getting_rough() would depend on the specific sensory inputs available to the robot.

@@ -1,0 +1,27 @@
+Let's start scoring the FSMs for code "21_3" and "21_4" by comparing them to "21_best".
+
+For code "21_3":
+
+1. State Coverage: There are five states present in this FSM, and it seems to be missing states relating to assessing injuries and providing help based on the injuries detected. Overall, this FSM misses significant necessary states to handling the scene and thus the score is 5 out of 10.
+2. Transition Coverage: This FSM does cover a logical flow from one state to another, but might be better if it allows for transitions back to the assessment state after the immediate assistance is provided. Therefore, the score is 7 out of 10.
+3. Cyclomatic Complexity: Despite being simple to understand and interpret, this FSM lacks alternative paths. Its complexity is low, thus the score is 3 out of 10.
+4. Safety Mindset: This FSM is aware of the person's predicament but it moves the person to access the button rather than pressing the button itself, which could potentially cause more harm. Therefore, the score is 2 out of 10.
+5. Scalability: The simplicity and lack of complexity might make scaling or adding more states to this FSM quite challenging, thus the score is 3 out of 10.
+6. Assistance UX: The user experience here might be a bit uncomfortable (being moved by a robot), however the FSM does eventually ensure that help arrives. So, the score is 4 out of 10.
+7. Action Set Alignment: As the FSM creates custom actions ('move_person_near_button', 'press_button', 'wait_for_help_to_arrive') which are not part of the provided action set vocabulary, we can give it a score of 1 out of 10.
+
+Overall Benchmark Score for "21_3" FSM = (5+7+3+2+3+4+1)/7 = 3.57 ~ 3.6 out of 10
+
+Next, for code "21_4":
+
+1. State Coverage: This FSM has fewer states than "21_3", missing some states that relate to providing direct immediate assistance and activating the emergency button. This leaves the FSM with a score of 4 out of 10.
+2. Transition Coverage: Logical flow from one state to next is present but again, it may benefit from having transitions back to the assessment state from other states. The score is 6 out of 10.
+3. Cyclomatic Complexity: This FSM is also quite simple with no alternate paths or transitions that lead back to the initial or assessment stage. The score is 2 out of 10.
+4. Safety Mindset: This FSM calls for help when a person is injured but there is no direct intervention. The score is 4 out of 10.
+5. Scalability: Due to the simplicity of the FSM, making modifications or extensions might be a bit challenging. Therefore, the score is 3 out of 10.
+6. Assistance UX: The FSM ensures emergency help is called and provides comfort, but leaves other actions to the emergency services, instead of physically assisting. Hence, the score is 5 out of 10.
+7. Action Set Alignment: The FSM introduces a number of new actions that aren't a part of the provided action set vocabulary ('bring_blanket_and_water', 'check_on_person'), leaving it with a score of 2 out of 10.
+
+Overall Benchmark Score for "21_4" FSM = (4+6+2+4+3+5+2)/7 = 3.71 ~ 3.7 out of 10
+
+To conclude, this analysis indicates that both FSMs "21_3" and "21_4" could benefit from including additional states that cater to the range of needs in the scenario. They also might need to more strictly adhere to the predetermined action set vocabulary. Both FSM have areas to improve in terms of safety mindset and user experience as well.

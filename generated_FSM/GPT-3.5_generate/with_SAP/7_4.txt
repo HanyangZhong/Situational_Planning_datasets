@@ -1,0 +1,131 @@
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'EVALUATE_ITEMS': self.evaluate_items_state,
+            'CLEAN_UP_ITEMS': self.clean_up_items_state,
+            'FIX_RUG': self.fix_rug_state,
+            'ORGANIZE_SHOES': self.organize_shoes_state,
+            'REMOVE_CORD': self.remove_cord_state,
+            'MONITOR_PATHWAY': self.monitor_pathway_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with assessing the situation.
+        self.perform_initial_assessment()
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation to determine the next necessary action.
+        if self.is_pathway_clear():
+            self.current_state = 'MONITOR_PATHWAY'
+        elif self.is_danger_present():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'EVALUATE_ITEMS'
+
+    def evaluate_items_state(self):
+        # Evaluate the items on the floor to determine if they need to be cleaned up or organized.
+        if self.is_floor_cluttered():
+            self.current_state = 'CLEAN_UP_ITEMS'
+        elif self.is_rug_bunched_up():
+            self.current_state = 'FIX_RUG'
+        elif self.is_shoe_rack_overflowing():
+            self.current_state = 'ORGANIZE_SHOES'
+        else:
+            self.current_state = 'REMOVE_CORD'
+
+    def clean_up_items_state(self):
+        # Clean up the items on the floor to create a safe pathway.
+        self.transport_items_to_designated_areas()
+        self.current_state = 'EVALUATE_ITEMS'
+
+    def fix_rug_state(self):
+        # Fix the bunched up rug to create an even surface.
+        self.flatten_rug()
+        self.current_state = 'EVALUATE_ITEMS'
+
+    def organize_shoes_state(self):
+        # Organize the shoes on the shoe rack to prevent them from falling off.
+        self.arrange_shoes_on_rack()
+        self.current_state = 'EVALUATE_ITEMS'
+
+    def remove_cord_state(self):
+        # Remove the cord snaking across the walkway to eliminate a tripping hazard.
+        self.disconnect_lamp_cord()
+        self.current_state = 'MONITOR_PATHWAY'
+
+    def monitor_pathway_state(self):
+        # Continuously monitor the pathway for any new hazards or clutter.
+        if self.is_danger_present():
+            self.current_state = 'CALL_FOR_HELP'
+        elif self.is_new_clutter():
+            self.current_state = 'EVALUATE_ITEMS'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the danger is too great for the robot to handle alone.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Annotation methods
+    def perform_initial_assessment(self):
+        self.checking('hallway condition')
+
+    def is_pathway_clear(self):
+        return not self.is_floor_cluttered() and not self.is_rug_bunched_up() and not self.is_shoe_rack_overflowing() and not self.is_cord_present()
+
+    def is_floor_cluttered(self):
+        return self.checking('floor clutter')
+
+    def is_rug_bunched_up(self):
+        return self.checking('rug bunched up')
+
+    def is_shoe_rack_overflowing(self):
+        return self.checking('shoe rack overflowing')
+
+    def is_cord_present(self):
+        return self.checking('cord present in pathway')
+
+    def is_danger_present(self):
+        return self.checking('danger present')
+
+    def is_new_clutter(self):
+        return self.checking('new clutter')
+
+    def transport_items_to_designated_areas(self):
+        self.transporting('items', 'designated areas')
+
+    def flatten_rug(self):
+        self.folding('rug')
+
+    def arrange_shoes_on_rack(self):
+        self.arranging('shoes', 'shoe rack')
+
+    def disconnect_lamp_cord(self):
+        self.disconnecting('lamp cord')
+
+    def call_for_help(self):
+        self.calling('human assistance')
+
+    # Run the FSM loop    
+    def run(self):
+        while True:
+            self.states.get(self.current_state)()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+Note: The annotation methods (`checking()`, `transporting()`, `folding()`, etc.) are not implemented in the code above as they are just placeholders. You will need to define and implement these methods based on the functionality of your Butler Robot. 
+
+You can also add additional states and actions as needed, based on the specific capabilities and functionality of your Butler Robot.

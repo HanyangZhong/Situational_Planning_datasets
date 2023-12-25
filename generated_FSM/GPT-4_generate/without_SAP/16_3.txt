@@ -1,0 +1,76 @@
+Here's a finite state machine to handle the kitchen scenario described.
+
+```python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Initializing the states in the HFSM
+        self.states = {
+            'START': self.start,
+            'CHECK_SITUATION': self.check_situation,
+            'MOVE_CHILD_AWAY': self.move_child_away,
+            'MOVE_OBJECTS': self.move_objects,
+            'MONITOR_SITUATION': self.monitor_situation
+        }
+        # Setting the initial state
+        self.current_state = 'START'
+
+    def start(self):
+        # Initial state of the Butler Robot FSM. Begins with checking the situation.
+        self.current_state = 'CHECK_SITUATION'
+
+    def check_situation(self):
+        # Assess if the child is near the dangerous items or reaching towards them.
+        if self.is_child_in_danger():
+            self.current_state = 'MOVE_CHILD_AWAY'
+        else:
+            self.current_state = 'START'
+
+    def move_child_away(self):
+        # Moves the child to a safe distance from the dangerous items.
+        self.lift_and_relocate_child()
+        self.current_state = 'MOVE_OBJECTS'
+
+    def move_objects(self):
+        # Moves the dangerous items away from the edge of the counter
+        self.collect_and_relocate_objects()
+        self.current_state = 'MONITOR_SITUATION'
+
+    def monitor_situation(self):
+        # Monitors the child's actions and the state of the kitchen.
+        if self.is_child_in_danger():
+            self.current_state = 'MOVE_CHILD_AWAY'
+        else:
+            self.current_state = 'START'
+
+    # Annotation methods
+
+    def is_child_in_danger(self):
+        child_in_danger = self.monitoring('child', 'dangerous items')
+        return child_in_danger
+
+    def lift_and_relocate_child(self):
+        self.collecting('child')
+        self.transporting('child', to='safe location')
+        self.placing('child', on='safe location')
+
+    def collect_and_relocate_objects(self):
+        self.grasping('dangerous items')
+        self.transporting('dangerous items', to='safe location')
+        self.placing('dangerous items', on='safe location')
+
+    def run(self):
+        # Running the HFSM loop 
+        while True:
+            self.states[self.current_state]()
+
+# Instantiate and run the HFSM
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+
+This HFSM does the following:
+
+1. Starts with checking the situation.
+2. If the child is in danger, it moves the child to a safe location and then relocates the dangerous objects to a safe location.
+3. It then continues to monitor the situation; if it changes, it goes back to the start. It loops through these states until the program is stopped.

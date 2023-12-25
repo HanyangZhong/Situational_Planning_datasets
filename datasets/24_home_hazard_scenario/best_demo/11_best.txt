@@ -1,0 +1,94 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'RETRIEVE_MEDICINE': self.retrieve_medicine_state,
+            'DELIVER_MEDICINE': self.deliver_medicine_state,
+            'ENSURE_COMFORT': self.ensure_comfort_state,
+            'MONITOR_PATIENT': self.monitor_patient_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variable to simulate the detection of the patient's need
+        self.patient_needs_assistance = False
+
+    def initial_state(self):
+        # Start by assessing the situation
+        self.current_state = 'MONITOR_PATIENT'
+
+    def assess_situation_state(self):
+        if self.detect_patient_need():
+            self.current_state = 'RETRIEVE_MEDICINE'
+        else:
+            self.current_state = 'MONITOR_PATIENT'
+
+    def retrieve_medicine_state(self):
+        self.reaching('medicine_bottle')  # Reach for the medicine bottle
+        self.grasping('medicine_bottle')  # Grasp the medicine bottle
+        self.current_state = 'DELIVER_MEDICINE'
+
+    def deliver_medicine_state(self):
+        self.transporting('medicine_bottle', 'patient')  # Transport the medicine to the patient
+        self.current_state = 'ENSURE_COMFORT'
+
+    def ensure_comfort_state(self):
+        self.checking('patient_comfort')  # Check if the patient is comfortable
+        if self.patient_is_comfortable():
+            self.patient_needs_assistance = False
+            self.current_state = 'MONITOR_PATIENT'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_patient_state(self):
+        self.monitoring('patient')  # Continuously monitor the patient
+        if self.detect_patient_need():
+            self.current_state = 'ASSESS_SITUATION'
+        else:
+            self.current_state = 'INITIAL'
+
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance
+        self.current_state = 'INITIAL'
+
+    def detect_patient_need(self):
+        self.patient_needs_assistance = self.monitoring('patient')
+        # Detect if the patient needs assistance
+        return self.patient_needs_assistance
+
+    def patient_is_comfortable(self):
+        state = self.checking('patient_comfort')
+        # Check if the patient is comfortable after receiving the medicine
+        return state
+
+    def reaching(self, item):
+        pass
+
+    def grasping(self, item):
+        pass
+
+    def transporting(self, item, destination):
+        pass
+
+    def checking(self, condition):
+        pass
+
+    def monitoring(self, subject):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: In a real-world implementation, the 'run' method would include conditions for graceful exit.

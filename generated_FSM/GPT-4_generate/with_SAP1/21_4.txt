@@ -1,0 +1,74 @@
+Sure, Here's the Finite State Machine (FSM) Python code for Butler Robot in the provided situation of a disabled individual fallen from their wheel-chair:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'CHECK_SITUATION': self.check_situation_state,
+            'REACH_BUTTON': self.reach_button_state,
+            'PRESS_BUTTON': self.press_button_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with situation check.
+        self.current_state = 'CHECK_SITUATION'
+
+    def check_situation_state(self):
+        # Check if the person fall down and can't reach the button.
+        if self.is_person_fallen() and self.is_button_unreachable():
+            self.current_state = 'REACH_BUTTON'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def reach_button_state(self):
+        # If the person can't reach the button, robot should press.
+        self.reaching('button')
+        self.current_state = 'PRESS_BUTTON'
+
+    def press_button_state(self):
+        # Once the button is reached, press it to call for help.
+        self.pressing('button')
+        self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Once the button is pressed, alert the emergency system.
+        self.calling_for_help('emergency_system')
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_person_fallen(self):
+        person_fallen = self.monitoring('person')
+        return person_fallen
+
+    def is_button_unreachable(self):
+        button_unreachable = self.checking('button location')
+        return button_unreachable
+
+    def reaching(self, target):
+        self.extending_arm('towards ' + target)
+
+    def pressing(self, target):
+        self.pushing(target)
+
+    def calling_for_help(self, system):
+        self.alerting(system)
+
+    # Run the HFSM loop 
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+This FSM starts by checking the situation (i.e., is the person fallen? Is the button unreachable?), then the robot reaches for and presses the emergency alert button. Finally, it calls for help from the emergency system. Once all of this has been completed, it goes back to the initial state and repeats the process until the person's situation has improved.
+
+Note: The actual implementation of specific methods, such as `monitoring`, `checking`, `extending_arm`, `pushing`, and `alerting` is highly dependent on the hardware and software capabilities of your specific robot, so I have omitted these implementations here.

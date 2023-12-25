@@ -1,0 +1,54 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'COVER_CHEMICALS': self.cover_chemicals_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if the pregnant woman is near the open chemical bottles
+        if self.is_woman_near_chemicals():
+            self.current_state = 'COVER_CHEMICALS'
+        else:
+            self.current_state = 'INITIAL'
+
+    def cover_chemicals_state(self):
+        # Close the open chemical bottles to prevent harm to the pregnant woman
+        self.closing('bleach bottle')
+        self.closing('window cleaner bottle')
+        self.closing('multi-surface spray bottle')
+        self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for human assistance to properly dispose of the chemicals
+        self.calling_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_woman_near_chemicals(self):
+        return self.is_near('pregnant woman', 'open chemical bottles')
+
+    def closing(self, bottle_name):
+        print(f"Closing {bottle_name}")
+
+    def calling_for_help(self):
+        print("Calling for help")
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+```
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()

@@ -1,0 +1,61 @@
+class ButlerRobotCandleFSM:
+
+    def __init__(self): 
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_RISK': self.assess_risk_state, 
+            'REMOVE_COMBUSTIBLES': self.remove_combustibles_state,
+            'EXTINGUISH_CANDLE': self.extinguish_candle_state,
+            'CLEAN_UP': self.clean_up_state,
+            'MONITOR_AREA': self.monitor_area_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Starting assessment") 
+        self.current_state = 'ASSESS_RISK'
+
+    def assess_risk_state(self):
+        if self.is_fire_risk_high():
+            self.current_state = 'REMOVE_COMBUSTIBLES'
+        else:
+            self.current_state = 'EXTINGUISH_CANDLE'
+
+    def remove_combustibles_state(self):
+        self.remove_books() 
+        self.current_state = 'EXTINGUISH_CANDLE'
+
+    def extinguish_candle_state(self):
+        self.blow_out_candle()
+        self.current_state = 'CLEAN_UP'
+
+    def clean_up_state(self):
+        self.wipe_wax() 
+        self.current_state = 'MONITOR_AREA'
+
+    def monitor_area_state(self):
+        if self.is_fire_risk_high():
+            self.current_state = 'REMOVE_COMBUSTIBLES'
+        else: 
+            print("Situation resolved")
+            self.current_state = 'INITIAL'
+
+    # Annotations  
+    def is_fire_risk_high(self):
+        return True if self.sensing_nearby('fire risk objects') else False
+
+    def remove_books(self):
+        print("Removing combustible books")
+
+    def blow_out_candle(self):
+        print("Extinguishing candle")
+
+    def wipe_wax(self):
+        print("Cleaning up wax")   
+
+    def sensing_nearby(self, object):
+        print(f"Sensing nearby {object}")
+        return True
+
+fsm = ButlerRobotCandleFSM()
+fsm.run()

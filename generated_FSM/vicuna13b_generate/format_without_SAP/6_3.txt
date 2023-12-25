@@ -1,0 +1,60 @@
+Here is an example implementation of the butler robot in Python:
+```python
+class ButlerRobot(FSMRobot):
+    def __init__(self):
+        super().__init__()
+        self.current_state = 'idle'
+        self.states = {
+            'idle': {
+                'transitions': {},
+                'actions': {},
+            },
+            'danger_detected': {
+                'transitions': {
+                    'to_alert': {},
+                },
+                'actions': {
+                    'alert': self.alert,
+                },
+            },
+            'cleaning_needed': {
+                'transitions': {
+                    'to_clean': {},
+                },
+                'actions': {
+                    'clean': self.clean,
+                },
+            },
+        }
+
+    def transition(self, source, target, event):
+        if source not in self.states or target not in self.states[source].get('transitions', {}):
+            return None
+        self.current_state = target
+        self.states[source]['transitions'][target] = event
+
+    def check_condition(self, condition, action):
+        if condition:
+            return action
+        return None
+
+    def handle_action(self, action):
+        if action not in self.states[self.current_state].get('actions', {}):
+            return None
+        return self.states[self.current_state]['actions'][action]()
+
+    def run(self):
+        while True:
+            event = self.get_event()
+            if event:
+                self.current_state = self.transition('idle', self.current_state, event)
+                if self.current_state:
+                    self.handle_action(self.current_state)
+```
+The `ButlerRobot` class inherits from the `FSMRobot` class, which provides the basic structure for an FSM. The `current_state` attribute tracks the active state of the robot, and the `states` dictionary contains the different states and their transitions and actions.
+
+The `transition` method is used to transition between states based on events, and the `check_condition` method checks if a specific condition is met and returns the corresponding action.
+
+The `handle_action` method is called when an action is taken, and it checks if the action is valid for the current state and calls the corresponding action function if it is.
+
+The `run` method is the main loop of the robot, which continues to listen for events and execute actions until it is stopped.

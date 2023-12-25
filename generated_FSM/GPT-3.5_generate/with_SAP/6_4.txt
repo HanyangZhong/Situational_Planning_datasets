@@ -1,0 +1,102 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'TAKE_PRECAUTIONS': self.take_precautions_state,
+            'MONITOR_ACTIVITY': self.monitor_activity_state,
+            'CLEAN_UP': self.clean_up_state,
+            'ALERT_WARNING': self.alert_warning_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start by assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the current situation in the laundry room.
+        if self.is_potential_danger():
+            self.current_state = 'TAKE_PRECAUTIONS'
+        else:
+            self.current_state = 'MONITOR_ACTIVITY'
+
+    def take_precautions_state(self):
+        # Take necessary precautions to ensure safety.
+        self.close_uncapped bottles()
+        self.clean_up_spills()
+        self.current_state = 'MONITOR_ACTIVITY'
+
+    def monitor_activity_state(self):
+        # Continuously monitor the activity in the laundry room.
+        if self.is_child_or_pet_near():
+            self.current_state = 'CLEAN_UP'
+        elif self.is_dangerous_activity():
+            self.current_state = 'ALERT_WARNING'
+        else:
+            self.current_state = 'INITIAL'
+
+    def clean_up_state(self):
+        # Clean up any spills or messes made by the child or pet.
+        self.mop_floor()
+        self.clean_shelves()
+        self.current_state = 'MONITOR_ACTIVITY'
+
+    def alert_warning_state(self):
+        # Alert and warn individuals in the vicinity about the potential danger.
+        self.notify_occupants()
+        self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for additional assistance if necessary.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_potential_danger(self):
+        # Check if there is potential danger in the laundry room.
+        potential_danger = self.checking('cleaning products', 'uncovered pool')
+        return potential_danger
+
+    def close_uncapped_bottles(self):
+        # Close any uncapped bottles or containers to prevent spills or accidents.
+        self.closing('bottles')
+
+    def clean_up_spills(self):
+        # Clean up spills or messes on the floor caused by tipped over containers.
+        self.wiping('spills')
+
+    def is_child_or_pet_near(self):
+        # Check if there is a child or pet near the cleaning products.
+        child_or_pet_near = self.checking('children', 'pets')
+        return child_or_pet_near
+
+    def is_dangerous_activity(self):
+        # Check if there is any dangerous activity in the laundry room.
+        dangerous_activity = self.checking('dangerous activity')
+        return dangerous_activity
+
+    def mop_floor(self):
+        # Mop the floor to clean any spills or messes made by the child or pet.
+        self.mopping('floor')
+
+    def clean_shelves(self):
+        # Clean the shelves to ensure they are safe and presentable.
+        self.dusting('shelves')
+
+    def notify_occupants(self):
+        # Notify individuals in the vicinity about the potential danger.
+        self.alerting('occupants')
+
+    def call_for_help(self):
+        # Call for additional assistance if necessary.
+        self.calling('help')
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()

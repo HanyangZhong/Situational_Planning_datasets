@@ -1,0 +1,43 @@
+class ButlerRobot:
+    
+    def __init__(self):
+        self.state = 'assess'
+        
+    def assess(self):
+        print("Assessing situation...")
+        if pregnant_woman_near_chemicals():
+            self.state = 'address_risk'
+        else:
+            self.state = 'monitor'
+            
+    def address_risk(self):
+        print("Addressing risk...")
+        self.close_chemical_bottles() 
+        self.move_chemicals()
+        self.ventilate_area()
+        self.state = 'monitor'
+        
+    def monitor(self):
+        print("Monitoring situation...")
+        if pregnant_woman_near_chemicals():
+            self.state = 'address_risk'
+        else:
+            self.state = 'monitor'
+            
+    def close_chemical_bottles(self):
+        print("Closing open chemical bottles")
+        
+    def move_chemicals(self):
+        print("Moving chemicals away from pregnant woman")
+        
+    def ventilate_area(self):
+        print("Opening windows to ventilate area")
+        
+bot = ButlerRobot()
+while True:
+    if bot.state == 'assess':
+        bot.assess()
+    elif bot.state == 'address_risk':  
+        bot.address_risk()
+    elif bot.state == 'monitor':
+        bot.monitor()

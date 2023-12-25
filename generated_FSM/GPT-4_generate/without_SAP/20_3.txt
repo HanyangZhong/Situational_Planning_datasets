@@ -1,0 +1,74 @@
+Here is a python code that represents the described situation with a hierarchy finite state machine. The robot first starts with the initial state, which is defined as monitoring the elderly, by checking their status. If the elderly is in distress, the robot then switches to retrieving the emergency response device. After it gets the device, the next state would be to bring the device back to the elderly and activate it. Finally, it will call for help.
+
+```python
+class ButlerRobotHFSM:
+    def __init__(self):
+        self.states = {
+            'MONITOR_ELDERLY': self.monitor_elderly_state,
+            'RETRIEVE_EMERGENCY_DEVICE': self.retrieve_emergency_device_state,
+            'BRING_DEVICE_TO_ELDERLY': self.bring_device_to_elderly_state,
+            'ACTIVATE_EMERGENCY_DEVICE': self.activate_emergency_device_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        self.current_state = 'MONITOR_ELDERLY'
+
+    # State 1: Monitor the elderly
+    def monitor_elderly_state(self):
+        if self.is_elderly_in_distress():
+            self.current_state = 'RETRIEVE_EMERGENCY_DEVICE'
+
+    # State 2: If the elderly is in distress, retrieve the emergency device
+    def retrieve_emergency_device_state(self):
+        self.reaching('for emergency device')
+        self.gripping('emergency device')
+        self.current_state = 'BRING_DEVICE_TO_ELDERLY'
+
+    # State 3: Bring the emergency device to elderly
+    def bring_device_to_elderly_state(self):
+        self.transporting('emergency device', 'to elderly')
+        self.current_state = 'ACTIVATE_EMERGENCY_DEVICE'
+
+    # State 4: Activate the emergency device
+    def activate_emergency_device_state(self):
+        self.pressing('emergency device button')
+        self.current_state = 'CALL_FOR_HELP'
+
+    # State 5: Call for help
+    def call_for_help_state(self):
+        self.calling('for help')
+
+    # Check if the elderly is in distress
+    def is_elderly_in_distress(self):
+        return self.checking('elderly')
+
+    # Actions
+    def reaching(self, target):
+        print(f'Reaching {target}')
+
+    def gripping(self, item):
+        print(f'Gripping {item}')
+
+    def transporting(self, item, location):
+        print(f'Transporting {item} {location}')
+
+    def pressing(self, item):
+        print(f'Pressing {item}')
+
+    def calling(self, help_message):
+        print(f'Calling {help_message}')
+
+    def checking(self, target):
+        print(f'Checking {target}')
+        return True  # assuming elderly is always in distress for this example
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+
+In this state machine, the helper robot will loop through these states. If it finds the elderly in distress, it will go get the emergency device, bring it to the elderly, press the button on the device, then call for help. The check on `is_elderly_in_distress()` should in theory be connected with a sensor or some kind of feedback from the environment to detect if the elderly is in distress. In this example, it's set to always return `True`.

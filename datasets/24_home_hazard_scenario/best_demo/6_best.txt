@@ -1,0 +1,96 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'SECURE_CHEMICALS': self.secure_chemicals_state,
+            'CLEAN_SPILLS': self.clean_spills_state,
+            'VERIFY_SAFETY': self.verify_safety_state,
+            'MONITOR_AREA': self.monitor_area_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables for decision-making
+        self.hazard_detected = True
+        self.area_secured = False
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.detect_hazard():
+            self.current_state = 'SECURE_CHEMICALS'
+        else:
+            self.current_state = 'INITIAL'
+
+    def secure_chemicals_state(self):
+        self.collecting('chemicals')  # Collect open chemical containers
+        self.closing('containers')  # Close any open containers
+        self.placing_down('containers', 'secure_storage')  # Place them in secure storage
+        self.current_state = 'CLEAN_SPILLS'
+
+    def clean_spills_state(self):
+        self.wiping('spilled_chemicals')  # Wipe up any chemical spills
+        self.sweeping('wiped_chemicals', 'safe_disposal')  # Dispose of them safely
+        self.current_state = 'VERIFY_SAFETY'
+
+    def verify_safety_state(self):
+        if self.check_area_safety():
+            self.area_secured = True
+            self.current_state = 'MONITOR_AREA'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_area_state(self):
+        self.monitoring('laundry_room')
+        if not self.detect_hazard():
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance if the area cannot be secured
+        self.current_state = 'INITIAL'
+
+    def detect_hazard(self):
+        state = self.checking('chemicals')
+        return state
+
+    def check_area_safety(self):
+        state = self.checking('chemicals') and self.checking('chemical_spills')
+        return state
+
+    def collecting(self, item):
+        pass
+
+    def closing(self, containers):
+        pass
+
+    def placing_down(self, item, location):
+        pass
+
+    def wiping(self, item):
+        pass
+
+    def sweeping(self, item, destination):
+        pass
+
+    def monitoring(self, area):
+        pass
+
+    def checking(self, item):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The run method would have conditions for graceful exit in a real-world implementation.

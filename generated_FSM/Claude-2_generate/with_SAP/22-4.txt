@@ -1,0 +1,47 @@
+class ButlerRobotFSM:
+
+    def __init__(self): 
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS': self.assess_state,
+            'REASSURE': self.reassure_state,
+            'LIFT': self.lift_state, 
+            'TRANSPORT': self.transport_state,
+            'ALERT': self.alert_state,
+            'MONITOR': self.monitor_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Butler robot activated")
+        self.current_state = 'ASSESS'
+
+    def assess_state(self):
+        print("Assessing the situation")  
+        if woman_on_floor():  
+            self.current_state = 'REASSURE'
+        else:
+            self.current_state = 'MONITOR'
+
+    def reassure_state(self):
+        print("Reassuring the woman and asking if she needs assistance")
+        self.current_state = 'LIFT'
+
+    def lift_state(self):
+        print("Carefully lifting the woman to seated position")  
+        self.current_state = 'TRANSPORT'
+
+    def transport_state(self):
+        print("Transporting the woman to the alert button")
+        self.current_state = 'ALERT'
+
+    def alert_state(self):
+        print("Assisting the woman in activating the emergency alert")
+        self.current_state = 'MONITOR'
+
+    def monitor_state(self):
+        print("Monitoring the woman until help arrives")
+        self.current_state = 'INITIAL'
+
+fsm = ButlerRobotFSM()
+fsm.run()

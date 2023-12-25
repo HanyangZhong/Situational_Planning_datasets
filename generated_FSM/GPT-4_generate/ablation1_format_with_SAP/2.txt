@@ -1,0 +1,64 @@
+Here is a Python class for the FSM of a ButlerRobot in the described scenario:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Define the initial state
+        self.current_state = self.detecting_spill
+        # Define variable to keep track of the spill status
+        self.spill_detected = False
+        self.spill_cleaned = False
+
+    # Define the state methods
+    def detecting_spill(self):
+        if self.spill_detected:
+            print('Spill detected, transitioning to Cleanup')
+            return self.cleaning_spill
+        else:
+            print('No spill detected, continue scanning.')
+            return self.detecting_spill
+
+    def cleaning_spill(self):
+        if self.spill_cleaned:
+            print('Spill cleaned up, transitioning to Reset Kitchen')
+            return self.resetting_kitchen
+        else:
+            print('Spill not cleaned yet, continue Cleaning.')
+            return self.cleaning_spill
+
+    def resetting_kitchen(self):
+        print('Kitchen resetting...')
+        return self.monitoring_kitchen
+
+    def monitoring_kitchen(self):
+        if not self.spill_detected:
+            print('No spill detected, continue Monitoring.')
+            return self.monitoring_kitchen
+        else:
+            print('Spill detected, transitioning to Cleanup.')
+            return self.cleaning_spill
+
+    # Helper methods for the ButlerRobot
+    def detect_spill(self):
+        # Use sensors to check for a spill
+        pass
+
+    def clean_spill(self):
+        # Use cleaning tools to clean up the spill
+        pass
+
+    def reset_kitchen(self):
+        # Return the kitchen to its standard state
+        pass
+
+    def monitor_kitchen(self):
+        # Keep an eye on the kitchen's state and safety
+        pass
+
+    # The main execution loop of the FSM
+    def run(self):
+        while True:
+            self.current_state = self.current_state()
+```
+
+This class demonstrates a four-state FSM with transitions between detecting a spill, cleaning the spill, returning the kitchen to normal, and constant monitoring of the kitchen. Details of the actual tasks are abstracted in the helper methods, which can be further developed as required. This FSM ensures the Butler robot always responds to the potential hazard of a spill promptly and effectively, transitioning from detecting to cleaning to resetting the kitchen as needed, then returning to a monitoring state to ensure continued safety.

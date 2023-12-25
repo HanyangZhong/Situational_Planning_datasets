@@ -1,0 +1,43 @@
+Here is a possible implementation of the butler robot in Python:
+```python
+class ButlerRobot(FSM):
+    def __init__(self):
+        super().__init__()
+        self.current_state = 'idle'
+        self.states = {
+            'idle': {
+                'handle_event': self.default_event_handler,
+                'transitions': {}
+            },
+            'danger_detected': {
+                'handle_event': self.danger_detected_event_handler,
+                'transitions': {}
+            },
+            'mitigation_required': {
+                'handle_event': self.mitigation_required_event_handler,
+                'transitions': {}
+            }
+        }
+
+    def default_event_handler(self, event):
+        if event == 'danger_detected':
+            self.current_state = 'danger_detected'
+        elif event == 'mitigation_required':
+            self.current_state = 'mitigation_required'
+
+    def danger_detected_event_handler(self, event):
+        if self.current_state != 'danger_detected':
+            self.current_state = 'danger_detected'
+            self.send_event('mitigation_required')
+            # actions to be taken when danger is detected
+
+    def mitigation_required_event_handler(self, event):
+        if self.current_state != 'mitigation_required':
+            self.current_state = 'mitigation_required'
+            # actions to be taken when mitigation is required
+
+    def run(self):
+        while True:
+            self.current_state.get('handle_event', self).(self, event)
+```
+This implementation uses the FSM (Finite State Machine) class from the `fsm` module. The `ButlerRobot` class has three states: `idle`, `danger_detected`, and `mitigation_required`. The `default_event_handler` method handles events that are not explicitly handled by any other method. The `danger_detected_event_handler` and `mitigation_required_event_handler` methods handle specific events that trigger state transitions. The `run` method keeps the state machine running.

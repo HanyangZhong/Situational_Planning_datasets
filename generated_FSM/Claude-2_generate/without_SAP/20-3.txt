@@ -1,0 +1,39 @@
+class ButlerRobot:
+    
+    def __init__(self):
+        self.state = 'assess'
+        
+    def assess(self):
+        print("Assessing the situation...")
+        if person_in_distress():
+            self.state = 'retrieve_device' 
+        else:
+            self.state = 'monitor'
+            
+    def retrieve_device(self):
+        print("Reaching and grasping emergency device")
+        grasp_device()
+        print("Transporting device to person") 
+        carry_device_to_person()
+        print("Handing emergency device to person")
+        hand_device_to_person()
+        self.state = 'monitor'
+        
+    def monitor(self):
+        print("Monitoring person...")
+        if person_in_distress():
+            self.state = 'retrieve_device'
+        else:
+            self.state = 'monitor'
+            
+    def run(self):
+        while True:
+            if self.state == 'assess':
+                self.assess()
+            elif self.state == 'retrieve_device':
+                self.retrieve_device()  
+            else:
+                self.monitor()
+                
+butler = ButlerRobot()
+butler.run()

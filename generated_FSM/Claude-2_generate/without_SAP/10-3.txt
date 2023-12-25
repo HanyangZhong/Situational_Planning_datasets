@@ -1,0 +1,59 @@
+import time
+
+class ButlerRobot:
+
+    def __init__(self):
+        self.state = 'initial'
+        self.pool_covered = False
+        self.children_safe = False
+
+    def initial(self):
+        print("Assessing situation...")
+        time.sleep(2)
+        if not self.pool_covered:
+            self.state = 'cover_pool'
+        elif not self.children_safe:
+            self.state = 'engage_children' 
+        else:
+            self.state = 'monitor'
+
+    def cover_pool(self):
+        print("Reaching for pool cover...")
+        time.sleep(2)
+        print("Dragging pool cover over the pool...")
+        time.sleep(2)
+        print("Reminding children about pool safety...")
+        time.sleep(2)
+        self.pool_covered = True
+        self.state = 'monitor'
+
+    def engage_children(self):
+        print("Offering safe games to the children...") 
+        time.sleep(2)
+        self.children_safe = True
+        self.state = 'monitor'
+
+    def monitor(self):
+        print("Monitoring the situation...")
+        time.sleep(2)
+        if not self.children_safe:
+            self.state = 'engage_children'
+        elif not self.pool_covered:
+            self.state = 'cover_pool'
+        else:
+            print("Situation stable, monitoring...")
+            self.state = 'initial'
+
+    def run(self):
+        while True:
+            if self.state == 'initial':
+                self.initial()
+            elif self.state == 'cover_pool':
+                self.cover_pool()
+            elif self.state == 'engage_children':
+                self.engage_children()
+            elif self.state == 'monitor':
+                self.monitor()
+
+butler = ButlerRobot()
+butler.run()

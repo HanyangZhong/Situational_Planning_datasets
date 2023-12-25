@@ -1,0 +1,35 @@
+**Evaluation of FSM in code "13_3":**
+
+*1. State Coverage:* The FSM in 13_3 covers 3 main states: 'ASSESS_SITUATION', 'COVER_CHEMICALS', and 'CALL_FOR_HELP'. However, compared to the "13_best" FSM which has 7 states handling the scenario, the 13_3 FSM does not include states like 'VENTILATE_AREA' and 'MONITOR_ENVIRONMENT' which are crucial to the scenario. This places the FSM in 13_3 at a disadvantage in handling different conditions. Score = 4
+
+*2. Transition Coverage:* The transitions in 13_3 are linear with no loops or branches. This means it doesn't cover alternate pathways or re-assess the situation after each action. In the current scenario, this might lead to inadequate handling of safety hazards. Score = 3
+
+*3. Cyclomatic Complexity:* Given its linear nature, the FSM 13_3 has minimal complexity with each state having exactly one following state. Score = 1
+
+*4. Safety Mindset:* The FSM in 13_3 shows a reasonable degree of safety concern by initiating 'COVER_CHEMICALS' state if the woman is detected near chemicals. However, it falls short of being comprehensive as it does not include securing ventilation after handling chemicals, a crucial step in ensuring safety. Score = 5
+
+*5. Scalability:* FSM 13_3 is not highly scalable due to its rigid linear structure. Any additional scenario or action would require a major overhaul of its design, diminishing its scalability. Score = 2
+
+*6. Assistance UX:* The FSM has a direct approach to the scenario, but with limited contextuality or personalization. The lack of a continuous monitoring state could lead to inadequate user interactions. Score = 3
+
+*7. Action Set Alignment:* The FSM in 13_3 utilizes 'closing' action on chemical bottles and 'calling_for_help'. While these are part of the defined action set, it doesn't cover the broad array of actions available like 'grasping', 'placing_down', 'monitoring', etc. Score = 3
+
+**Overall Benchmark Score = (4+3+1+5+2+3+3) / 7 = 3**
+
+**Evaluation of FSM in code "13_4":**
+
+*1. State Coverage:* FSM 13_4 offers a broad range of states, incorporating stages like 'ASSESS', 'REMOVE_HAZARD', 'INFORM_WOMAN', and 'CALL_FOR_HELP'. However, it does not account for ventilation activity which is essential. Score = 7
+
+*2. Transition Coverage:* The transition coverage in 13_4 is thorough, with the FSM having the ability to revert to a waiting state and re-evaluate the scenario. Yet it's missing a transition back to assess state after certain actions. Score = 8
+
+*3. Cyclomatic Complexity:* FSM 13_4 exhibits a moderate level of complexity due to its ability to transition back to the 'WAIT' state from multiple states. Score = 5
+
+*4. Safety Mindset:* FSM 13_4 places high importance on safety by identifying and removing hazards, informing the pregnant woman about the situation, and monitoring continuously for further needs of assistance. However, it misses the ventilation part after handling chemicals. Score = 8
+
+*5. Scalability:* 13_4 demonstrates good scalability with its state transitions enabling the addition of new states or actions with relative ease. Score = 7 
+
+*6. Assistance UX:* The FSM offers a detailed approach to handling the scenario and communicates with the woman, enhancing the UX. However, these interactions could be more personalized. Score = 7
+
+*7. Action Set Alignment:* The FSM uses a comprehensive range of actions from the defined action set for assistance behaviors like 'grasp', 'lift', 'lower', 'release', 'monitor', and 'call'. But it still misses out on some important actions in this scenario like 'closing', 'opening', and 'checking'. Score = 6
+
+**Overall Benchmark Score = (7+8+5+8+7+7+6) / 7 = 6.86**

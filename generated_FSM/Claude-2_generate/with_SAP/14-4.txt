@@ -1,0 +1,59 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state, 
+            'ASSESS': self.assess_state,
+            'REDIRECT_CAT': self.redirect_cat_state,
+            'REMOVE_FOOD': self.remove_food_state,  
+            'CLEANUP': self.cleanup_state,
+            'MONITOR': self.monitor_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Butler Robot: Starting up") 
+        self.current_state = 'ASSESS'
+
+    def assess_state(self):
+        print("Butler Robot: Assessing kitchen for pet hazards...")
+        if self.is_pet_at_risk():  
+            self.current_state = 'REDIRECT_CAT'
+        else:
+            self.current_state = 'MONITOR'
+
+    def redirect_cat_state(self):
+        print("Butler Robot: Redirecting curious cat away from counter...") 
+        self.collecting_cat_toy()
+        self.squeaking_cat_toy() 
+        self.current_state = 'REMOVE_FOOD'
+
+    def remove_food_state(self):
+        print("Butler Robot: Removing hazardous foods from counter...")  
+        self.grasping_food()
+        self.transporting_food('to pantry') 
+        if self.is_counter_clear():
+            self.current_state = 'CLEANUP'
+        else:
+            self.current_state = 'REMOVE_FOOD'
+            
+    def cleanup_state(self):
+        print("Butler Robot: Wiping counter...") 
+        self.wiping_counter()
+        self.current_state = 'MONITOR'
+
+    def monitor_state(self):
+        print("Butler Robot: Monitoring kitchen...")
+        if self.is_pet_at_risk():
+            self.current_state = 'REDIRECT_CAT'
+        else:
+            self.current_state = 'ASSESS'
+
+    def is_pet_at_risk(self):
+        return self.checking_if_pet_can_access_hazard()
+        
+    def is_counter_clear(self):
+        return self.checking_for_remaining_items('on counter')
+
+fsm = ButlerRobotFSM()
+fsm.run()

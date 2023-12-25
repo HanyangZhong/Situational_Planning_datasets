@@ -1,0 +1,39 @@
+Given the provided criteria, here are the scores for each FSM (3_3 and 3_4) across the seven dimensions:
+
+### ButlerRobotFSM (code "3_3"):
+
+1. **State Coverage:** The FSM appears to cover the critical states including assessing the situation, reaching for and extinguishing the candle, removing the candle, and calling for help if necessary. However, it lacks a state for checking if the room is occupied, unlike "3_best". **Score: 8**
+
+2. **Transition Coverage:** The FSM allows for transitions between each state, and it appears that it would cover a majority of likely sequences. The FSM could improve by better handling different possible transitions, especially in considered safety like "3_best".**Score: 9**
+
+3. **Cyclomatic Complexity:** The FSM fairly direct with a linear flow from one state to another. There are no conditional transitions aside from the boolean checks within each state. **Score: 2**
+
+4. **Safety Mindset:** The FSM emphasizes safety by extinguishing the candle, removing it, and checking for further danger. However, it could better assess the situation before taking action, as the room might still be occupied.**Score: 8**
+
+5. **Scalability:** The FSM is structured and modular, which should make it relatively straightforward to extend and modify. However, its simplicity might limit its adaptability to more complex situations. **Score: 7**
+
+6. **Assistance UX:** The code suggests a robot that will perform basic duties and react to potential hazards. However, without actively monitoring the environment or taking proactive measures to prevent future risks, the user experience may not feel entirely natural or personalized. **Score: 6** 
+
+7. **Action Set Alignment:** The FSM uses actions such as reaching, grasping, placing down, and calling for help, which are part of the defined action set. The function of blowing out the candle is however not from the defined set. **Score: 8**
+
+**OVERALL BENCHMARK SCORE: 7.1**
+
+### ButlerRobotFSM (code "3_4"):
+
+1. **State Coverage:** Similar to "3_3", this FSM covers most needed states, but unlike "3_best", it does not include a state to verify success or judge whether the room is occupied. **Score: 8**
+
+2. **Transition Coverage:** The FSM's transitions are comprehensive, but could be improved with conditional transitions based on outcomes of previous states or changes in the situation. **Score: 8**
+
+3. **Cyclomatic Complexity:** This FSM, like "3_3", also has a direct flow from one state to another without much state interconnectivity. **Score: 2**
+
+4. **Safety Mindset:** The FSM, similar to "3_3", shows regard for safety by assessing the situation, handling the candle and cleaning the area. However, it might act when the room is still occupied unlike "3_best". **Score: 8**
+
+5. **Scalability:** This FSM shows good modularity which implies that it could be easily extended in future to handle more complex scenarios. **Score: 7**
+
+6. **Assistance UX:** The code implies a well-meaning, functional robot that can perform various tasks. However, it could do more to anticipate potential future risks or learn from the outcomes of its actions to improve the user experience. **Score: 6** 
+
+7. **Action Set Alignment:** The FSM utilizes action functions such as gripping, lowering, sweeping, checking and calling for help, which fall in the defined action set. However, it uses wiping that is not part of the set.**Score: 8**
+
+**OVERALL BENCHMARK SCORE: 6.7**
+
+These scores suggest areas of potential improvement for both FSMs. They can benefit from considering if the room is occupied (enhancing safety mindset), engaging more with the defined action set vocabulary, and fostering a more interconnected system (increasing cyclomatic complexity). These considerations would bring the FSMs closer to the benchmark FSM "3_best".

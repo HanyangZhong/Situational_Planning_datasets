@@ -1,0 +1,54 @@
+class ButlerRobotHFSM:
+
+    def __init__(self): 
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS': self.assess_state,
+            'SECURE_ROOM': self.secure_room_state,
+            'CLEAN_SPILLS': self.clean_spills_state,  
+            'MONITOR': self.monitor_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Butler Robot Initiated")
+        self.current_state = 'ASSESS'
+
+    def assess_state(self):
+        print("Assessing situation in laundry room")
+        if self.chemicals_accessible() and self.spills_present():
+            self.current_state = 'SECURE_ROOM'
+        elif self.spills_present():
+            self.current_state = 'CLEAN_SPILLS'  
+        else:
+            self.current_state = 'MONITOR'
+
+    def secure_room_state(self):
+        print("Securing room and chemicals")
+        self.closing('door')
+        self.collecting('uncapped chemicals')
+        self.placing('chemicals', 'up high') 
+        self.current_state = 'CLEAN_SPILLS'
+
+    def clean_spills_state(self):
+        print("Cleaning up spills") 
+        self.mopping('spilled liquids')
+        self.wiping('surfaces')
+        self.current_state = 'MONITOR'
+
+    def monitor_state(self):
+        print("Monitoring room")
+        if self.chemicals_accessible() or self.spills_present():
+            self.current_state = 'ASSESS'
+        else:
+            self.current_state = 'INITIAL'
+
+    # Helper annotation methods
+    def chemicals_accessible(self):
+        return True 
+
+    def spills_present(self):
+        return True
+
+butler = ButlerRobotHFSM()
+butler.run()

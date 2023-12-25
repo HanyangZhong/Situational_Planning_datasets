@@ -1,0 +1,53 @@
+class ButlerRobot:
+    
+    def __init__(self):
+        self.state = 'assess'
+        
+    def assess(self):
+        print("Assessing the situation...")
+        if self.is_fire_risk():
+            self.state = 'extinguish'
+        else:
+            self.state = 'monitor'
+            
+    def is_fire_risk(self):
+        print("Checking if there is a fire risk...")
+        return True
+        
+    def extinguish(self):
+        print("Extinguishing candle...")
+        self.blow_out_candle()
+        self.state = 'clean_up'
+        
+    def blow_out_candle(self):
+        print("Blowing out candle...")
+        
+    def clean_up(self):
+        print("Cleaning up...") 
+        self.remove_candle()
+        self.tidy_books()
+        self.state = 'monitor'
+        
+    def remove_candle(self):
+        print("Removing candle...")
+        
+    def tidy_books(self):
+        print("Tidying books...")
+        
+    def monitor(self):
+        print("Monitoring room...")
+        if self.is_fire_risk():
+            self.state = 'extinguish'
+        else:
+            print("No issues detected.")
+            
+butler = ButlerRobot()
+while True:
+    if butler.state == 'assess':
+        butler.assess()
+    elif butler.state == 'extinguish': 
+        butler.extinguish()
+    elif butler.state == 'clean_up':
+        butler.clean_up()
+    elif butler.state == 'monitor':
+        butler.monitor()

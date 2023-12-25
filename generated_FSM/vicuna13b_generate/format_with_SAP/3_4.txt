@@ -1,0 +1,82 @@
+Here is a possible implementation of the requested FSM in Python:
+```python
+class ButlerRobot(FSMRobot):
+    def __init__(self, name):
+        super().__init__(name)
+        self.current_state = "idle"
+
+    def idle(self):
+        """
+        In the idle state, the robot does nothing.
+        """
+        pass
+
+    def detect_danger(self):
+        """
+        In the detect_danger state, the robot checks for danger and transitions to the appropriate state.
+        """
+        pass
+
+    def reach_and_grab(self):
+        """
+        In the reach_and_grab state, the robot tries to reach and grab the candle and books.
+        """
+        pass
+
+    def lift_and_move(self):
+        """
+        In the lift_and_move state, the robot lifts the candle and books and moves them to a safe location.
+        """
+        pass
+
+    def clean_up(self):
+        """
+        In the clean_up state, the robot cleans up the mess caused by the candle.
+        """
+        pass
+
+    def monitor(self):
+        """
+        In the monitor state, the robot monitors the room for any further danger.
+        """
+        pass
+
+    def execute_action(self, verb):
+        """
+        Executes the given verb on the object described in the method name.
+        """
+        pass
+
+    def check_condition(self, condition):
+        """
+        Checks if the given condition is True.
+        """
+        pass
+
+    def transition(self, new_state):
+        """
+        Transitions to the given state.
+        """
+        pass
+
+    def run(self):
+        """
+        Executes the state machine loop.
+        """
+        while True:
+            if self.current_state == "idle":
+                self.idle()
+            elif self.current_state == "detect_danger":
+                self.detect_danger()
+            elif self.current_state == "reach_and_grab":
+                self.reach_and_grab()
+            elif self.current_state == "lift_and_move":
+                self.lift_and_move()
+            elif self.current_state == "clean_up":
+                self.clean_up()
+            elif self.current_state == "monitor":
+                self.monitor()
+            else:
+                self.transition(self.current_state)
+```
+You can use this class to create a butler robot that can detect danger, reach and grab the candle and books, lift and move them to a safe location, clean up the mess, and monitor the room for any further danger. The robot will execute the appropriate actions and transitions based on the current state of the FSM.

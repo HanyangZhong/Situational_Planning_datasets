@@ -1,0 +1,72 @@
+Here's an example implementation of the butler robot finite state machine in Python:
+```python
+class ButlerRobot(FSM):
+    def __init__(self):
+        super().__init__()
+        self.current_state = 'idle'
+
+    def idle(self):
+        self.helper_method()
+
+    def unsafe_condition(self):
+        return True
+
+    def unsafe_action(self):
+        return 'alert'
+
+    def alert(self):
+        self.current_state = 'alert'
+
+    def clean_up(self):
+        self.helper_method()
+
+    def monitor(self):
+        self.helper_method()
+
+    def respond(self):
+        self.helper_method()
+
+    def transition(self):
+        self.helper_method()
+
+    def go_back(self):
+        self.current_state = 'idle'
+
+    def helper_method(self):
+        pass
+
+    def run(self):
+        while True:
+            if self.current_state == 'idle':
+                if self.unsafe_condition():
+                    self.current_state = 'alert'
+                    self.alert()
+            elif self.current_state == 'alert':
+                if self.unsafe_action():
+                    self.current_state = 'clean_up'
+                else:
+                    self.current_state = 'monitor'
+            elif self.current_state == 'clean_up':
+                self.clean_up()
+                if self.should_transition():
+                    self.current_state = 'monitor'
+            elif self.current_state == 'monitor':
+                self.monitor()
+                if self.should_transition():
+                    self.current_state = 'respond'
+            elif self.current_state == 'respond':
+                self.respond()
+                if self.should_transition():
+                    self.current_state = 'go_back'
+                    self.go_back()
+            self.current_state = self.current_state
+```
+The class `ButlerRobot` is a subclass of the `FSM` class and contains several states such as 'idle', 'alert', 'clean\_up', 'monitor', 'respond', and 'go\_back'. Each state contains the appropriate actions that the robot should take and helper methods that can be implemented to perform those actions.
+
+The `idle` state is the initial state and the robot checks for any unsafe conditions or actions before proceeding to the 'alert' state. In the 'alert' state, the robot checks for unsafe actions and then proceeds to the 'clean\_up' state if an unsafe action is detected. In the 'clean\_up' state, the robot performs cleaning actions.
+
+The 'monitor' state is where the robot checks for any potential hazards in the environment and takes appropriate actions. The 'respond' state is where the robot takes actions in response to specific events or triggers. Finally, the 'go\_back' state is where the robot goes back to the 'idle' state after completing a task.
+
+The `transition` method is not implemented in this example, but it would be responsible for determining when and how to transition between states based on the current state and any relevant inputs or conditions.
+
+Overall, this implementation provides a basic framework for a butler robot to perform cleaning and monitoring tasks while ensuring the safety of the environment and any people or pets in it.

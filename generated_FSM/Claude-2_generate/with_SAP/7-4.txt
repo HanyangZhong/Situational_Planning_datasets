@@ -1,0 +1,76 @@
+class HallwayHazardHFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS': self.assess_state,
+            'CLEAR_PATH': self.clear_path_state,
+            'SECURE_LAMP': self.secure_lamp_state, 
+            'FIX_RUG': self.fix_rug_state,
+            'MONITOR': self.monitor_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print('Butler Robot activated in hallway.')
+        self.current_state = 'ASSESS'
+
+    def assess_state(self):
+        print('Assessing tripping hazards in hallway.')
+        if self.is_path_blocked() or self.is_lamp_unsafe():
+            self.current_state = 'CLEAR_PATH'
+        elif self.is_rug_bunched(): 
+            self.current_state = 'FIX_RUG'
+        else:
+            self.current_state = 'MONITOR'
+
+    def clear_path_state(self):
+        print('Clearing objects blocking hallway.')  
+        self.pickup_and_setaside_items()
+        self.current_state = 'SECURE_LAMP'
+
+    def secure_lamp_state(self):
+        print('Securing lamp cord safely along wall.')
+        self.coil_and_tape_cord()
+        self.current_state = 'MONITOR'
+        
+    def fix_rug_state(self):
+        print('Fixing bunched up rug.')
+        self.smooth_rug()
+        self.current_state = 'MONITOR'
+
+    def monitor_state(self):
+        print('Monitoring hallway for hazards.')
+        if self.is_path_blocked() or self.is_lamp_unsafe() or self.is_rug_bunched():
+            self.current_state = 'ASSESS'
+        else:
+            print('Hallway safe, entering standby mode.')
+            self.current_state = 'INITIAL'
+
+    # Helper annotation methods
+    def is_path_blocked(self):
+        return self.checking('items blocking path') 
+
+    def pickup_and_setaside_items(self):
+        self.gathering('items from floor')
+        self.transporting('items to safe location')
+        
+    def is_lamp_unsafe(self):
+        return self.checking('lamp cord safety')
+
+    def coil_and_tape_cord(self):
+        self.coiling('lamp cord')
+        self.affixing('tape to coil lamp cord to wall')
+        
+    def is_rug_bunched(self):
+        return self.checking('rug alignment and flatness')
+    
+    def smooth_rug(self):
+        self.grasping('corner of rug')
+        self.pulling('rug edge')
+        self.pressing('center of rug')
+        
+}
+
+hallway = HallwayHazardHFSM()
+hallway.run()

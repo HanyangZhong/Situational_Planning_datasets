@@ -1,0 +1,68 @@
+# Import libraries
+import time
+
+# Define ButlerRobot class  
+class ButlerRobot:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            "INITIALIZE": self.initialize,
+            "INSPECT": self.inspect,
+            "PICK_UP_MAT": self.pick_up_mat,
+            "HANG_MAT": self.hang_mat,
+            "CLOSE_CURTAIN": self.close_curtain,
+            "WIPE_FLOOR": self.wipe_floor,  
+            "PICK_UP_TOWEL": self.pick_up_towel,
+            "HANG_TOWEL": self.hang_towel,
+        }
+        
+        # Set start state
+        self.state = "INITIALIZE" 
+
+    # Define state methods
+    def initialize(self):
+        print("[INITIALIZE] Booting up...")
+        self.state = "INSPECT"
+
+    def inspect(self):
+        print("[INSPECT] Assessing wet bathroom situation...")  
+        self.state = "PICK_UP_MAT"
+
+    def pick_up_mat(self):
+        print("[PICK_UP_MAT] Reaching down and gripping bath mat")
+        time.sleep(2) 
+        print("[PICK_UP_MAT] Lifting and transporting bath mat")
+        self.state = "HANG_MAT"
+
+    def hang_mat(self):
+        print("[HANG_MAT] Rotating and flipping bath mat") 
+        print("[HANG_MAT] Hanging bath mat to dry")
+        self.state = "CLOSE_CURTAIN"
+
+    def close_curtain(self):
+        print("[CLOSE_CURTAIN] Reaching and grasping shower curtain")
+        print("[CLOSE_CURTAIN] Pulling shower curtain closed") 
+        self.state = "WIPE_FLOOR"
+
+    def wipe_floor(self):
+        print("[WIPE_FLOOR] Folding bath towel into cleaning cloth") 
+        print("[WIPE_FLOOR] Wiping and drying floor with towel")
+        self.state = "PICK_UP_TOWEL"
+
+    def pick_up_towel(self):
+        print("[PICK_UP_TOWEL] Gripping used towel")
+        self.state = "HANG_TOWEL"
+
+    def hang_towel(self):
+        print("[HANG_TOWEL] Transporting and hanging used towel")
+        self.state = "INITIALIZE"
+
+    # Define runner method
+    def run(self):
+        while True:
+            self.states[self.state]() 
+
+# Create and run butler robot
+butler = ButlerRobot()
+butler.run()

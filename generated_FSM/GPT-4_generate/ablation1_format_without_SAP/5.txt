@@ -1,0 +1,71 @@
+Sure, here's a Python class definition with a Finite State Machine (FSM) that models the behavior of a Butler Robot in the described scenario. 
+
+```python
+# Importing Enum for better State handling
+from enum import Enum
+
+class State(Enum):
+    CHECK = 1
+    COLLECT = 2
+    SECURE = 3
+    CLEAN = 4
+
+
+class ButlerRobotFSM:
+    def __init__(self):
+        # Initial state is CHECK
+        self.current_state = State.CHECK
+
+    # Representative of the state where the robot is CHECKing the situation
+    def state_check(self):
+        # Check the situation
+        if self.is_medications_unsecured():
+            # If there are medications unsecured, transistion to COLLECT state
+            self.current_state = State.COLLECT
+
+    # Representative of the state where the robot is COLLECTING the medications
+    def state_collect(self):
+        # Collecting medications
+        if self.all_medications_collected():
+            # If all medications are collected, transition to SECURE state
+            self.current_state = State.SECURE
+    
+    # Representative of the state where the robot is SECUREing the medications
+    def state_secure(self):
+        # Closing medication bottles and moving to secure place
+        if self.all_medications_secured():
+            # If all medications are secured, transition to CLEAN state
+            self.current_state = State.CLEAN
+
+    # Representative of the state where the robot is CLEANing the area
+    def state_clean(self):
+        # Clean the area
+        return None
+
+    # Implementing the FSM logic
+    def run(self):
+        while True:
+            if self.current_state == State.CHECK:
+                self.state_check()
+            elif self.current_state == State.COLLECT:
+                self.state_collect()
+            elif self.current_state == State.SECURE:
+                self.state_secure()
+            elif self.current_state == State.CLEAN:
+                self.state_clean()
+                
+    # Helper methods
+    def is_medications_unsecured(self):
+        # Checking if there are unsecured medications
+        pass
+    def all_medications_collected(self):
+        # Checking if all medications are collected
+        pass
+    def all_medications_secured(self):
+        # Checking if all medications are secured
+        pass
+```
+In this FSM, the Butler robot starts by checking the surroundings. If it finds the medications unsecured, it transitions to a state where it starts collecting the medications. After all the medications are collected it transitions to a state where it will secure the medications. After securing the medications, it transitions to a state where it starts cleaning the bathroom.
+These states will repeat in a loop through the run() method.
+
+This FSM does not have a finite end state, as it continues looping indefinitely, monitoring the environment for more unsecured medications. If a finite end state is required, a condition for breaking the loop can be added.

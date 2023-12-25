@@ -1,0 +1,75 @@
+class ButlerRobot:
+    
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS': self.assess_state,
+            'CLEAR_PATHWAY': self.clear_pathway_state,
+            'REMOVE_HAZARDS': self.remove_hazards_state, 
+            'SECURE_ITEMS': self.secure_items_state,
+            'CHECK_STABILITY': self.check_stability_state,
+            'COMPLETE': self.complete_state
+        }
+        self.current_state = 'INITIAL'
+        
+    def initial_state(self):
+        print('Butler Robot Initialized')
+        self.current_state = 'ASSESS'
+        
+    def assess_state(self):
+        print('Assessing situation in hallway...')
+        if self.is_pathway_blocked():
+            self.current_state = 'CLEAR_PATHWAY'
+        else: 
+            self.current_state = 'REMOVE_HAZARDS'
+            
+    def clear_pathway_state(self):
+        print('Clearing pathway...')
+        self.removing('items blocking path')
+        self.current_state = 'REMOVE_HAZARDS'
+        
+    def remove_hazards_state(self):
+        print('Removing tripping hazards...')
+        self.gathering('hazardous objects') 
+        self.current_state = 'SECURE_ITEMS'
+    
+    def secure_items_state(self):
+        print('Securing items...')
+        self.storing('items in safe location')
+        self.current_state = 'CHECK_STABILITY'
+        
+    def check_stability_state(self):
+        print('Checking stability...')
+        if self.is_furniture_unstable():
+           self.stabilizing('furniture')
+        self.current_state = 'COMPLETE'
+           
+    def complete_state(self):
+        print('Hallway safety check complete')
+        self.current_state = 'INITIAL'
+        
+    # Helper annotation functions  
+    def is_pathway_blocked(self):
+        return True
+    
+    def is_furniture_unstable(self):
+        return True
+    
+    def stabilizing(self, object):
+        pass
+    
+    def gathering(self, items):
+        pass
+    
+    def storing(self, items):
+        pass
+    
+    def removing(self, items):
+        pass
+        
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+            
+butler = ButlerRobot()
+butler.run()

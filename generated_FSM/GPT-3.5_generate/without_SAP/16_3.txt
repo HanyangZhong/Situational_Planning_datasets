@@ -1,0 +1,100 @@
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = (
+            'INITIAL',
+            'ASSESS_SITUATION',
+            'ENGAGE_CHILD',
+            'MONITOR_CHILD',
+            'CALL_FOR_HELP',
+            'COVER_SHARP_OBJECTS'
+        )
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Move to assess situation state
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Check if child is reaching towards sharp objects
+        if self.is_child_reaching():
+            self.current_state = 'ENGAGE_CHILD'
+        else:
+            self.current_state = 'MONITOR_CHILD'
+
+    def engage_child_state(self):
+        # Take action to distract child from reaching sharp objects
+        self.place_toys()
+        self.current_state = 'MONITOR_CHILD'
+
+    def monitor_child_state(self):
+        # Continuously monitor child's movement
+        if self.is_child_reaching():
+            self.current_state = 'ENGAGE_CHILD'
+        else:
+            if self.is_sharp_objects_safe():
+                self.current_state = 'INITIAL'
+            else:
+                self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for human assistance
+        self.calling_for_help()
+        self.current_state = 'INITIAL'
+
+    def cover_sharp_objects_state(self):
+        # Take action to remove the child from dangerous area
+        self.move_child_away()
+        self.current_state = 'INITIAL'
+
+    # Actions
+    def is_child_reaching(self):
+        # Check if child is reaching towards sharp objects
+        return True  # Placeholder for actual condition check
+
+    def place_toys(self):
+        # Place toys in front of the child to distract them
+        print("Placing toys in front of the child")
+
+    def is_sharp_objects_safe(self):
+        # Check if sharp objects are safe and not within child's reach
+        return True  # Placeholder for actual condition check
+
+    def calling_for_help(self):
+        # Call for human assistance
+        print("Calling for help")
+
+    def move_child_away(self):
+        # Take action to move the child away from dangerous area
+        print("Moving the child away from sharp objects")
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            if self.current_state == 'INITIAL':
+                self.initial_state()
+            elif self.current_state == 'ASSESS_SITUATION':
+                self.assess_situation_state()
+            elif self.current_state == 'ENGAGE_CHILD':
+                self.engage_child_state()
+            elif self.current_state == 'MONITOR_CHILD':
+                self.monitor_child_state()
+            elif self.current_state == 'CALL_FOR_HELP':
+                self.call_for_help_state()
+            elif self.current_state == 'COVER_SHARP_OBJECTS':
+                self.cover_sharp_objects_state()
+
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+The FSM logic of the butler robot in this kitchen scene is implemented using a class called `ButlerRobotFSM`. The states are defined as strings and stored in the `states` attribute of the class. Each state is associated with a method that represents the actions to be taken in that state.
+
+The FSM loop is implemented in the `run` method which runs indefinitely. The current state is checked and the corresponding state method is called. The state methods update the `current_state` attribute based on the logic and perform the necessary actions specific to that state.
+
+The actions in the code are represented as placeholder print statements. In a real implementation, these actions would be replaced with the actual actions performed by the butler robot to ensure the safety of the child, such as placing toys, moving the child away from the sharp objects, or calling for human assistance.

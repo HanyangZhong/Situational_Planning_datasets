@@ -1,0 +1,49 @@
+class ButlerRobot:
+    
+    def __init__(self):
+        self.state = 'assess' 
+        
+    def assess(self):
+        print("Assessing situation in kitchen")
+        if pregnant_woman_present() and chemicals_open():
+            self.state = 'mitigate'
+        else:
+            self.state = 'monitor'
+            
+    def mitigate(self):
+        print("Closing chemical bottles")
+        close(chemical_bottles)
+        print("Opening windows") 
+        open(windows)
+        print("Asking woman to leave kitchen temporarily")
+        request(woman, exit(kitchen))
+        self.state = 'ventilate'
+        
+    def ventilate(self):
+        print("Turning on ventilator fan")  
+        activate(ventilator)
+        print("Waiting for 5 minutes")
+        wait(300)
+        self.state = 'check'
+        
+    def check(self):
+        print("Checking chemical levels")
+        if safe(chemical_levels):
+            self.state = 'monitor'
+        else:
+            self.state = 'extend_ventilation'
+            
+    def extend_ventilation():
+        print("Extending ventilation for 10 more minutes")
+        wait(600)
+        self.state = 'check'
+        
+    def monitor():
+        print("Continuously monitoring kitchen")
+        if pregnant_woman_present() and chemicals_open():
+            self.state = 'mitigate'
+        else:
+            self.state = 'monitor'
+            
+butler = ButlerRobot()
+butler.assess()

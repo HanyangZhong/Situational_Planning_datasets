@@ -1,0 +1,98 @@
+Here's a class definition that fits your criteria:
+
+```python
+class ButlerRobotFSM:
+    '''Define a finite state machine for a Butler Robot'''
+      
+    def __init__(self):
+        '''Initialize the butler robot state'''
+        
+        self.current_state = self.scanning_room
+        self.flame_near_book = False
+
+    def scanning_room(self):
+        '''State of scanning the room for potential hazards'''
+        
+        # Checking if candle is close to books.
+        self.flame_near_book = self.check_candle_placement()
+        if self.flame_near_book:
+            self.current_state = self.reaching_candle
+        else:
+            self.current_state = self.maintaining_position
+
+    def maintaining_position(self):
+        '''State of maintaining position and continuously monitoring the room'''
+        
+        self.monitor_room()
+        self.current_state = self.scanning_room
+
+    def reaching_candle(self):
+        '''State of reaching towards the hazardous candle'''
+        
+        self.reach_for_candle()
+        self.current_state = self.gripping_candle
+      
+    def gripping_candle(self):
+        '''State of gripping the hazardous candle'''
+        
+        self.grip_candle()
+        self.current_state = self.transporting_candle
+
+    def transporting_candle(self):
+        '''State of carefully transporting candle to a safer place'''
+        
+        self.transport_candle()
+        self.current_state = self.placing_down_candle
+
+    def placing_down_candle(self):
+        '''State of placing down the hazardous candle'''
+        
+        self.place_down_candle()
+        self.current_state = self.scanning_room
+      
+    # Helper methods for state actions and checking conditions
+    
+    def check_candle_placement(self):
+        '''Checks if candle is dangerously close to the books'''
+        
+        # Here would be an algorithm to check if the candle is dangerously close to books
+        pass
+
+    def monitor_room(self):
+        '''Monitors room for any changes in scene'''
+        
+        # Here would be an algorithm to monitor the room
+        pass
+
+    def reach_for_candle(self):
+        '''Reaches for the candle'''
+        
+        # Here would be an algorithm to reach for the candle
+        pass
+
+    def grip_candle(self):
+        '''Grips the candle'''
+        
+        # Here would be an algorithm to grip the candle
+        pass
+
+    def transport_candle(self):
+        '''Transports the candle'''
+        
+        # Here would be an algorithm to transport the candle
+        pass
+
+    def place_down_candle(self):
+        '''Places down the Candle'''
+        
+        # Here would be an algorithm to place down the candle
+        pass
+      
+    def run(self):
+        '''Execute the state machine loop of the Butler Robot FSM'''
+        
+        while True:
+            self.current_state()
+```  
+
+This code defines `ButlerRobotFSM` class with several states, transitioning depending on whether the candle is dangerously close to the books. Helper methods are not fully implemented and should be replaced with real logic depending on specific scenarios. The `run()` method starts the state machine in an infinite loop.

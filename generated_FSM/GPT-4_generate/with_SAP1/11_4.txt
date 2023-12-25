@@ -1,0 +1,77 @@
+Here's an example of a finite-state machine in Python for the scenario you've described of a butler robot assisting a person who is sick in bed and unable to reach their medicine:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self): 
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'GET_MEDICINE': self.get_medicine_state,
+            'DELIVER_MEDICINE': self.deliver_medicine_state,
+            'RETURN_TO_INITIAL': self.return_to_initial_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if the person needs assistance.
+        if self.is_person_in_need():
+            self.current_state = 'GET_MEDICINE'
+        else:
+            self.current_state = 'RETURN_TO_INITIAL'
+
+    def get_medicine_state(self):
+        # If the person is in need, attempt to retrieve the medicine.
+        self.reach_for_medicine_bottle()
+        self.grasp_medicine_bottle()
+        self.lift_medicine_bottle()
+        self.current_state = 'DELIVER_MEDICINE'
+
+    def deliver_medicine_state(self):
+        # Carry the medicine to the person.
+        self.transport_medicine_bottle()
+        self.lower_medicine_bottle()  # Lower the medicine onto the bed next to person.
+        self.release_medicine_bottle() 
+        self.current_state = 'RETURN_TO_INITIAL'
+
+    def return_to_initial_state(self):
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_person_in_need(self):
+        person_in_need = self.monitoring('person')
+        return person_in_need
+
+    def reach_for_medicine_bottle(self):
+        self.reaching('medicine bottle')
+
+    def grasp_medicine_bottle(self):
+        self.gripping('medicine bottle')
+
+    def lift_medicine_bottle(self):
+        self.lifting('medicine bottle')
+
+    def transport_medicine_bottle(self):
+        self.transporting('medicine bottle to person')
+
+    def lower_medicine_bottle(self):
+        self.lowering('medicine bottle')
+
+    def release_medicine_bottle(self):
+        self.releasing('medicine bottle')
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In this model, the butler robot begins in an initial state before entering an assessment phase where it determines the need of the individual. If the individual is in need (in this case due to illness), the robot attempts to get the medicine by reaching, gripping, and lifting. After the medicine is successfully obtained, the robot then delivers the medicine to the person who is in need using sophisticated movements ¡ª by transporting, lowering, and finally releasing the bottle. Once the medicine is delivered, the robot returns to the initial state, ready for the next command. Each of these actions is defined through the FSM's annotation methods.

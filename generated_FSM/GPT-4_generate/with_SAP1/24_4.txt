@@ -1,0 +1,92 @@
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REMOVE_DANGER': self.remove_danger_state,
+            'ENGAGE_CHILD': self.engage_child_state,
+            'MONITOR_PLAY': self.monitor_play_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state starts with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if there are dangerous toys and the child's interaction with them
+        if self.are_toys_dangerous() and self.is_child_near():
+            self.current_state = 'REMOVE_DANGER'
+        else:
+            self.current_state = 'MONITOR_PLAY'
+
+    def remove_danger_state(self):
+        # If there are dangerous toys, remove them for safety
+        self.remove_danger_toys()
+        self.remind_child_of_safety()
+        self.current_state = 'MONITOR_PLAY'
+
+    def engage_child_state(self):
+        self.offer_safe_toys()
+        self.current_state = 'MONITOR_PLAY'
+
+    def monitor_play_state(self):
+        # Continuously monitor the child's play. If child nears dangerous toys, engage them.
+        if self.is_child_near():
+            self.current_state = 'ENGAGE_CHILD'
+        elif self.is_safety_on_risk():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the child is ignoring the robot.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def are_toys_dangerous(self):
+        dangerous_toys = self.checking('toys')
+        return dangerous_toys
+
+    def is_child_near(self):
+        child_near = self.monitoring('child')
+        return child_near
+
+    def remove_danger_toys(self):
+        self.reaching('dangerous toys')
+        self.gripping('dangerous toys')
+        self.lifting('dangerous toys')
+        self.transporting('dangerous toys', 'safe place')      
+
+    def remind_child_of_safety(self):
+        self.reminding('child', 'safety rules')
+
+    def is_safety_on_risk(self):
+        safety_risk = self.monitoring('child', 'safety risk')
+        return safety_risk
+
+    def offer_safe_toys(self):
+        self.collecting('safe toys')
+        self.delivering('safe toys', 'child')
+
+    def call_for_help(self):
+        self.calling('human assistance')
+
+    # Run the FSM loop  
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+This Python code interprets the actions of a hypothetical Butler Robot observing a child in a playroom. Each function in the code is a node that represents a state in which the robot could be. The robot begins at the initial state, which is always 'assessing the situation'. Depending on the result of the assessment, the robot will either 'remove dangerous toys', 'engage the child', 'monitor play', or 'call for help' depending on whether there are hazardous toys around the child, the child's interaction with the toys, and if the child's safety is at risk.

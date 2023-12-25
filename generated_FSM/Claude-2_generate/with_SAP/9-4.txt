@@ -1,0 +1,80 @@
+class ButlerRobotMedFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS': self.assess_state, 
+            'ORGANIZE': self.organize_state,
+            'ASSIST': self.assist_state,
+            'MONITOR': self.monitor_state
+        }
+        # Set initial state
+        self.current_state = 'INITIAL' 
+
+    def initial_state(self):
+        # Initialize assessment
+        print("Starting medication management assistance")
+        self.current_state = 'ASSESS'
+
+    def assess_state(self):
+        # Check medication area for hazards
+        print("Assessing medication area")  
+        if self.has_spills():
+            self.clean_spills()
+        if self.has_open_bottles(): 
+            self.current_state = 'ORGANIZE'
+        else:
+            self.current_state = 'ASSIST'
+
+    def organize_state(self):
+        # Organize medications
+        print("Organizing medications")
+        self.close_bottles()
+        self.consolidate_bottles()
+        self.refill_organizer()
+        self.current_state = 'ASSIST'
+
+    def assist_state(self):
+        # Offer to assist with medications
+        print("Offering medication assistance")
+        if self.is_assistance_accepted():
+            self.current_state = 'MONITOR'
+        else:
+            self.current_state = 'INITIAL'
+
+    def monitor_state(self):
+        # Monitor medication management
+        print("Monitoring medication routine")
+        if self.has_issues():
+            self.current_state = 'ASSESS'
+        else:
+            self.current_state = 'INITIAL'
+
+    # Helper annotation methods
+    def has_spills(self):
+        pass
+
+    def clean_spills(self):
+        pass
+    
+    def has_open_bottles(self):
+        pass
+
+    def close_bottles(self):
+        pass
+
+    def consolidate_bottles(self):
+        pass
+
+    def refill_organizer(self):
+        pass
+
+    def is_assistance_accepted(self):
+        pass
+
+    def has_issues(self):
+        pass
+
+robot = ButlerRobotMedFSM()
+robot.run()

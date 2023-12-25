@@ -1,0 +1,91 @@
+To create a Finite State Machine (FSM) for a butler robot in the described bathroom scene, we need to define states and transitions based on the actions required to address the situation. The main goal is to secure the medicine cabinet and ensure safety. Here's how the FSM could be structured:
+
+1. **Initial State (INITIAL)**: The robot starts in this state.
+2. **Assess Situation (ASSESS_SITUATION)**: The robot assesses the bathroom to understand the disarray and potential hazards.
+3. **Secure Medication (SECURE_MEDICATION)**: The robot secures the medication by collecting and properly storing it.
+4. **Clean Up (CLEAN_UP)**: The robot cleans up any spilled pills and tidies the area.
+5. **Close Cabinet (CLOSE_CABINET)**: The robot closes the medicine cabinet securely.
+6. **Monitor Safety (MONITOR_SAFETY)**: The robot monitors the area for continued safety.
+7. **Call For Help (CALL_FOR_HELP)**: If the robot encounters a situation it cannot handle, it calls for human assistance.
+
+The robot will transition between these states based on the conditions it encounters. Now, let's write the Python code to implement this FSM:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Define the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'SECURE_MEDICATION': self.secure_medication_state,
+            'CLEAN_UP': self.clean_up_state,
+            'CLOSE_CABINET': self.close_cabinet_state,
+            'MONITOR_SAFETY': self.monitor_safety_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial state. Start with situation assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation in the bathroom
+        if self.is_medication_unsecured():
+            self.current_state = 'SECURE_MEDICATION'
+        else:
+            self.current_state = 'MONITOR_SAFETY'
+
+    def secure_medication_state(self):
+        # Secure all medication, placing them in safe storage
+        self.collecting('medication')
+        self.placing_down('medication', 'safe storage')
+        self.current_state = 'CLEAN_UP'
+
+    def clean_up_state(self):
+        # Clean up any spilled pills
+        self.sweeping('spilled pills')
+        self.current_state = 'CLOSE_CABINET'
+
+    def close_cabinet_state(self):
+        # Ensure the medicine cabinet is securely closed
+        self.closing('medicine cabinet')
+        self.current_state = 'MONITOR_SAFETY'
+
+    def monitor_safety_state(self):
+        # Continuously monitor the bathroom for safety
+        if self.is_situation_changed():
+            self.current_state = 'ASSESS_SITUATION'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance in case of unmanageable situations
+        self.calling_for_help()
+        self.current_state = 'INITIAL'
+
+    # Action methods
+    def is_medication_unsecured(self):
+        # Check if medication is unsecured
+        return True  # Placeholder for actual implementation
+
+    def is_situation_changed(self):
+        # Check if the situation in the bathroom has changed
+        return False  # Placeholder for actual implementation
+
+    def calling_for_help(self):
+        # Implement the logic for calling for help
+        pass  # Placeholder for actual implementation
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create and run the Butler Robot FSM
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+This code implements the FSM logic with placeholders for the actual implementation of actions like `collecting`, `placing_down`, `sweeping`, etc. These would need to be filled in with the specific logic relevant to the robot's capabilities. The FSM continually assesses and responds to the situation in the bathroom, ensuring safety and cleanliness.

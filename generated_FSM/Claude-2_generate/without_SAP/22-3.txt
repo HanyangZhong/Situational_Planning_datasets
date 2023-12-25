@@ -1,0 +1,61 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,  
+            'SUPPORT_WOMAN': self.support_woman_state,
+            'PRESS_BUTTON': self.press_button_state,
+            'ASSIST_WOMAN': self.assist_woman_state            
+        }
+        
+        # Set initial state        
+        self.current_state = 'INITIAL' 
+
+    def initial_state(self):
+        # Transition to assessing the situation
+        print("Assessing the situation...")
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Check if a woman needs assistance        
+        if self.check_woman_needs_help():  
+            print("Woman needs assistance getting up")
+            self.current_state = 'SUPPORT_WOMAN'
+        else:
+            print("Situation appears safe, monitoring environment")
+            self.current_state = 'INITIAL'
+            
+    def support_woman_state(self):
+        # Carefully support pregnant woman        
+        print("Carefully supporting the woman to avoid further injury")        
+        self.provide_woman_support()
+        self.current_state = 'PRESS_BUTTON'
+        
+    def press_button_state(self):
+        # Press emergency alert button
+        print("Pressing emergency alert button")
+        self.press_emergency_button()
+        self.current_state = 'ASSIST_WOMAN'
+        
+    def assist_woman_state(self):
+        print("Remaining with woman until help arrives")
+        # Further support woman until emergency responders arrive
+        self.current_state = 'INITIAL'    
+
+    # Helper annotation functions
+    def check_woman_needs_help(self):
+        return True
+    
+    def provide_woman_support(self):
+        pass
+    
+    def press_emergency_button(self):
+        pass
+        
+# Create FSM instance        
+butler = ButlerRobotHFSM()  
+
+# Run FSM
+butler.run()

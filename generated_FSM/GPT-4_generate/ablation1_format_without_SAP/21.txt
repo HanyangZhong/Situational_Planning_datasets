@@ -1,0 +1,78 @@
+Here's a simple class definition for a service robot equipped with finite state machine logic:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.current_state = self.monitoring
+        self.alert_button = False
+        self.person_is_down = False
+
+    ## States
+
+    # 1. Monitoring state
+    def monitoring(self):
+        if self.person_is_down:
+            self.current_state = self.reaching
+        else:
+            # This could be a routine check or any other tasks.
+            pass
+    
+    # 2. Reaching state
+    def reaching(self):
+        # Reach for the disabled person
+        if self.reached_to_person():
+            self.current_state = self.lifting
+        else:
+            # If not reached, continue reaching
+            pass
+
+    # 3. Lifting state
+    def lifting(self):
+        # Lift the disabled person
+        if self.lifted_person_succesfully():
+            self.current_state = self.transporting
+        else:
+            # If unable to lift, try again
+            pass
+
+    # 4. Transporting state
+    def transporting(self):
+        # Transport the person closer to the button
+        if self.position_near_alert_button():
+            self.current_state = self.checking
+        else:
+            # If not close enough, keep transporting
+            pass
+            
+    # 5. Checking state
+    def checking(self):
+        # Check if person can reach the button now
+        if self.alert_button:
+            self.current_state = self.monitoring
+        else:
+            # If not, transport a bit more
+            self.current_state = self.transporting
+    
+    ## Helper methods
+
+    def reached_to_person(self):
+        # Check if robot has reached to the person
+        pass
+           
+    def lifted_person_succesfully(self):
+        # Check if robot has lifted the person
+        pass
+           
+    def position_near_alert_button(self):
+        # Check if robot has moved the person near the alert button
+        pass
+
+    ## Main logic
+
+    def run(self):
+        while True:
+            self.current_state()
+```
+In this model, the robot consistently monitors the environment looking for signals that the person is not on their wheelchair. As soon as it detects that the person is down, it changes its state to "reaching", followed by lifting, transporting, and ultimately checking if the person can now access the alert button. This cycle goes on and ensures the person is safe and can call for help whenever needed. 
+
+Remember, this is an abstract high-level representation of a service robot's FSM. You would need to implement the actual logic inside the helper methods and integrate with the robot's hardware and sensors.

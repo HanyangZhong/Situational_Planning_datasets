@@ -1,0 +1,64 @@
+```python
+class KitchenRobotFSM:
+    def __init__(self):
+        self.current_state = self.scan_kitchen
+
+    # State 1: Scan the kitchen
+    def scan_kitchen(self):
+        # Scans the kitchen
+        # Actions Involved: Observing
+        if self.is_drawer_open() and self.are_knives_dangerously_arranged():
+            self.current_state = self.arrange_knives_safely
+            self.run()
+
+    # Helper method to check if the drawer is open
+    def is_drawer_open(self):
+        # Implementation to check if the drawer is open
+        pass
+
+    # Helper method to check if the knives are dangerously arranged
+    def are_knives_dangerously_arranged(self):
+        # Implementation to check if the knives are dangerously arranged
+        pass
+
+    # State 2: Arrange knives safely
+    def arrange_knives_safely(self):
+        # Actions Involved: Reaching, Gripping, Rotating, Placing Down
+        self.reach_for_drawer()
+        self.grip_knife()
+        self.rotate_knife()
+        self.place_down_knife_safely()
+        if not self.are_knives_dangerously_arranged():
+            self.current_state = self.check_other_kitchen_hazards
+            self.run()
+            
+    # Helper state actions methods to arrange knives
+    def reach_for_drawer(self):
+        # Implementation to reach the drawer
+        pass
+
+    def grip_knife(self):
+        # Implementation to grip a knife
+        pass
+
+    def rotate_knife(self):
+        # Implementation to rotate the knife
+        pass
+
+    def place_down_knife_safely(self):
+        # Implementation to place down the knife safely
+        pass
+
+    # State 3: Check for other potential hazards in the kitchen
+    def check_other_kitchen_hazards(self):
+        # Actions Involved: Observing
+        # Check for other potential hazards in the kitchen using AI capabilities
+        # If hazards found, current_state can be changed accordingly and run method called
+
+    # Main run method to execute the state machine loop
+    def run(self):
+        self.current_state()  # Execute the current state
+```
+
+This `KitchenRobotFSM` class is set to start in an initial state of `scan_kitchen`. If it observes an open drawer with dangerously arranged knives, it transitions to the `arrange_knives_safely` state. In this state, it performs a series of actions to reach, grip, rotate, and safely place down each knife. Once all knives have been arranged safely, it changes to the `check_other_kitchen_hazards` state and runs again.
+The class is also designed to accommodate other states and transitions for different potential hazards in the kitchen. Spread throughout are helper methods for both checking conditions and executing state actions.

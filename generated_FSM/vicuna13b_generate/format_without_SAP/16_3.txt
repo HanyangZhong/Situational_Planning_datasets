@@ -1,0 +1,140 @@
+(Butler)Robot(FSM)
+/************************************************************\
+* This class models a butler robot using a finite state machine      *
+* to manage its behavior in response to its environment.              *
+\************************************************************/
+
+import enum
+
+class State(enum.Enum):
+	idle = 'idle'
+	reaching = 'reaching'
+	grabbing = 'grabbing'
+	lifting = 'lifting'
+	lowering = 'lowering'
+	transporting = 'transporting'
+	rotating = 'rotating'
+	turning = 'turning'
+	flipping = 'flipping'
+	folding = 'folding'
+	hanging = 'hanging'
+	unfolding = 'unfolding'
+	wiping = 'wiping'
+	sweeping = 'sweeping'
+	mopping = 'mopping'
+	scrubbing = 'scrubbing'
+	dusting = 'dusting'
+	spraying = 'spraying'
+	squeezing = 'squeezing'
+	shaking = 'shaking'
+	stirring = 'stirring'
+	whisking = 'whisking'
+	pouring = 'pouring'
+	scooping = 'scooping'
+	checking = 'checking'
+	opening = 'opening'
+	closing = 'closing'
+	pushing = 'pushing'
+	pulling = 'pulling'
+	dragging = 'dragging'
+	sliding = 'sliding'
+	pressing = 'pressing'
+	grasping = 'grasping'
+	releasing = 'releasing'
+	placing_down = 'placing down'
+	collecting = 'collecting'
+	inserting = 'inserting'
+	removing = 'removing'
+	gathering = 'gathering'
+	dispensing = 'dispensing'
+	serving = 'serving'
+	portioning = 'portioning'
+	arranging = 'arranging'
+	loading = 'loading'
+	unloading = 'unloading'
+	mixing = 'mixing'
+	assembling = 'assembling'
+	disassembling = 'disassembling'
+	connecting = 'connecting'
+	disconnecting = 'disconnecting'
+	affixing = 'affixing'
+	screwing = 'screwing'
+	delivering = 'delivering'
+	reminding = 'reminding'
+	responding = 'responding'
+	monitoring = 'monitoring'
+	calling_for_help = 'calling for help'
+
+class ButlerRobotFSM(object):
+	def __init__(self):
+		self.current\_state = State.idle
+		self.helper\_methods = {}
+
+	def add\_helper\_method(self, method\_name, method):
+		self.helper\_methods[method\_name] = method
+		return self
+
+	def remove\_helper\_method(self, method\_name):
+		if method\_name in self.helper\_methods:
+			del self.helper\_methods[method\_name]
+
+	def get\_helper\_method(self, method\_name):
+		if method\_name in self.helper\_methods:
+			return self.helper\_methods[method\_name]
+
+	def transition(self, new\_state):
+		if self.current\_state != new\_state:
+			self.current\_state = new\_state
+			self.run()
+
+	def run(self):
+		state\_method = getattr(self, f'state_{self.current\_state}')
+		state\_method()
+
+	def get\_state\_method(self, state\_name):
+		method = getattr(self, f'state_{state\_name}')
+		return method
+
+class _AbstractHelperMethod:
+	pass
+
+class HelperMethods(object):
+	@staticmethod
+	def reach(butler\_robot):
+		butler\_robot.log('Reaching')
+		butler\_robot.transition(State.reaching)
+
+	@staticmethod
+	def grasp(butler\_robot):
+		butler\_robot.log('Grasping')
+		butler\_robot.transition(State.grasping)
+
+	@staticmethod
+	def lift(butler\_robot):
+		butler\_robot.log('Lifting')
+		butler\_robot.transition(State.lifting)
+
+	@staticmethod
+	def lower(butler\_robot):
+		butler\_robot.log('Lowering')
+		butler\_robot.transition(State.lowering)
+
+	@staticmethod
+	def transport(butler\_robot):
+		butler\_robot.log('Transporting')
+		butler\_robot.transition(State.transporting)
+
+	@staticmethod
+	def rotate(butler\_robot):
+		butler\_robot.log('Rotating')
+		butler\_robot.transition(State.rotating)
+
+	@staticmethod
+	def turn(butler\_robot):
+		butler\_robot.log('Turning')
+		butler\_robot.transition(State.turning)
+
+	@staticmethod
+	def flip(butler\_robot):
+		butler\_robot.log('Flipping')
+		butler\_robot.transition(State.

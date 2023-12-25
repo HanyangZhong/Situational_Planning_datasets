@@ -1,0 +1,59 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            "INITIALIZE": self.initialize,
+            "ASSESS": self.assess,  
+            "REDIRECT_CHILD": self.redirect_child,
+            "BARRIER_STAIRS": self.barrier_stairs,
+            "MONITOR_CHILD": self.monitor_child,
+            "GET_HELPER": self.get_helper
+        }
+
+        # Set start state 
+        self.state = "INITIALIZE"
+
+    def initialize(self):
+        # Initialize 
+        print("Butler started")  
+        self.state = "ASSESS"
+
+    def assess(self):
+        # Check if child on stairs and no barrier
+        if self.detect_child_on_stairs() and not self.detect_barrier():  
+            self.state = "REDIRECT_CHILD"
+        else:
+            self.state = "MONITOR_CHILD"
+
+    def redirect_child(self):
+        # Redirect child from stairs 
+        self.approaching("child")
+        self.grasping("child")
+        self.transporting("child", "away from stairs")  
+        self.releasing("child")
+        self.reminding("child", "stay away from stairs")
+        self.state = "BARRIER_STAIRS"
+
+    def barrier_stairs(self):
+        # Put up temporary barrier
+        self.getting("temporary barrier") 
+        self.placing("temporary barrier", "top of stairs")
+        print("Securing stairs with barrier")
+        self.state = "MONITOR_CHILD"
+
+    def monitor_child(self):
+        # Monitor child location
+        if self.detect_unsafe_condition():
+            self.state = "GET_HELPER"
+        else:
+            self.state = "ASSESS"  
+
+    def get_helper(self):
+        # Call adult for assistance
+        self.calling("adult human")
+        self.explaining("unsafe situation, need assistance")
+        self.state = "MONITOR_CHILD"
+
+butler = ButlerRobotHFSM()
+butler.run()

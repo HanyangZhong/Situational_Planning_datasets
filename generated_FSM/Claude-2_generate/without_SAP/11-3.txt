@@ -1,0 +1,47 @@
+class ButlerRobot:
+    
+    def __init__(self):
+        self.state = 'ASSESS'
+        
+    def assess(self):
+        print("Assessing the situation")
+        if person_needs_medicine():
+            self.state = 'RETRIEVE'
+        else:
+            self.state = 'CHECK'
+            
+    def retrieve(self):
+        print("Reaching for the medicine bottle")
+        self.grasp("medicine bottle")
+        print("Transporting medicine to person")
+        self.carry("medicine bottle", "to person")
+        self.state = 'ASSIST'
+        
+    def assist(self):
+        print("Opening medicine bottle") 
+        self.open("medicine bottle")
+        print("Dispensing medicine dose")
+        self.pour("medicine", "cup")
+        print("Delivering cup to person")
+        self.carry("cup", "to person")
+        print("Asking if further assistance needed")
+        self.speak("Do you need any further assistance?")
+        self.state = 'CHECK'
+        
+    def check(self):
+        print("Checking if person needs assistance")
+        if person_needs_assistance():
+           self.state = 'ASSIST'
+        else:
+           print("Monitoring person")
+           self.state = 'MONITOR'
+           
+    def monitor(self):
+        print("Quietly monitoring the person")
+        if person_needs_assistance():
+            self.state = 'ASSIST'
+        else:
+            self.state = 'CHECK'
+            
+bot = ButlerRobot()
+bot.assess()

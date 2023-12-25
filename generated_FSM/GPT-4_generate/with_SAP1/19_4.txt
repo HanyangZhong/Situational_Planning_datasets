@@ -1,0 +1,79 @@
+Here is the python code for the butler robot helping to prevent the young child from getting harmed in the kitchen scenario:
+
+```python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setting up the states
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'DISTRACT_CHILD': self.distract_child_state,
+            'MOVE_POT_AWAY': self.move_pot_away_state,
+            'MONITOR_SITUATION': self.monitor_situation_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        self.current_state = 'INITIAL'
+        
+    def initial_state(self):
+        # Initial state: Start with assessing the situation
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.is_child_near_stove() and self.is_pot_on_stove():
+            # Check if the child is near the stove and if a pot is on it.
+            self.current_state = 'DISTRACT_CHILD'
+        else:
+            self.current_state = 'MONITOR_SITUATION'
+
+    def distract_child_state(self):
+        # Distract child with a safe activity away from the stove
+        self.collecting('safe toys')
+        self.delivering('safe toys', 'child')
+        self.current_state = 'MOVE_POT_AWAY'
+
+    def move_pot_away_state(self):
+        # Move the pot to a safe location out of the child's reach.
+        self.gripping('pot')
+        self.lifting('pot')
+        self.transporting('pot', 'safer location')
+        self.releasing('pot')
+        self.checking('pot')
+        self.reminding('child','safety precautions')
+        self.current_state = 'MONITOR_SITUATION'
+
+    def monitor_situation_state(self):
+        # Monitor situation, if child near stove, distract child else call for help if child not responding.
+        if self.is_child_near_stove():
+            self.current_state = 'DISTRACT_CHILD'
+        elif self.is_child_ignoring():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'ASSESS_SITUATION'
+
+    def call_for_help_state(self):
+        self.calling('human help')
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_child_near_stove(self):
+        child_near_stove = self.monitoring('child', 'stove')
+        return child_near_stove
+
+    def is_pot_on_stove(self):
+        pot_on_stove = self.checking('stove')
+        return pot_on_stove
+
+    def is_child_ignoring(self):
+        child_ignoring = self.monitoring('child', 'ignoring warnings')
+        return child_ignoring
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+This code creates a finite state machine which helps the robot to assess the situation, distract the child, move the pot away, continuously monitor the situation and call for help if necessary, each as a separate state. It repeats these states until the situation is safe. The mapping of actions to the actions from the provided list is done in the comment for each function.

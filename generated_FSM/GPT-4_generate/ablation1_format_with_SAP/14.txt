@@ -1,0 +1,74 @@
+Below is your python class with a finite state machine representation.
+
+```Python
+class ButlerRobotFSM:
+    def __init__(self):
+        # initialize the possible states of the robot
+        self.states = {
+            'scanning': self.scanning,
+            'reaching': self.reaching,
+            'gripping': self.gripping,
+            'transporting': self.transporting,
+            'placing_down': self.placing_down,
+        }
+        self.current_state = self.scanning
+
+    # Scanning the kitchen
+    def scanning(self):
+        # scan the kitchen for potential hazards for pets
+        hazardous_items_on_counter = self.scan_for_hazard_items()
+        if hazardous_items_on_counter:
+            self.current_state = self.reaching
+
+    # Reaching for dangerous foods
+    def reaching(self):
+        # position self in reach of hazardous food items
+        self.navigate_to_hazard_items()
+        self.current_state = self.gripping
+
+    # Gripping dangerous food 
+    def gripping(self):
+        # save hazardous food items from the counter
+        self.pick_hazard_items()
+        self.current_state = self.transporting
+
+    # Transporting to safe location
+    def transporting(self):
+        # transport saved hazardous food items to safe location
+        self.navigate_to_safe_location()
+        self.current_state = self.placing_down
+
+    # Placing down the dangerous items
+    def placing_down(self):
+        # place saved hazardous food items at safe location
+        self.place_items_down_safely()
+        self.current_state = self.scanning
+
+    # Helper methods
+    def scan_for_hazard_items(self):
+        # Implementation to scan for hazardous items
+        pass
+
+    def navigate_to_hazard_items(self):
+        # Implementation to navigate to hazardous items
+        pass
+
+    def pick_hazard_items(self):
+        # Implementation to pick hazardous items
+        pass
+
+    def navigate_to_safe_location(self):
+        # Implementation to navigate to safe location
+        pass
+
+    def place_items_down_safely(self):
+        # Implementation to place items down
+        pass
+
+    def run(self):
+        while True:
+            self.current_state()
+```
+This class presents the functions of a butler robot to protect a cat from toxic food materials. The robot will keep scanning the kitchen and if it detects hazardous items it reaches the hazardous items and grips them and transports them to a safer place.
+
+Note: I have not provided any implementation detail in the helper method as requested in the prompt. Please feel free to fill those places with your own logic.

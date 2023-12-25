@@ -1,0 +1,124 @@
+(Butler)FSM(StateMachine)
+/******************************************
+* This class represents a Butler robot with a finite state machine
+* for navigating in a living room to avoid fall hazards.
+*
+* Attributes:
+* - current\_state (str): the current state of the robot
+* - states (dict): a dictionary of all possible states and their transitions
+*
+* Methods:
+* - set\_state(state: str): set the current state of the robot to the given state
+* - get\_state(): get the current state of the robot
+* - handle\_event(event: str): handle a given event and determine the next state
+* - run(): execute the state machine loop
+*
+* Helper methods:
+* - check\_obstacle(obstacle: str): check if the robot should avoid an obstacle
+* - navigate\_to(target: str): navigate the robot to a given target location
+* - pick\_up(item: str): pick up an item and transport it to a designated location
+* - set\_cleaning\_mode(): set the robot to cleaning mode
+* - set\_serving\_mode(): set the robot to serving mode
+*
+* Example usage:
+* butler = (Butler)FSM()
+* butler.set\_state("idle")
+* while True:
+* butler.handle\_event("obstacle")
+* butler.run()
+*
+******************************************/
+
+class (Butler)FSM(StateMachine):
+
+# Initialize the robot and set the initial state to "idle"
+def __init__(self):
+self.current\_state = "idle"
+self.states = {
+"idle": [
+"start\_monitoring",
+"wait\_for\_event",
+"handle\_event",
+"transition"
+],
+"start\_monitoring": [
+"search\_obstacles",
+"determine\_path",
+"navigate\_to\_path"
+],
+"wait\_for\_event": [
+],
+"handle\_event": [
+],
+"transition": [
+"next\_state"
+],
+# Add more states and transitions as needed
+}
+```python
+# Get or set the current state of the robot
+def get_state(self) -> str:
+    return self.current_state
+
+def set_state(self, state: str) -> None:
+    if state not in self.states:
+        raise ValueError("Invalid state")
+    self.current_state = state
+
+# Handle events and determine the next state
+def handle_event(self, event: str) -> None:
+    # TODO: Implement event handling logic
+    pass
+
+# Run the state machine loop
+def run(self) -> None:
+    while True:
+        self.handle_event("event")
+
+# Check for obstacles and avoid them if necessary
+def check_obstacle(self, obstacle: str) -> None:
+    # TODO: Implement obstacle checking logic
+    pass
+
+# Navigate the robot to a target location
+def navigate_to(self, target: str) -> None:
+    # TODO: Implement navigation logic
+    pass
+
+# Pick up an item and transport it to a designated location
+def pick_up(self, item: str) -> None:
+    # TODO: Implement item pick-up and transport logic
+    pass
+
+# Set the robot to cleaning or serving mode
+def set_cleaning_mode(self) -> None:
+    self.current_state = "cleaning"
+    self.states = {
+        "cleaning": [
+            "search_obstacles",
+            "pick_up_obstacles",
+            "vacuum",
+            "dust",
+            "mop",
+            "return_to_charging_station"
+        ],
+        "serving": [
+            "search_obstacles",
+            "pick_up_items",
+            "deliver_to_customer",
+            "return_to_charging_station"
+        ],
+        # Add more modes and transitions as needed
+    }
+
+# Set the robot to serving mode
+def set_serving_mode(self) -> None:
+    self.current_state = "serving"
+    self.states = {
+        "cleaning": [
+            "search_obstacles",
+            "pick_up_obstacles",
+            "vacuum",
+            "dust",
+            "mop",
+```

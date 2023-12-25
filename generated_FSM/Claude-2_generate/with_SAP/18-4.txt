@@ -1,0 +1,54 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            'INITIAL': self.initial_state,
+            'IDENTIFY_HAZARD': self.identify_hazard_state, 
+            'SECURE_AREA': self.secure_area_state,
+            'ENGAGE_CHILD': self.engage_child_state,
+            'MONITOR_CHILD': self.monitor_child_state
+        }
+        
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Starting Butler Robot...")
+        self.current_state = 'IDENTIFY_HAZARD'
+
+    def identify_hazard_state(self):
+        print("Scanning room for hazards...")
+        if self.is_hazard_found():
+            self.current_state = 'SECURE_AREA'
+        else: 
+            self.current_state = 'MONITOR_CHILD'
+
+    def secure_area_state(self):
+        print("Hazard identified. Securing uncovered electrical outlet...")
+        self.insert_outlet_covers()
+        self.current_state = 'ENGAGE_CHILD'
+
+    def engage_child_state(self):
+        print("Approaching child and offering alternative activities...")
+        self.deliver_alternative_toy()
+        self.current_state = 'MONITOR_CHILD'
+
+    def monitor_child_state(self):
+        if self.is_approaching_hazard():
+            self.current_state = 'ENGAGE_CHILD'
+        else:
+            print("Monitoring child play...")
+            self.current_state = 'INITIAL'
+            
+    # Helper annotation methods
+    def is_hazard_found(self):
+        return self.checking('electrical outlet')
+    
+    def insert_outlet_covers(self):
+        return self.inserting('outlet covers', 'uncovered outlets')
+    
+    def deliver_alternative_toy(self):
+        return self.delivering('safe toy', 'to child')
+
+    def is_approaching_hazard(self):
+        return self.monitoring('child', 'hazard')

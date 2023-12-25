@@ -1,0 +1,97 @@
+To create a finite state machine (FSM) for a butler robot in the described scenario, we will define states and transitions that are appropriate for addressing the potential fire hazard posed by the lit candle in the study room. Here's how we can structure it:
+
+1. **Initial State**: The robot starts in this state.
+2. **Assess Situation**: The robot assesses the situation in the room.
+3. **Extinguish Candle**: If the candle poses a fire hazard, the robot takes steps to extinguish it safely.
+4. **Clean Up**: After dealing with the candle, the robot cleans up any wax spills or other messes.
+5. **Monitor Room**: Return to a monitoring state to ensure safety is maintained.
+6. **Call for Help**: If the situation is beyond the robot's capabilities, it calls for human assistance.
+
+Now, let's implement this in Python code:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define the states in the FSM
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'EXTINGUISH_CANDLE': self.extinguish_candle_state,
+            'CLEAN_UP': self.clean_up_state,
+            'MONITOR_ROOM': self.monitor_room_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial state. Transition to assess the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation for potential hazards.
+        if self.is_candle_hazardous():
+            self.current_state = 'EXTINGUISH_CANDLE'
+        else:
+            self.current_state = 'MONITOR_ROOM'
+
+    def extinguish_candle_state(self):
+        # Safely extinguish the candle if it poses a fire hazard.
+        self.gripping('candle holder')
+        self.releasing('candle flame', 'extinguisher')
+        self.current_state = 'CLEAN_UP'
+
+    def clean_up_state(self):
+        # Clean up any wax spills or other messes.
+        self.wiping('wax spills')
+        self.current_state = 'MONITOR_ROOM'
+
+    def monitor_room_state(self):
+        # Monitor the room for any further hazards or actions needed.
+        if self.is_situation_still_hazardous():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the situation cannot be handled by the robot.
+        self.calling_for_help('human assistance')
+        self.current_state = 'INITIAL'
+
+    # Helper methods to simulate actions
+    def is_candle_hazardous(self):
+        # Check if the candle poses a hazard
+        return True  # Placeholder for actual sensing logic
+
+    def is_situation_still_hazardous(self):
+        # Check if the situation is still hazardous
+        return False  # Placeholder for actual sensing logic
+
+    def calling_for_help(self, assistance_type):
+        # Placeholder for calling for help
+        pass
+
+    def gripping(self, item):
+        # Placeholder for gripping action
+        pass
+
+    def releasing(self, item, tool):
+        # Placeholder for releasing action
+        pass
+
+    def wiping(self, item):
+        # Placeholder for wiping action
+        pass
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the robot and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In this code, each state represents a stage in the robot's decision-making process. The robot starts in the `INITIAL` state, assesses the situation, and transitions through different states based on its assessment of the environment. Each state includes actions that the robot would perform, represented by placeholder methods like `gripping`, `releasing`, and `wiping`. The actual implementation of these methods would depend on the robot's hardware and sensing capabilities.

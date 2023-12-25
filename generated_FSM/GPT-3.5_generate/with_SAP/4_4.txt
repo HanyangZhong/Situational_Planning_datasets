@@ -1,0 +1,113 @@
+```python
+class KitchenSafetyFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_FLAME': self.assess_flame_state,
+            'REMOVE_ITEMS': self.remove_items_state,
+            'OPEN_WINDOW': self.open_window_state,
+            'TURN_ON_FAN': self.turn_on_fan_state,
+            'ALERT_USER': self.alert_user_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'END': self.end_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Kitchen Safety FSM initial state. Start with assessing the flame.
+        self.current_state = 'ASSESS_FLAME'
+
+    def assess_flame_state(self):
+        # Assess the state of the flame and the proximity of items to the flame
+        if self.is_flame_unattended() and self.are_items_close_to_flame():
+            self.current_state = 'REMOVE_ITEMS'
+        elif not self.is_window_open() or not self.is_fan_on():
+            self.current_state = 'OPEN_WINDOW'
+        else:
+            self.current_state = 'END'
+
+    def remove_items_state(self):
+        # Remove the items that are close to the flame to reduce the fire risk
+        self.move_items_away_from_flame()
+        self.current_state = 'OPEN_WINDOW'
+
+    def open_window_state(self):
+        # Open the window to allow heat and gas to disperse
+        self.open_window()
+        self.current_state = 'TURN_ON_FAN'
+
+    def turn_on_fan_state(self):
+        # Turn on the extractor fan to further disperse heat and gas
+        self.turn_on_fan()
+        self.current_state = 'ALERT_USER'
+
+    def alert_user_state(self):
+        # Notify the user of the safety concerns and the actions taken
+        self.alert_user()
+        self.current_state = 'CALL_FOR_HELP'
+    
+    def call_for_help_state(self):
+        # Call for help if the situation is not resolved or if the user does not respond
+        self.call_for_help()
+        self.current_state = 'END'
+
+    def end_state(self):
+        # End the FSM loop
+        self.current_state = 'END'
+
+    # Actions / Annotation methods
+    def is_flame_unattended(self):
+        # Check if the flame is unattended
+        flame_unattended = self.checking('flame')
+        return flame_unattended
+
+    def are_items_close_to_flame(self):
+        # Check if there are items close to the flame
+        items_close = self.checking('items close to flame')
+        return items_close
+
+    def move_items_away_from_flame(self):
+        # Move the items away from the flame to reduce fire risk
+        self.collecting('items close to flame')
+        self.releasing('items away from flame')
+
+    def is_window_open(self):
+        # Check if the window is already open
+        window_open = self.checking('window')
+        return window_open
+
+    def open_window(self):
+        # Open the window to allow heat and gas to disperse
+        self.turning('window handle', 'open')
+
+    def is_fan_on(self):
+        # Check if the extractor fan is already on
+        fan_on = self.checking('fan')
+        return fan_on
+
+    def turn_on_fan(self):
+        # Turn on the extractor fan to further disperse heat and gas
+        self.flipping('fan switch', 'on')
+
+    def alert_user(self):
+        # Alert the user of the safety concerns and the actions taken
+        self.communicating('user', 'safety concerns')
+        self.communicating('user', 'actions taken')
+
+    def call_for_help(self):
+        # Call for help if the situation is not resolved or if the user does not respond
+        self.calling('help')
+
+    # Run the FSM loop    
+    def run(self):
+        while self.current_state != 'END':
+            self.states[self.current_state]()
+
+
+# Create an instance of the Kitchen Safety FSM and run it
+kitchen_fsm = KitchenSafetyFSM()
+kitchen_fsm.run()
+```

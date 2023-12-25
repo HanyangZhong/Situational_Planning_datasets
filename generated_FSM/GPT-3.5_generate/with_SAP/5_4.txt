@@ -1,0 +1,114 @@
+To create a finite state machine for a butler robot in the given scene, we can break down the tasks into the following steps:
+
+Step 1: Assess the situation
+- Check if the medicine cabinet is open and unsecured
+- Check if there are spilled pills on the shelves and counter
+- Check if there are brightly colored capsules and tablets that could be mistaken for candy by children
+- Check if there are objects indicating frequent use of the space, such as a toothbrush holder and soap dispenser
+
+Step 2: Determine the appropriate action
+- If the situation is safe and there are no immediate risks, go to step 1
+- If there are unsecured medications and potential risks of accidental ingestion, go to step 3
+
+Step 3: Take necessary actions
+- Secure the medication bottles, pillboxes, and prescription packets
+- Clean up the spilled pills from the shelves and counter
+- Remove any brightly colored capsules and tablets that could be mistaken for candy by children
+- Ensure the bathroom is safe and child-proofed by organizing objects and placing potentially dangerous substances out of reach
+- Maintain proper lighting in the bathroom to minimize the silent threat posed by unsecured medications
+
+Step 4: Keep monitoring the situation
+- Continuously monitor the bathroom to ensure that the medications remain secure and there are no risks of accidental ingestion
+- If any new risks or unsafe situations arise, go back to step 3
+- If the situation remains safe, go back to step 1
+
+Here is a possible implementation of the finite state machine in Python:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.states = {
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'SECURE_MEDICATIONS': self.secure_medications_state,
+            'CLEANUP_PILLS': self.cleanup_pills_state,
+            'REMOVE_BRIGHT_OBJECTS': self.remove_bright_objects_state,
+            'ORGANIZE_BATHROOM': self.organize_bathroom_state,
+            'MONITOR_SITUATION': self.monitor_situation_state
+        }
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.is_medication_unsecured():
+            self.current_state = 'SECURE_MEDICATIONS'
+        else:
+            self.current_state = 'MONITOR_SITUATION'
+
+    def secure_medications_state(self):
+        self.gathering('unsecured medications')
+        self.placing_down('medication bottles', 'secured location')
+        self.placing_down('pillboxes', 'secured location')
+        self.placing_down('prescription packets', 'secured location')
+        self.current_state = 'CLEANUP_PILLS'
+
+    def cleanup_pills_state(self):
+        self.scooping('pills')
+        self.placing_down('pills', 'appropriate containers')
+        self.current_state = 'REMOVE_BRIGHT_OBJECTS'
+
+    def remove_bright_objects_state(self):
+        self.collecting('bright objects')
+        self.removing('bright objects', 'bathroom')
+        self.current_state = 'ORGANIZE_BATHROOM'
+
+    def organize_bathroom_state(self):
+        self.arranging('objects')
+        self.securing('potentially dangerous substances')
+        self.current_state = 'MONITOR_SITUATION'
+
+    def monitor_situation_state(self):
+        if self.is_medication_unsecured():
+            self.current_state = 'SECURE_MEDICATIONS'
+        else:
+            self.current_state = 'ASSESS_SITUATION'
+
+    # Actions / Annotation methods
+    def is_medication_unsecured(self):
+        medication_unsecured = self.checking('medicine cabinet')
+        return medication_unsecured
+
+    def gathering(self, item):
+        print(f"Gathering {item}")
+
+    def placing_down(self, item, location):
+        print(f"Placing {item} in {location}")
+
+    def scooping(self, items):
+        print(f"Scooping {items}")
+
+    def removing(self, item, location):
+        print(f"Removing {item} from {location}")
+
+    def collecting(self, items):
+        print(f"Collecting {items}")
+
+    def arranging(self, items):
+        print(f"Arranging {items}")
+
+    def securing(self, items):
+        print(f"Securing {items}")
+
+    def checking(self, item):
+        print(f"Checking {item}")
+        return True
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+Note: The code above assumes that the actions mentioned in the pseudo code are implemented as separate methods, such as `gathering()`, `placing_down()`, etc. These methods can be further implemented with the specific behaviors of the butler robot. The code also includes some print statements to indicate the actions being performed, but these can be replaced with the actual behaviors of the robot.

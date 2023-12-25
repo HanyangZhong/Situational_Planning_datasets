@@ -1,0 +1,53 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            "INITIAL": self.initial_state,
+            "MONITOR": self.monitor_state, 
+            "ENGAGE": self.engage_state,
+            "REMOVE_HAZARDS": self.remove_hazards_state
+        }
+
+        # Set initial state
+        self.state = "INITIAL"
+
+    def initial_state(self):
+        print("Initializing...")
+        self.state = "MONITOR"
+
+    def monitor_state(self):
+        print("Monitoring play...")
+        if self.child_at_risk():
+           self.state = "ENGAGE"
+        elif self.hazards_present():
+            self.state = "REMOVE_HAZARDS"
+        else:
+            # Loop in monitoring
+            self.state = "MONITOR"
+
+    def engage_state(self):
+        print("Engaging child...")
+        self.play_with_child()
+        self.state = "MONITOR"
+
+    def remove_hazards_state(self):
+        print("Removing hazards...") 
+        self.pick_up_small_objects()
+        self.state = "MONITOR"
+
+    # Helper functions
+    def child_at_risk(self):
+        return True
+    
+    def hazards_present(self):
+        return True
+
+    def play_with_child(self):
+        pass
+
+    def pick_up_small_objects(self):
+        pass
+
+butler = ButlerRobotFSM()
+butler.run()

@@ -1,0 +1,91 @@
+Sure, here's a similar hierarchical finite state machine (HFSM) for the scenario you provided.
+
+```python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'CALM_THE_DOG': self.calm_the_dog_state,
+            'ENGAGE_CHILD': self.engage_child_state,
+            'MONITOR_PLAY': self.monitor_play_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # The initial state. Start by assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the playing situation of the child and the dog
+        if self.is_play_too_rough():
+            self.current_state = 'CALM_THE_DOG'
+        else:
+            self.current_state = 'MONITOR_PLAY'
+
+    def calm_the_dog_state(self):
+        # If the dog and the child's play is too rough, try to calm the dog down.
+        self.attract_dog_attention()
+        self.remind_child_of_safety()
+        self.current_state = 'ENGAGE_CHILD'
+
+    def engage_child_state(self):
+        # Engage the child in a more safe game.
+        self.collect_toys()
+        self.offer_safe_game_to_child()
+        self.current_state = 'MONITOR_PLAY'
+
+    def monitor_play_state(self):
+        # Continuously monitor the child and the dog's play. If they play rough again, calm the dog.
+        if self.is_play_too_rough():
+            self.current_state = 'CALM_THE_DOG'
+        elif self.is_safety_risk():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the dog's energy is too high or if the child is ignoring the robot.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_play_too_rough(self):
+        play_too_rough = self.monitoring('child and dog', 'play')
+        return play_too_rough
+
+    def attract_dog_attention(self):
+        self.grasping('safe dog toy')
+        self.shaking('safe dog toy')
+
+    def remind_child_of_safety(self):
+        self.reminding('child', 'safety rules')
+
+    def collect_toys(self):
+        self.gathering('child toys')
+
+    def offer_safe_game_to_child(self):
+        self.delivering('safe game', 'child')
+
+    def is_safety_risk(self):
+        safety_risk = self.checking('room', 'safety risk')
+        return safety_risk
+
+    def call_for_help(self):
+        self.calling('human assistance')
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+In this Python script, I've defined a class for the butler robot which is organized as a Hierarchical Finite State Machine (HFSM). In particular, the robot begins with an initial state where it assesses the situation. Based on the assessment, it transitions into other states as a response to different conditions. The robot continuously monitors the child and dog's play. If the play gets too rough, it tries to calm the dog down and if a safety risk is identified, it calls for human assistance.

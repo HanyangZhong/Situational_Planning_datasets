@@ -1,0 +1,42 @@
+# Finite State Machine for securing medications
+
+class ButlerRobot:
+    
+    def __init__(self):
+        self.state = 'assess'
+        
+    def assess(self):
+        print("Assessing situation")
+        if self.medications_unsecured():
+            self.state = 'secure'
+        else: 
+            self.state = 'monitor'
+            
+    def secure(self):
+        print("Securing medications")
+        self.close('cabinet')
+        self.gather('medications')
+        self.place('medications', 'lockbox') 
+        self.state = 'monitor'
+        
+    def monitor(self):
+        print("Monitoring situation")
+        if self.medications_unsecured():
+            self.state = 'secure'
+        else:
+            self.state = 'assess'
+            
+    def medications_unsecured(self):
+        print("Checking if medications are unsecured")
+        medications_unsecured = True # placeholder
+        return medications_unsecured
+        
+butler = ButlerRobot()
+
+while True:
+    if butler.state == 'assess':
+        butler.assess()
+    elif butler.state == 'secure': 
+        butler.secure()
+    elif butler.state == 'monitor':
+        butler.monitor()

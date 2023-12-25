@@ -1,0 +1,25 @@
+`10_3` FSM Scoring:
+
+1. State Coverage: Score 8. It covers the necessary states to navigate the scenario effectively, but it doesn't have a state to call for help or monitor the environment consistently, which was present in the `10_best` FSM.
+2. Transition Coverage: Score 8. The FSM does have clearly defined state transitions, but it lacks a back-and-forth transition, like between MONITOR_AND_RESPOND and initial state.
+3. Cyclomatic Complexity: Score 4. It's fairly straightforward with less state interconnectivity.
+4. Safety Mindset: Score 5. While it does take into account the task of clearing the path for the wheelchair user, further safety checks or precautions are not clearly specified.
+5. Scalability: Score 6. While it is built in a clear, structured way that could easily accommodate new states, its lack of a more robust safety and monitoring system limits its scalability.
+6. Assistance UX: Score 7. The Butler Robot is designed to ensure the wheelchair user's comfort and it checks if needs are met but lacks personalized interaction.
+7. Action Set Alignment: Score 8. The FSM uses the defined action set effectively and consistently, only deviates in minor areas.
+
+Overall Benchmark Score for `10_3`: (8+8+4+5+6+7+8)/7 = 6.57
+
+`10_4` FSM Scoring:
+
+1. State Coverage: Score 9. The FSM covers almost all the necessary states except when it comes to assessing owner needs and calling for help.
+2. Transition Coverage: Score 9. Unlike `10_3` FSM, `10_4` FSM does include back-and-forth transitions, like from monitoring back to the initial state.
+3. Cyclomatic Complexity: Score 5. It's also straightforward with less state interconnectivity similar to `10_3`.
+4. Safety Mindset: Score 7. It's designed with safety in mind, but could improve by including more explicit safety checks or precautions.
+5. Scalability: Score 7. It is built in a way that could easily accommodate new states or actions, but similar to `10_3`, could improve with a more robust monitoring system.
+6. Assistance UX: Score 7. It takes steps to ensure the user's comfort and needs, but could improve by adding more personalised interaction.
+7. Action Set Alignment: Score 9. It closely follows the defined action set with minor deviations only.
+
+Overall Benchmark Score for `10_4`: (9+9+5+7+7+7+9)/7 = 7.57
+
+Comparing 10_3 and 10_4 to the `10_best` FSM, `10_4` is clearly the better FSM with an overall score of 7.57 compared to `10_3`’s score of 6.57. However, both FSMs could benefit from incorporating additional safety checks, consistent environment monitoring and more explicit use of the action set verb list.

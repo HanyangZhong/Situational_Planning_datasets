@@ -1,0 +1,63 @@
+import time
+
+class ButlerRobot:
+    
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS': self.assess_state, 
+            'REPOSITION': self.reposition_state,
+            'PRESS_BUTTON': self.press_button_state,
+            'WAIT_FOR_HELP': self.wait_for_help_state
+        }
+        self.state = 'INITIAL'
+        
+    def initial_state(self):
+        print("Butler Robot Initialized")  
+        self.state = 'ASSESS'
+        
+    def assess_state(self):
+        print("Assessing the situation...")
+        if person_on_floor() and button_out_of_reach():
+            self.state = 'REPOSITION' 
+        else:
+            print("No assistance needed at this time")
+            self.state = 'INITIAL'
+            
+    def reposition_state(self):
+        print("Repositioning the person within reach of the button...")        
+        move_person_near_button()
+        self.state = 'PRESS_BUTTON'
+        
+    def press_button_state(self):
+        print("Pressing emergency alert button...")
+        press_button()
+        self.state = 'WAIT_FOR_HELP'
+        
+    def wait_for_help_state(self):
+        print("Waiting for emergency personnel...")
+        wait_for_help_to_arrive() 
+        self.state = 'INITIAL'
+        
+    def run(self):
+        while True:
+            self.states[self.state]()
+            time.sleep(1)
+            
+def person_on_floor():
+    return True 
+
+def button_out_of_reach():
+    return True
+
+def move_person_near_button():
+    print("Person moved nearer to button")
+    
+def press_button():
+    print("Button pressed")
+    
+def wait_for_help_to_arrive():
+    print("Waiting...")
+        
+butler = ButlerRobot()
+butler.run()

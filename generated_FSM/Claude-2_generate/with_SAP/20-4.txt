@@ -1,0 +1,62 @@
+import emergency_services
+
+class ButlerRobotFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.init_state,
+            'ASSESS': self.assess_state,
+            'RETRIEVE_DEVICE': self.retrieve_device_state,
+            'ASSIST_STANDING': self.assist_standing_state,
+            'CALL_EMERGENCY': self.call_emergency_state
+        }
+        self.state = 'INITIAL'
+
+    def init_state(self):
+        print("Initializing butler robot...")
+        self.state = 'ASSESS'
+
+    def assess_state(self):
+        print("Assessing the situation...")
+        if self.person_appears_in_distress():
+            if self.device_in_reach(): 
+                self.state = 'RETRIEVE_DEVICE'
+            else:
+                self.state = 'ASSIST_STANDING'
+        else:
+            # Continue monitoring
+            pass
+
+    def retrieve_device_state(self):
+        print("Reaching for and grasping emergency device...")
+        self.grasping(device)
+        self.delivering(device, person)
+        self.state = 'INITIAL'
+
+    def assist_standing_state(self):
+        print("Attempting to help person stand...")
+        if self.able_to_help_stand():
+            self.grasping(person)
+            self.supporting(person)
+            self.transporting(person, device)
+            self.state = 'INITIAL'
+        else:
+            self.state = 'CALL_EMERGENCY'
+        
+    def call_emergency_state(self):
+        print("Calling emergency services...")
+        emergency_services.call(person_location)
+        self.state = 'INITIAL'
+
+    # Helper annotation methods
+    def person_appears_in_distress(self):
+        return True
+
+    def device_in_reach(self):
+        return False
+
+    def able_to_help_stand(self):
+        return False
+
+fsm = ButlerRobotFSM()
+fsm.run()

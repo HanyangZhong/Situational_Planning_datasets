@@ -1,0 +1,61 @@
+Here is the Python code:
+
+```python
+class ButlerRobotFSM:
+    # initial state
+    def __init__(self):
+        self.current_state = self.identify_obstacle
+        self.is_obstacle_identified = False
+        self.is_obstacle_removed = False
+    
+    # First state: Identify the obstacle
+    def identify_obstacle(self):
+        self.reaching()  # Assuming this reaches and senses the obstacle
+        if self.is_obstacle_identified:
+            self.current_state = self.remove_obstacle
+        else:
+            print("No obstacle identified. Keep monitoring the situation.")
+            
+    # Second state: Remove the obstacle   
+    def remove_obstacle(self):
+        self.gripping()  # Assuming this grips the obstacle
+        self.lifting()   # Assuming this lifts the obstacle
+        self.transporting()  # Assuming this transports the obstacle
+        self.lowering()  # Assuming this lowers the obstacle
+        if self.is_obstacle_removed:
+            self.current_state = self.assist_human
+        else:
+            print("Obstacle not fully removed, trying again.")
+    
+    # Third state: Assist the human to move forward
+    def assist_human(self):
+        self.reminding()  # Reminding the user that the path is now unblocked
+        
+    # Each action taken by the robot
+    def reaching(self):
+        self.is_obstacle_identified = True
+        print("Obstacle identified.")
+        
+    def gripping(self):
+        print("Gripping the obstacle.")
+
+    def lifting(self):
+        print("Lifting the obstacle.")
+ 
+    def transporting(self):
+        print("Transporting the obstacle.")
+
+    def lowering(self):
+        self.is_obstacle_removed = True
+        print("Lowering the obstacle. Path is clear.")
+
+    def reminding(self):
+        print("The path towards the desk is clear now. You can move forward.")
+
+    # Main function to run the FSM
+    def run(self):
+        while True:
+            self.current_state()
+```
+
+Here, the robot identifies the obstacle, removes it and then assists the human to move forward. Each state transition is based on a condition being met - identification of the obstacle triggers transition to the remove obstacle state, and upon successful removal, the robot transitions to the assist human state.

@@ -1,0 +1,78 @@
+Here is the finite state machine to help manage the situation described:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'COLLECT_MEDICATIONS': self.collect_medications_state,
+            'SECURE_MEDICATIONS': self.secure_medications_state,
+            'CLEAN_UP': self.clean_up_state,
+            'CHECK_AREA': self.check_area_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the scattered medications
+        if self.is_medications_scattered():
+            self.current_state = 'COLLECT_MEDICATIONS'
+        else:
+            self.current_state = 'CHECK_AREA'
+
+    def collect_medications_state(self):
+        # Collect spilled medications
+        self.collecting('medication pills')
+        self.current_state = 'SECURE_MEDICATIONS'
+
+    def secure_medications_state(self):
+        # Secure medications, close bottle and cabinet
+        self.closing('medication bottles')
+        self.closing('medicine cabinet')
+        self.current_state = 'CLEAN_UP'
+
+    def clean_up_state(self):
+        # Clean up the countertop
+        self.sweeping('countertop')
+        self.current_state = 'CHECK_AREA'
+
+    def check_area_state(self):
+        # Continuously monitor the area for any scattered medications
+        if self.is_medications_scattered():
+            self.current_state = 'COLLECT_MEDICATIONS'
+        else:
+            self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_medications_scattered(self):
+        medication_scattered = self.checking('medication')
+        return medication_scattered
+
+    def collecting(self, item):
+        self.gripping(item)
+        self.transporting(item, 'into medicine bottle')
+
+    def closing(self, item):
+        self.gripping(item)
+        self.closing(item)
+
+    def sweeping(self, area):
+        self.gripping('brush')
+        self.sweeping(area)
+        
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+Note: Given code will need to be supplemented with the actual sensing and actuating functionality for it to function in real life.

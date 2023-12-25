@@ -1,0 +1,23 @@
+Evaluation for FSM "24_3":
+
+1. State Coverage: 8 - Most of the necessary states are covered. However, compared to "24_best", "24_3" lacks a specific state for directly engaging the child with safe toys but there is a safe environment creation state instead, which can be seen as an equivalent.
+2. Transition Coverage: 7 - Transitions are well defined between different states, but they don't cover as many possible sequences as "24_best". The FSM can end up in a loop of calling for help and returning to the initial state without resetting the scenario.
+3. Cyclomatic Complexity: 6 - The FSM "24_3" is quite linear and does not have as much complexity. The states are linked but not densely interconnected.
+4. Safety Mindset: 9 - The robot safely interacts with the environment, with a focus on removing dangerous toys and calling for help if necessary.
+5. Scalability: 7 - The code can be extended to new contexts but it may require some refactoring as new safety scenarios are implemented.
+6. Assistance UX: 7 - "24_3" offers a UX that's centered on child safety, but lacks more personalized interactions. Actions can sometimes seem robotic.
+7. Action Set Alignment: 8 - "24_3" uses universal actions such as gripping, removing, collecting, placing down but it could incorporate more from the provided list. 
+
+Overall Benchmark Score for "24_3" : (8+7+6+9+7+7+8)/7 = 7.43
+
+Evaluation for FSM "24_4":
+
+1. State Coverage: 7 - The core states are present but compared to "24_best", it lacks states for directly engaging the child with safe toys and removing hazards state.
+2. Transition Coverage: 8 - "24_4" covers likely sequences well. Transitions are laid out in a simple, straightforward manner from one state to the next.
+3. Cyclomatic Complexity: 5 - "24_4" has a fairly linear sequence of state transitions which means it has lower cyclomatic complexity.
+4. Safety Mindset: 10 - The FSM emphasizes safety, monitoring the child, removing small toys, and calling for help when the situation is dangerous.
+5. Scalability: 7 - "24_4" can potentially be extended to accommodate new scenarios, although more complex situations might necessitate broader changes to the state and transition structure.
+6. Assistance UX: 6 - "24_4" provides a basic user experience. It ensures child safety but lacks a more nuanced, personalized interaction beyond this.
+7. Action Set Alignment: 9 - "24_4" incorporates actions from the provided list such as gripping, lifting, transporting and calling.
+
+Overall Benchmark Score for "24_4" : (7+8+5+10+7+6+9)/7 = 7.43

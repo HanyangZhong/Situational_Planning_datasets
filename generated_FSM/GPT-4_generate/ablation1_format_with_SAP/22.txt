@@ -1,0 +1,77 @@
+Sure, I will create a Python class named "ButlerRobotFSM" that implements a Finite State Machine to assist the pregnant woman in this particular situation.
+
+Here's a demonstration of how such a piece of code may look:
+
+```python
+
+class ButlerRobotFSM:
+    def __init__(self):
+        """
+        Initialize the necessary attributes
+        """
+        self.current_state = self.checking_environment
+        self.rounds = 0
+
+    def check_conditions(self):
+        """
+        Check the condition and decide the state transition 
+        """
+        if self.rounds == 1:
+            return self.reaching_button
+        elif self.rounds == 2:
+            return self.pressing_button
+        elif self.rounds == 3:
+            return self.monitoring_woman
+        return self.calling_for_help
+
+    def checking_environment(self):
+        """
+        The state of scanning the environment for any anomalies.
+        """
+        print("Checking the environment using sensors and identifying the situation.")
+        self.rounds += 1
+        self.current_state = self.check_conditions()
+
+    def reaching_button(self):
+        """
+        State of reaching for the emergency button
+        """
+        print("Moving towards the emergency button.")
+        self.rounds += 1
+        self.current_state = self.check_conditions()
+
+    def pressing_button(self):
+        """
+        State of pressing the emergency button to alert
+        """
+        print("Pressing the emergency button.")
+        self.rounds += 1
+        self.current_state = self.check_conditions()
+
+    def monitoring_woman(self):
+        """
+        State of Monitoring woman condition
+        """
+        print("Positioning myself near the woman, monitoring her condition while waiting for help.")
+        self.rounds += 1
+        self.current_state = self.check_conditions()
+
+    def calling_for_help(self):
+        """
+        State of calling for help, using a built-in speaker.
+        """
+        print("Calling hospital via inbuilt emergency calling system.")
+
+    def run(self):
+        """
+        Execute the state machine loop
+        """
+        while self.current_state:
+            self.current_state = self.current_state()
+            
+
+robot = ButlerRobotFSM()
+robot.run()
+```
+
+In this code, the initial state of the FSM is set to "checking_environment". The method `run` is used to execute the script and, depending on the state and scenario, the robot takes the appropriate step. Every time a state is called, `self.rounds` is incremented, indicating that the state has been completed once. Then it checks the condition and moves to the next state according to the condition met which is determined in `check_conditions` method. In the end, it calls for help. It is imagined that the robot would have built-in internet system and speaker to call emergency services.

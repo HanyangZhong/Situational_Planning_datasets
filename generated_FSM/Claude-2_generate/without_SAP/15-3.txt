@@ -1,0 +1,50 @@
+class ButlerRobot:
+
+    def __init__(self):
+        self.states = {
+            'INITIALIZE': self.initialize,
+            'IDENTIFY_HAZARDS': self.identify_hazards,
+            'SECURE_OUTLET': self.secure_outlet, 
+            'REMOVE_PLANT': self.remove_plant,
+            'PICKUP_TOY': self.pickup_toy,
+            'REPORT_ACTIONS': self.report_actions
+        }
+        self.current_state = 'INITIALIZE'
+
+    def initialize(self):
+        print("Initializing hazard assessment...")
+        self.current_state = 'IDENTIFY_HAZARDS'
+
+    def identify_hazards(self):
+        print("Identifying potential hazards in room...")
+        if unsafe_outlet_detected:
+            self.current_state = 'SECURE_OUTLET'
+        elif unsafe_plant_detected: 
+            self.current_state = 'REMOVE_PLANT'
+        elif unsafe_toy_detected:
+            self.current_state = 'PICKUP_TOY'
+        else:
+            self.current_state = 'REPORT_ACTIONS'
+
+    def secure_outlet(self):
+        print("Covering electrical outlet with protective cap...")
+        # cover outlet
+        self.current_state = 'IDENTIFY_HAZARDS'
+
+    def remove_plant(self):
+        print("Moving toxic plant to unaccessible area...")
+        # move plant
+        self.current_state = 'IDENTIFY_HAZARDS'
+
+    def pickup_toy(self):
+        print("Picking up small toy parts from floor...") 
+        # pick up toy
+        self.current_state = 'IDENTIFY_HAZARDS'
+
+    def report_actions(self):
+        print("Hazard mitigation complete. Reporting actions to owner...")
+        # report to owner
+        self.current_state = 'INITIALIZE'
+
+butler = ButlerRobot()
+butler.initialize()

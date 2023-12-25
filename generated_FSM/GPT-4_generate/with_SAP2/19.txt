@@ -1,0 +1,82 @@
+To create a Finite State Machine (FSM) for a butler robot in the described kitchen scene, we'll follow the structure of the example provided but tailor it to the specific scenario. The FSM will assess the situation and take appropriate actions to ensure the child's safety around the hot stove.
+
+Here's a Python implementation of the FSM:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Define the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'PREVENT_DANGER': self.prevent_danger_state,
+            'ENGAGE_CHILD': self.engage_child_state,
+            'MONITOR_SITUATION': self.monitor_situation_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial state: Start by assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the kitchen situation, particularly the child's proximity to the stove.
+        if self.is_child_near_stove():
+            self.current_state = 'PREVENT_DANGER'
+        else:
+            self.current_state = 'MONITOR_SITUATION'
+
+    def prevent_danger_state(self):
+        # Take action to prevent the child from reaching the stove.
+        self.removing('pot', 'stove')
+        self.engaging('child', 'safe activity')
+        self.current_state = 'ENGAGE_CHILD'
+
+    def engage_child_state(self):
+        # Engage the child in a safe manner away from the stove.
+        self.delivering('toys', 'child')
+        self.current_state = 'MONITOR_SITUATION'
+
+    def monitor_situation_state(self):
+        # Continuously monitor the situation for any further risks.
+        if self.is_child_safe():
+            self.current_state = 'INITIAL'
+        elif self.is_emergency():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'ASSESS_SITUATION'
+
+    def call_for_help_state(self):
+        # In case of an emergency, call for human assistance.
+        self.calling_for_help('emergency services')
+        self.current_state = 'INITIAL'
+
+    # Helper methods for state actions
+    def is_child_near_stove(self):
+        # Check if the child is near the stove.
+        return self.monitoring('child', 'stove proximity')
+
+    def is_child_safe(self):
+        # Check if the child is in a safe situation.
+        return self.monitoring('child', 'safety')
+
+    def is_emergency(self):
+        # Determine if there's an emergency situation.
+        return self.monitoring('kitchen', 'emergency')
+
+    def calling_for_help(self, service):
+        # Call for emergency services.
+        self.calling(service)
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In this FSM, the robot initially assesses the situation. If the child is near the stove, it enters a state to prevent danger, such as moving the pot away and engaging the child with safe activities. The robot then monitors the situation, ready to reassess or call for help if an emergency arises. The helper methods (`is_child_near_stove`, `is_child_safe`, `is_emergency`, `calling_for_help`) would contain the specific logic for those actions, using sensors and decision-making capabilities of the robot.

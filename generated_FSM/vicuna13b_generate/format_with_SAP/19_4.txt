@@ -1,0 +1,87 @@
+(Butler)FSM(StateMachine)
+
+The class should contain:
+
+* An **init** method to initialize the state machine, current\_state, and any necessary attributes
+* States defined as methods on the class
+* A current\_state attribute tracking the active state
+* State transition logic deciding when to switch states
+* Helper methods for state actions and checking conditions
+* A run() method to execute the state machine loop
+```python
+import time
+
+class (Butler)FSM(StateMachine):
+    def __init__(self):
+        self.current_state = 'idle'
+        self.states = {
+            'idle': {
+                'actions': [],
+                'conditions': []
+            },
+            'alert': {
+                'actions': [self.alert_child],
+                'conditions': [self.check_child_and_stove]
+            },
+            'monitor_child': {
+                'actions': [self.monitor_child],
+                'conditions': [self.check_child_and_stove]
+            },
+            'alert_pot': {
+                'actions': [self.alert_pot],
+                'conditions': [self.check_pot_boiling]
+            },
+            'monitor_pot': {
+                'actions': [self.monitor_pot],
+                'conditions': [self.check_pot_boiling]
+            },
+            'clean_up': {
+                'actions': [self.clean_up],
+                'conditions': [self.check_stove_safe]
+            }
+        }
+
+    def transition(self, event):
+        if self.current_state['actions'][0](event):
+            self.current_state = self.current_state['next_state']
+
+    def run(self):
+        while True:
+            self.transition(None)
+
+    def idle(self):
+        self.current_state = 'alert'
+
+    def alert_child(self):
+        # Alert the child about the danger of the stove
+        pass
+
+    def monitor_child(self):
+        # Monitor the child's safety while near the stove
+        pass
+
+    def alert_pot(self):
+        # Alert the user about the danger of the boiling pot
+        pass
+
+    def monitor_pot(self):
+        # Monitor the pot's safety while boiling
+        pass
+
+    def clean_up(self):
+        # Clean up the kitchen to prevent accidents
+        pass
+
+    def check_child_and_stove(self):
+        # Check if the child is near the stove and if the pot is boiling
+        pass
+
+    def check_pot_boiling(self):
+        # Check if the pot is boiling
+        pass
+
+    def check_stove_safe(self):
+        # Check if the stove is safe to use
+        pass
+```
+This is just an example implementation, and the actual behavior of the robot would depend on the specific design and capabilities of the robot. The helper methods would need to be implemented with actual code to perform the actions and checks described by the state machine.

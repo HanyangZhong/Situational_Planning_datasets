@@ -1,0 +1,54 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state, 
+            'REDIRECT_CHILD': self.redirect_child_state,
+            'SECURE_OBJECTS': self.secure_objects_state,
+            'MONITOR_CHILD': self.monitor_child_state,
+            'GET_HELP': self.get_help_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Starting butler robot FSM") 
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.is_child_in_danger():  
+            self.current_state = 'REDIRECT_CHILD'
+        else:
+            self.current_state = 'SECURE_OBJECTS'
+
+    def redirect_child_state(self):
+        print("Redirecting child's attention")
+        self.offering_alternative('toy')
+        self.current_state = 'SECURE_OBJECTS'
+
+    def secure_objects_state(self):
+        print("Securing sharp objects") 
+        self.removing('knives')
+        self.removing('scissors')
+        self.current_state = 'MONITOR_CHILD'
+
+    def monitor_child_state(self):
+        if self.is_child_in_danger():
+           self.current_state = 'GET_HELP'
+        else:
+           self.current_state = 'INITIAL'
+
+    def get_help_state(self):
+        print("Getting adult helper")
+        self.calling('adult helper')
+        self.current_state = 'INITIAL'
+
+    # Annotation methods
+    def is_child_in_danger(self):
+        return self.checking('child near sharp object') 
+
+    def offering_alternative(self, item):
+        print(f"Offering the {item}")
+
+fsm = ButlerRobotFSM()
+fsm.run()

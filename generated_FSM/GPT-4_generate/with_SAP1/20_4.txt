@@ -1,0 +1,77 @@
+Sure, I'll be happy to implement your scenario using Finite State Machine (FSM) logic in python code. Here's the pseudo code:
+
+```python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REACH_DEVICE': self.reach_device_state,
+            'CONFIRM_ALERT': self.confirm_alert_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+        }
+        
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # The robot starts in INITIAL state and move to ASSESS_SITUATION state.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # In this state, the robot needs to assess the situation, if elderly is in distress, it moves to the REACH_DEVICE state.
+        if self.is_elderly_in_distress():
+            self.current_state = 'REACH_DEVICE'
+        else:
+            self.current_state = 'INITIAL'
+
+    def reach_device_state(self):
+        # In this state, the robot commits to reaching out to the emergency device,
+        # It performs an action to get the device and move to CONFIRM_ALERT state.
+        self.reaching('emergency device')
+        self.grasping('emergency device')
+        self.lowering('emergency device to a reachable height')
+        self.current_state = 'CONFIRM_ALERT'
+        
+    def confirm_alert_state(self):
+        # In this state, the robot confirms the alert by pressing the device.
+        self.pressing('emergency device')
+        self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # This state calls for human assistance or medical help.
+        self.calling('for help')
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+
+    def is_elderly_in_distress(self):
+        elderly_in_distress = self.checking('elderly')
+        return elderly_in_distress
+
+    def reaching(self, object):
+        print(f'Reaching out to the {object}.')
+
+    def grasping(self, object):
+        print(f'Grasping the {object}.')
+
+    def lowering(self, object):
+        print(f'Lowering the {object}.')
+        
+    def pressing(self, object):
+        print(f'Pressing the {object}.')
+
+    def calling(self, action):
+        print(f'Calling {action}.')
+
+    # Run the FSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+Please note that this is a high-level FSM logic. It needs advanced AI technology, image processing, and robotics manipulation to be implemented in a real butler robot.

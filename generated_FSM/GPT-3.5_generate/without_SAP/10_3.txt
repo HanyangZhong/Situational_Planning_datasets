@@ -1,0 +1,88 @@
+Here is a finite state machine in Python code for a butler robot assisting a person in a wheelchair who is facing an obstacle in a home study:
+
+```python
+class ButlerRobotHFSM:
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_OBSTACLE': self.assess_obstacle_state,
+            'MOVE_OBSTACLE': self.move_obstacle_state,
+            'CLEAR_PATH': self.clear_path_state,
+            'REACH_DESK': self.reach_desk_state,
+            'COMPLETE_TASK': self.complete_task_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Start by assessing the obstacle
+        self.current_state = 'ASSESS_OBSTACLE'
+
+    def assess_obstacle_state(self):
+        # Check if the office chair is blocking the path
+        if self.is_obstacle_present():
+            self.current_state = 'MOVE_OBSTACLE'
+        else:
+            self.current_state = 'CLEAR_PATH'
+    
+    def move_obstacle_state(self):
+        # Move the office chair out of the way
+        self.reaching('office chair')
+        self.gripping('office chair')
+        self.dragging('office chair', 'to the side')
+        self.placing_down('office chair')
+        self.current_state = 'CLEAR_PATH'
+    
+    def clear_path_state(self):
+        # Path is clear, now help the person reach the desk
+        self.current_state = 'REACH_DESK'
+    
+    def reach_desk_state(self):
+        # Assist the person in reaching the desk
+        self.reaching('desk')
+        self.gripping('desk')
+        self.transporting('desk', 'to the person')
+        self.releasing('desk')
+        self.current_state = 'COMPLETE_TASK'
+    
+    def complete_task_state(self):
+        # Task is complete, waits for further instructions
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_obstacle_present(self):
+        return self.checking('office chair')
+    
+    def reaching(self, target):
+        print(f'Reaching {target}')
+    
+    def gripping(self, target):
+        print(f'Gripping {target}')
+    
+    def dragging(self, target, destination):
+        print(f'Dragging {target} {destination}')
+    
+    def placing_down(self, target):
+        print(f'Placing down {target}')
+    
+    def transporting(self, target, destination):
+        print(f'Transporting {target} {destination}')
+    
+    def releasing(self, target):
+        print(f'Releasing {target}')
+    
+    def checking(self, item):
+        print(f'Checking {item}')
+        return True
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+
+In this code, the butler robot's role is to assess the obstacle, move it if necessary, clear the path, assist the person in reaching the desk, and complete the task. Each state represents a specific action or condition, and the butler robot transitions between states based on the current situation. The actions are represented by helper methods such as `reaching`, `gripping`, `dragging`, etc.
+
+Note: The specific actions in the code are just placeholders and will need to be replaced with the actual actions performed by the butler robot, such as moving the office chair or assisting the person in reaching the desk.

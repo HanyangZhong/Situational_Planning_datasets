@@ -1,0 +1,94 @@
+(Butler)FSM(StateMachine)
+/\*
+* A state machine for a butler robot to handle a child near a hot stove
+\*/
+class ButlerFSM(FSM):
+def **init**(self):
+"""Initialize the state machine and set the initial state."""
+self.current\_state = 'idle'
+self.stove\_is\_on = False
+self.child\_is\_reaching = False
+```ruby
+
+def states(self):
+    """Return the list of all possible states."""
+    return ['idle', 'monitoring', 'alerting']
+
+def handle_event(self, event):
+    """Handle an event and determine the next state."""
+    if event == 'stove_on':
+        self.stove_is_on = True
+        return 'monitoring'
+    elif event == 'stove_off':
+        self.stove_is_on = False
+        return 'idle'
+    elif event == 'child_reaching':
+        self.child_is_reaching = True
+        return 'monitoring'
+    elif event == 'child_stopped_reaching':
+        self.child_is_reaching = False
+        return 'alerting'
+
+def execute_state(self, state_name):
+    """Execute the named state."""
+    state = getattr(self, state_name)
+    state()
+
+def idle(self):
+    """Handle the idle state."""
+    if self.stove_is_on:
+        self.handle_stove_on()
+
+def monitoring(self):
+    """Handle the monitoring state."""
+    if self.stove_is_on and self.child_is_reaching:
+        self.handle_child_reaching()
+
+def alerting(self):
+    """Handle the alerting state."""
+    if not self.stove_is_on:
+        self.handle_stove_off()
+
+def handle_stove_on(self):
+    """Handle the event that the stove is turned on."""
+    self.current_state = 'monitoring'
+
+def handle_stove_off(self):
+    """Handle the event that the stove is turned off."""
+    self.current_state = 'idle'
+
+def handle_child_reaching(self):
+    """Handle the event that a child is reaching for the stove."""
+    self.current_state = 'alerting'
+
+def check_conditions(self):
+    """Check the conditions for the state machine."""
+    if self.stove_is_on and not self.child_is_reaching:
+        return True
+    elif not self.stove_is_on:
+        return True
+    else:
+        return False
+
+def reset(self):
+    """Reset the state machine."""
+    self.current_state = 'idle'
+    self.stove_is_on = False
+    self.child_is_reaching = False
+```
+
+```vbnet
+
+Here's an example usage of the `ButlerFSM` class:
+
+python
+(code)
+
+This code creates a `ButlerFSM` object, initializes it with the current state set to 'idle', and then simulates its behavior in response to various events. The `handle_event()` method checks the type of event and determines the appropriate next state to transition to. The `execute_state()` method then calls the appropriate method on the `ButlerFSM` object to handle the new state.
+
+The `idle()` method checks if the stove is on and, if so, calls the `handle_stove_on()` method to transition to the `monitoring` state. The `monitoring()` method checks if a child is reaching for the stove and, if so, calls the `handle_child_reaching()` method to transition to the `alerting` state. The `alerting()` method checks if the stove is off and, if so, calls the `handle_stove_off()` method to transition back to the `idle` state.
+
+The `check_conditions()` method is a helper method that checks if the state machine should transition to a different state based on the current conditions. The `reset()` method is used to reset the state machine to its initial state.
+
+Note that this is a simplified example and the actual implementation may require additional logic and conditions to handle more complex scenarios.
+```

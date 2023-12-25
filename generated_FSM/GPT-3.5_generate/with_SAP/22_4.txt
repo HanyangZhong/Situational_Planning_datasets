@@ -1,0 +1,49 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = (
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REACH_BUTTON': self.reach_button_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        )
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if the pregnant woman can reach the emergency button or needs help.
+        if self.can_reach_button():
+            self.current_state = 'REACH_BUTTON'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def reach_button_state(self):
+        # Attempt to reach the emergency button for the pregnant woman.
+        self.reach_button()
+        self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance to help the pregnant woman reach the button.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def can_reach_button(self):
+        button_reachable = self.checking('button reachability')
+        return button_reachable
+
+    def reach_button(self):
+        self.reaching('button')
+
+    def call_for_help(self):
+        self.calling('human assistance')
+
+    # Run the HFSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()

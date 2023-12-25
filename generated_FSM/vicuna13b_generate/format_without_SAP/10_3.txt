@@ -1,0 +1,109 @@
+Here is a simplified implementation of a butler robot that can help the person in the wheelchair to navigate through the room and reach the desk:
+```python
+class ButlerRobot(FSMRobot):
+    def __init__(self):
+        self.current_state = 'idle'
+        self.desired_state = 'help_person'
+
+    def idle(self):
+        self.update_status("Idle")
+
+    def help_person(self):
+        self.update_status("Assisting person")
+        # check if person is ready to be assisted
+        if self.check_if_person_is_ready():
+            self.update_status("Assisting person")
+            # move the office chair to the side
+            self.move_obstacle()
+            # transport the person to the desk
+            self.transport_person_to_desk()
+            # assist the person in reaching for objects on the desk
+            self.assist_person_in_reaching_objects()
+            # return to idle state
+            self.update_status("Idle")
+        else:
+            # if the person is not ready, wait
+            self.update_status("Waiting for person to be ready")
+
+    def move_obstacle(self):
+        # reach for the office chair using the gripping action
+        self.grip_chair()
+        # lift and lower the chair to move it out of the way
+        self.lift_lower_chair()
+        # turn the chair so that it is facing the side
+        self.turn_chair()
+
+    def transport_person_to_desk(self):
+        # reach for the wheelchair using the gripping action
+        self.grip_wheelchair()
+        # lift and lower the wheelchair to pick it up
+        self.lift_lower_wheelchair()
+        # transport the wheelchair to the desk
+        self.transport_wheelchair_to_desk()
+        # place the wheelchair down on the desk
+        self.place_wheelchair_down()
+
+    def assist_person_in_reaching_objects(self):
+        # use the gripping action to pick up objects on the desk
+        self.grip_objects()
+        # transport the objects to the person in the wheelchair
+        self.transport_objects_to_person()
+        # use the placing down action to place the objects in the person's reach
+        self.place_objects_down()
+
+    def grip_chair(self):
+        # use the reaching action to grasp the office chair
+        pass
+
+    def lift_lower_chair(self):
+        # use the lifting action to raise the office chair
+        pass
+
+    def turn_chair(self):
+        # use the rotating action to turn the office chair
+        pass
+
+    def grip_wheelchair(self):
+        # use the reaching action to grasp the wheelchair
+        pass
+
+    def lift_lower_wheelchair(self):
+        # use the lifting action to raise the wheelchair
+        pass
+
+    def transport_wheelchair_to_desk(self):
+        # use the transporting action to move the wheelchair to the desk
+        pass
+
+    def place_wheelchair_down(self):
+        # use the placing down action to set the wheelchair down on the desk
+        pass
+
+    def grip_objects(self):
+        # use the reaching action to grasp objects on the desk
+        pass
+
+    def transport_objects_to_person(self):
+        # use the transporting action to move the objects to the person in the wheelchair
+        pass
+
+    def place_objects_down(self):
+        # use the placing down action to place the objects in the person's reach
+        pass
+
+    def update_status(self, status):
+        # print the current state of the robot
+        print(f"{status}")
+
+    def check_if_person_is_ready(self):
+        # check if the person is ready to be assisted
+        # return True if the person is ready, False otherwise
+        return True
+```
+This implementation defines a `ButlerRobot` class that inherits from the `FSMRobot` class. The `FSMRobot` class is a finite state machine that defines the states and transitions between them.
+
+The `ButlerRobot` class has an `idle` state that does nothing, a `help_person` state that assists the person in the wheelchair to navigate through the room and reach the desk, and helper methods for each action taken in the `help_person` state.
+
+The `help_person` state checks if the person is ready to be assisted, moves the office chair out of the way, transports the person to the desk, and assists the person in reaching for objects on the desk. It then returns to the `idle` state.
+
+The helper methods are abstract and don't need actual implementation. The `update_status` method is used to print the current

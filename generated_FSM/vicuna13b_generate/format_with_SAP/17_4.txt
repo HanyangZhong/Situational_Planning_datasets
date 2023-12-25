@@ -1,0 +1,110 @@
+Here is a sample implementation of the finite state machine for the butler robot:
+```python
+class ButlerFSM:
+    def __init__(self):
+        self.current_state = 'idle'
+        self.states = {
+            'idle': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'reaching': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'gripping': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'lifting': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'lowering': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'transporting': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'rotating': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'turning': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'flipping': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'folding': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'hanging': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'unfolding': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'wiping': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'sweeping': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'mopping': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'scrubbing': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'dusting': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'spraying': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'squeezing': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'shaking': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'stirring': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'whisking': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'pouring': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'scooping': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'checking': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+            },
+            'opening': {
+                'handle_event': lambda event: None,
+                'handle_transition': lambda prev_state, next_state: None
+```

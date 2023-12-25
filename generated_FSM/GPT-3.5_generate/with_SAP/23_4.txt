@@ -1,0 +1,76 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = (
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'ENGAGE_CHILDREN': self.engage_children_state,
+            'MONITOR_PLAY': self.monitor_play_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        )
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation and decide on the next action based on the current state
+        if self.is_play_friendly():
+            self.current_state = 'MONITOR_PLAY'
+        else:
+            self.current_state = 'ENGAGE_CHILDREN'
+
+    def engage_children_state(self):
+        # Engage the children and guide them to play safely
+        self.gently_wait()
+        self.offer_alternative_play()
+        self.current_state = 'MONITOR_PLAY'
+
+    def monitor_play_state(self):
+        # Continuously monitor the play and assess if any intervention is needed
+        if self.is_play_becoming_risky():
+            self.current_state = 'ENGAGE_CHILDREN'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if necessary
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_play_friendly(self):
+        # Check if the play between the child and the dog is friendly and safe
+        # Returns True if the play is friendly, False otherwise
+        play_friendly = self.checking('play')
+        return play_friendly
+
+    def gently_wait(self):
+        # Wait for a moment to observe the play without interrupting
+        self.monitoring('play')
+
+    def offer_alternative_play(self):
+        # Offer alternative play options to divert the child's attention from the rough play with the dog
+        self.offering('alternative play')
+
+    def is_play_becoming_risky(self):
+        # Check if the play between the child and the dog is becoming too rough and risky
+        # Returns True if the play is becoming risky, False otherwise
+        play_risky = self.monitoring('play risk')
+        return play_risky
+
+    def call_for_help(self):
+        # Call for human assistance if necessary
+        self.calling('human assistance')
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()

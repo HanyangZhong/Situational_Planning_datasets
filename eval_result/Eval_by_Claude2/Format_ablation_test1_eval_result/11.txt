@@ -1,0 +1,58 @@
+ Here are the scoring and analysis for the FSMs provided:
+
+Code 11_3 FSM:
+
+1. State Coverage: 8 - Has most necessary states like Checking_Conditions, Reaching_Medicine, Delivering_Medicine. Does not have explicit states for calling for help if needed.  
+
+2. Transition Coverage: 7 - Has direct transitions between adjacent states, but no fallback transitions if an action fails.
+
+3. Cyclomatic Complexity: 5 - Linear state transitions without much interconnectivity between non-adjacent states.
+
+4. Safety Mindset: 6 - No explicit safety checks before physical actions.
+
+5. Scalability: 7 - Reasonably encapsulated but may need some refactoring for extensibility.
+
+6. Assistance UX: 6 - Functional but not personalized or context-aware interactions.
+
+7. Action Set Alignment: 8 - Uses Reaching, Delivering, Checking, Monitoring actions from standard set.
+
+Overall Benchmark Score: 6.7
+
+Strengths: 
+- Covers core functionality for medicine delivery task.
+- Simple linear state transitions.
+
+Weaknesses: 
+- Lacks safety checks and error handling.
+- No call for assistance capability.
+- Rigid interactions.
+
+
+Code 11_4 FSM: 
+
+1. State Coverage: 7 - Checks patient condition and delivers medicine, but no explicit resting state.
+
+2. Transition Coverage: 8 - Has transitions to handle multiple scenarios. Falls short of being fully connected.  
+
+3. Cyclomatic Complexity: 7 - Some interconnections between non-linear states.
+
+4. Safety Mindset: 5 - No safety checks before physical actions.
+
+5. Scalability: 8 - Reasonably encapsulated in states for easy extensions.
+
+6. Assistance UX: 5 - Functional interactions only, no personalization.  
+
+7. Action Set Alignment: 7 - Uses Checking, Monitoring, Delivering actions from standard vocabulary.
+
+Overall Benchmark Score: 6.7
+
+Strengths:
+- Flexible transitions to handle multiple scenarios. 
+- Encapsulates key functionality into reusable states.
+
+Weaknesses:
+- No safety checks or error handling.  
+- No explicit call for assistance capability.
+- Lacks personalization.
+
+Please let me know if you need any clarification or have additional questions!

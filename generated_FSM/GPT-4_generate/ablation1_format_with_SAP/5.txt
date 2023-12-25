@@ -1,0 +1,105 @@
+Here's a Python finite state machine implemented in a class called `BathroomMedicineCabinetSafetyRobotFSM`. Its purpose is to help secure medicine bottles and prevent accidental ingestion, especially by minding the safety of children and pets. 
+
+The most needed assistance would be to close the open bottles, gather the spilled pills, properly secure and close the cabinet. The bot also monitors for potential misuse and quickly responds accordingly.
+
+```
+class BathroomMedicineCabinetSafetyRobotFSM:
+    def __init__(self):
+        # The first state to be implemented
+        self.current_state = self.start
+
+    def start(self):
+        # The starting state. Transition to the next state when the condition is met
+        if self.check_spilled_bottles():
+            self.current_state = self.gather_spilled_pills
+
+    def gather_spilled_pills(self):
+        # Reaching, Grasping, Collecting pills, and then transitioning to the next state
+        self.reach_for_spilled_pills()
+        self.grasp_spilled_pills()
+        self.collect_spilled_pills()
+        if self.check_open_bottles():
+            self.current_state = self.close_bottles
+
+    def close_bottles(self):
+        # Reaching, Grasping, then Closing bottles, and then transitioning to next state
+        self.reach_for_open_bottles()
+        self.grasp_open_bottles()
+        self.close_open_bottles()
+        if self.check_open_cabinet():
+            self.current_state = self.close_cabinet
+
+    def close_cabinet(self):
+        # Reaching, Pulling the cabinet door to close, then transitioning to monitoring state
+        self.reach_for_cabinet()
+        self.pull_cabinet_door()
+        self.current_state = self.monitor_environment
+
+    def monitor_environment(self):
+        # This state monitors for potential misuse of medications
+        # If an unsafe condition arises, it transitions back to the start state and repeats the process
+        if not self.check_safety():
+            self.current_state = self.start
+        else:
+            self.remind_proper_use()
+
+    # Helper methods: These are not actual implementations, they merely present an outline of what the methods should do
+
+    def check_spilled_bottles(self):
+        # Check if there are any spilled bottles
+        pass
+
+    def check_open_bottles(self):
+        # Check if there are any open bottles
+        pass
+
+    def check_open_cabinet(self):
+        # Check if the cabinet is open
+        pass
+
+    def check_safety(self):
+        # Monitor the environment and check if the situation is safe
+        pass
+
+    def reach_for_spilled_pills(self):
+        # Reach for the spilled pills
+        pass
+
+    def grasp_spilled_pills(self):
+        # Grasp the spilled pills
+        pass
+
+    def collect_spilled_pills(self):
+        # Collect the spilled pills into a safe container
+        pass
+
+    def reach_for_open_bottles(self):
+        # Reach for the open bottles
+        pass
+
+    def grasp_open_bottles(self):
+        # Grasp the open bottles
+        pass
+
+    def close_open_bottles(self):
+        # Close the open bottles
+        pass
+
+    def reach_for_cabinet(self):
+        # Reach for the medicine cabinet
+        pass
+
+    def pull_cabinet_door(self):
+        # Pull the medicine cabinet door to close it
+        pass
+
+    def remind_proper_use(self):
+        # Remind users of proper medication use and safety
+        pass
+
+    def run(self):
+        # Execute the appropriate state in the state machine
+        while True:
+            self.current_state()
+```
+In this FSM, the robot transitions from one state to another when it has finished performing an action (like gathering spilled pills or closing bottles). If the bot identifies an unsafe condition in the monitoring state, it can transition back to the start state to repeat the safety checks and actions to ensure a safe environment. This cycle continues indefinitely until the program is terminated.

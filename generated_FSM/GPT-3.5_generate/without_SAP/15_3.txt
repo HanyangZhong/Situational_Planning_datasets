@@ -1,0 +1,97 @@
+class ButlerRobotHFSM:
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'COVER_OUTLET': self.cover_outlet_state,
+            'REMOVE_PLANT': self.remove_plant_state,
+            'REMOVE_TOY': self.remove_toy_state,
+            'FINISHED': self.finished_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Butler Robot: Assessing the situation.")
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        print("Butler Robot: Checking for hazards.")
+        if self.is_outlet_exposed():
+            self.current_state = 'COVER_OUTLET'
+        elif self.is_plant_toxic():
+            self.current_state = 'REMOVE_PLANT'
+        elif self.is_toy_dangerous():
+            self.current_state = 'REMOVE_TOY'
+        else:
+            self.current_state = 'FINISHED'
+
+    def cover_outlet_state(self):
+        print("Butler Robot: Covering the electrical outlet.")
+        self.place_cover_on_outlet()
+        self.current_state = 'ASSESS_SITUATION'
+
+    def remove_plant_state(self):
+        print("Butler Robot: Removing the toxic plant.")
+        self.remove_plant_from_shelf()
+        self.current_state = 'ASSESS_SITUATION'
+
+    def remove_toy_state(self):
+        print("Butler Robot: Removing the dangerous toy.")
+        self.remove_toy_from_rug()
+        self.current_state = 'ASSESS_SITUATION'
+
+    def finished_state(self):
+        print("Butler Robot: Hazards have been addressed. Task complete.")
+
+    # Actions / Annotation methods
+    def is_outlet_exposed(self):
+        exposed = self.checking('electrical outlet')
+        return exposed
+
+    def is_plant_toxic(self):
+        toxic = self.checking('potted plant toxicity')
+        return toxic
+
+    def is_toy_dangerous(self):
+        dangerous = self.checking('toy hazards')
+        return dangerous
+
+    def place_cover_on_outlet(self):
+        self.placing_down('electrical outlet cover')
+        self.lowering('electrical outlet cover')
+
+    def remove_plant_from_shelf(self):
+        self.collecting('toxic plant')
+        self.removing('toxic plant')
+
+    def remove_toy_from_rug(self):
+        self.collecting('dangerous toy')
+        self.removing('dangerous toy')
+
+    def checking(self, item):
+        print(f"Butler Robot: Checking {item}.")
+        # Placeholder for actual checking logic
+        return True
+
+    def placing_down(self, item):
+        print(f"Butler Robot: Placing down {item}.")
+        # Placeholder for actual action logic
+
+    def lowering(self, item):
+        print(f"Butler Robot: Lowering {item}.")
+        # Placeholder for actual action logic
+
+    def collecting(self, item):
+        print(f"Butler Robot: Collecting {item}.")
+        # Placeholder for actual action logic
+
+    def removing(self, item):
+        print(f"Butler Robot: Removing {item}.")
+        # Placeholder for actual action logic
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()

@@ -1,0 +1,67 @@
+class ButlerRobot:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state, 
+            'ASSESS': self.assess_state,
+            'BLOCK': self.block_state,
+            'CLEAN': self.clean_state,
+            'CHECK': self.check_state
+        }
+        self.state = 'INITIAL'
+
+    def initial_state(self):
+        print("// Initial state")
+        self.state = 'ASSESS'
+
+    def assess_state(self):
+        print("// Assessing the situation")
+        # Check for hazards
+        hazard = self.check_hazards()  
+        if hazard:
+            # Block access if hazards found  
+            self.state = 'BLOCK'
+        else:
+            # No hazards, move to cleaning  
+            self.state = 'CLEAN'
+
+    def block_state(self):
+        print("// Blocking access to kitchen")
+        # Cordon off kitchen entrance
+        self.place_sign()  
+        self.state = 'CLEAN'
+
+    def clean_state(self):
+        print("// Cleaning up spill") 
+        # Wipe up and dispose of paper towels        
+        self.wipe_spill()
+        self.dispose_paper_towels()
+        self.state = 'CHECK'
+
+    def check_state(self):
+        print("// Checking if cleaning is complete")
+        # Verify kitchen is hazard-free
+        if self.check_hazards():
+            self.state = 'CLEAN'  
+        else:
+            print("// Kitchen safe, returning to initial state")
+            self.state = 'INITIAL'  
+
+    # Helper annotation methods
+    def check_hazards(self):
+        return True if self.sense_spill() else False
+    
+    def sense_spill(self):
+        return True # Spill sensed
+
+    def place_sign(self):
+        pass # Place sign blocking kitchen entrance
+    
+    def wipe_spill(self):
+        pass # Wipe up spill with paper towels
+    
+    def dispose_paper_towels(self):
+        pass # Dispose used paper towels
+        
+br = ButlerRobot()
+br.initial_state()

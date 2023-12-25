@@ -1,0 +1,48 @@
+Here's a Python class definition for a butler robot to manage the situation with the child and the electrical outlet:
+```python
+class ChildSafetyButler(FSM):
+    """
+    A class representing a butler robot responsible for managing child safety
+    in the presence of unprotected electrical outlets.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.current_state = 'idle'
+
+    def idle(self):
+        """
+        The butler robot is idle and not performing any actions.
+        """
+        pass
+
+    def detect_danger(self):
+        """
+        The butler robot detects the danger of the child reaching the electrical outlet.
+        """
+        pass
+
+    def alert_child(self):
+        """
+        The butler robot alerts the child to the danger of the electrical outlet.
+        """
+        pass
+
+    def take_action(self):
+        """
+        The butler robot takes appropriate action to prevent the child from reaching
+        the electrical outlet.
+        """
+        pass
+
+    def transition(self, new_state):
+        """
+        The butler robot transitions to the new state.
+
+        :param new_state: The new state to transition to.
+        :type new_state: str
+        """
+        if new_state in ['idle', 'detect_danger', 'alert_child', 'take_action']:
+            self.current_state = new_state
+```
+This class defines the high-level state machine logic and transitions. The current implementation of the methods is empty as they are intended to be implemented by the user. The `transition` method allows the butler robot to transition between different states, ensuring that the robot's actions are focused on the most critical tasks at any given time.

@@ -1,0 +1,93 @@
+Here is a possible implementation of the butler robot finite state machine in Python:
+```python
+class Butler(FSM):
+    def __init__(self, bedroom):
+        super().__init__()
+        self.bedroom = bedroom
+        self.current_state = 'idle'
+        self.is_help_required = False
+
+    def idle(self):
+        if self.check_if_help_required():
+            self.move_to_help_required_state()
+
+    def help_required(self):
+        self.current_state = 'reaching'
+        self.perform_reaching_action()
+
+    def reaching(self):
+        if self.check_if_reaching_action_successful():
+            self.move_to_next_state()
+        else:
+            self.move_to_help_required_state()
+
+    def next_state(self):
+        # determine the next state based on the current context and task
+        self.current_state = 'lifting'
+        self.perform_lifting_action()
+
+    def lifting(self):
+        if self.check_if_lifting_action_successful():
+            self.move_to_next_state()
+        else:
+            self.move_to_help_required_state()
+
+    def next_state(self):
+        # determine the next state based on the current context and task
+        self.current_state = 'transporting'
+        self.perform_transporting_action()
+
+    def transporting(self):
+        if self.check_if_transporting_action_successful():
+            self.move_to_next_state()
+        else:
+            self.move_to_help_required_state()
+
+    def next_state(self):
+        # determine the next state based on the current context and task
+        self.current_state = 'finished'
+        self.perform_finished_action()
+
+    def finished(self):
+        self.current_state = 'idle'
+
+    def check_if_help_required(self):
+        # check if help is required based on the current context and task
+        return False
+
+    def move_to_help_required_state(self):
+        self.current_state = 'help_required'
+
+    def perform_reaching_action(self):
+        # perform the reaching action based on the current context and task
+        pass
+
+    def check_if_reaching_action_successful(self):
+        # check if the reaching action was successful
+        return False
+
+    def perform_lifting_action(self):
+        # perform the lifting action based on the current context and task
+        pass
+
+    def check_if_lifting_action_successful(self):
+        # check if the lifting action was successful
+        return False
+
+    def perform_transporting_action(self):
+        # perform the transporting action based on the current context and task
+        pass
+
+    def check_if_transporting_action_successful(self):
+        # check if the transporting action was successful
+        return False
+
+    def perform_finished_action(self):
+        # perform the finished action based on the current context and task
+        pass
+
+    def is_state_valid(self, state):
+        # check if the state is valid based on the current context and task
+        return False
+```
+This implementation defines the `Butler` class that inherits from the `FSM` class. The `idle` method is the initial state, which checks if help is required and transitions to the `help_required` state if needed. The `help_required` state performs a reaching action to pick up the medicine bottle, which may transition to the `reaching` state if a reaching action is required. The `reaching` state checks if the reaching action was successful and transitions to the `next_state` if successful or to the `help_required` state if not. The `next_state` method determines the next state based on the current context and task, and performs the required action. The `finished` method marks the end of the task and transitions back to the `idle` state. The helper methods are abstract and do not have actual implementation. The `is_state

@@ -1,0 +1,79 @@
+Here's a simple FSM class to handle such a scenario:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.current_state = self.state_monitoring_environment
+        self.in_safe_zone = False #The location where the cleaning chemicals can be placed
+
+    # The initial state, monitoring the environment for hazards
+    def state_monitoring_environment(self):
+        if self.chemical_hazard_present():
+            self.current_state = self.state_reaching_cleaning_products
+        else:
+            self.current_state = self.state_monitoring_environment
+
+    # The state of getting the cleaning products
+    def state_reaching_cleaning_products(self):
+        if self.goal_reached():
+            self.grasping_cleaning_products()
+            self.current_state = self.state_lifting_cleaning_products
+        else:
+            self.reaching_cleaning_products()
+
+    # The state of lifting the cleaning products
+    def state_lifting_cleaning_products(self):
+        self.current_state = self.state_transporting_cleaning_products
+
+    # Transporting to a safe location
+    def state_transporting_cleaning_products(self):
+        if self.at_safe_zone():
+            self.lowering_cleaning_products()
+            self.closing_cleaning_products()
+            self.current_state = self.state_monitoring_environment
+        else:
+            self.transporting_cleaning_products()
+
+    # helper methods for actions and checking conditions
+    def chemical_hazard_present(self):
+        # check for chemical hazard, return True if present
+        pass
+
+    def reaching_cleaning_products(self):
+        # extend arm towards cleaning products
+        pass
+
+    def goal_reached(self):
+        # verify if cleaning products are in reach now
+        pass
+
+    def grasping_cleaning_products(self):
+        # hold the cleaning products
+        pass
+
+    def lifting_cleaning_products(self):
+        # carry the cleaning products
+        pass 
+
+    def at_safe_zone(self):
+        # check if reached safe place
+        pass
+
+    def lowering_cleaning_products(self):
+        # put down cleaning products gently 
+        pass
+
+    def closing_cleaning_products(self):
+        # secure the cleaning products by closing their lids
+        pass
+
+    def transporting_cleaning_products(self):
+        # move towards safe zone
+        pass
+
+    # Execute the state machine loop
+    def run(self):
+        while True:
+            self.current_state()
+```
+In this code, ButlerRobotFSM class is defined. The robot continues to monitor the environment to identify any hazards. As soon as a chemical hazard is identified, the robot transitions to reaching the cleaning products. Once the cleaning products are within reach, the robot transitions to the lifting state to lift up the cleaning products and then transport them. If the robot has moved to the safe zone, the cleaning products are lowered and closed tightly before the robot transits back to the initial state of monitoring the environment.

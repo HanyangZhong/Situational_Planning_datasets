@@ -1,0 +1,39 @@
+class ButlerProtectChildFSM:
+    
+    def __init__(self):
+        self.states = {
+            "INITIAL": self.initial_state,
+            "ASSESS": self.assess_state,
+            "ACT": self.act_state,
+            "FOLLOW_UP": self.follow_up_state
+        }
+        self.state = "INITIAL"
+        
+    def initial_state(self):
+        print("Initializing butler robot child protection system...")
+        self.state = "ASSESS"
+
+    def assess_state(self):
+        print("Assessing situation...")
+        child_in_danger = self.checking("child near outlet")
+        if child_in_danger:
+            self.state = "ACT"
+        else:
+            self.state = "FOLLOW_UP"
+
+    def act_state(self):
+        print("Removing child from danger...")
+        self.moving("quickly to the child")
+        self.grasping("the child")  
+        self.carrying("the child away from the outlet")
+        self.state = "FOLLOW_UP"
+
+    def follow_up_state(self):
+        print("Ensuring continued safety...")
+        self.checking("for other dangers") 
+        self.covering("the outlet")
+        self.educating("the child on electrical safety")
+        self.state = "ASSESS"
+        
+butler = ButlerProtectChildFSM()
+butler.initial_state()

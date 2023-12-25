@@ -1,0 +1,141 @@
+Here's a Python class definition for the butler robot with the given scene:
+```python
+class Butler(FSM):
+    def __init__(self):
+        super().__init__()
+        self.current_state = 'idle'
+        self.locked_outlets = False
+        self.safety_alert_sent = False
+
+    def initialize(self):
+        self.locked_outlets = False
+        self.safety_alert_sent = False
+
+    def reach(self):
+        if self.check_reach_outlet():
+            self.current_state = 'reach_outlet'
+            return 'reach_outlet'
+        else:
+            return self.current_state
+
+    def gripping(self):
+        if self.check_grip_outlet():
+            self.current_state = 'gripping'
+            return 'gripping'
+        else:
+            return self.current_state
+
+    def lifting(self):
+        if self.check_lift_outlet():
+            self.current_state = 'lift'
+            return 'lift'
+        else:
+            return self.current_state
+
+    def lowering(self):
+        if self.check_lower_outlet():
+            self.current_state = 'lower'
+            return 'lower'
+        else:
+            return self.current_state
+
+    def transporting(self):
+        if self.check_transport_outlet():
+            self.current_state = 'transport'
+            return 'transport'
+        else:
+            return self.current_state
+
+    def turning(self):
+        if self.check_turn_outlet():
+            self.current_state = 'turn'
+            return 'turn'
+        else:
+            return self.current_state
+
+    def flipping(self):
+        if self.check_flip_outlet():
+            self.current_state = 'flip'
+            return 'flip'
+        else:
+            return self.current_state
+
+    def folding(self):
+        if self.check_fold_outlet():
+            self.current_state = 'fold'
+            return 'fold'
+        else:
+            return self.current_state
+
+    def hanging(self):
+        if self.check_hang_outlet():
+            self.current_state = 'hang'
+            return 'hang'
+        else:
+            return self.current_state
+
+    def unfolding(self):
+        if self.check_unfold_outlet():
+            self.current_state = 'unfold'
+            return 'unfold'
+        else:
+            return self.current_state
+
+    def wiping(self):
+        if self.check_wipe_outlet():
+            self.current_state = 'wipe'
+            return 'wipe'
+        else:
+            return self.current_state
+
+    def sweeping(self):
+        if self.check_sweep_outlet():
+            self.current_state = 'sweep'
+            return 'sweep'
+        else:
+            return self.current_state
+
+    def mopping(self):
+        if self.check_mop_outlet():
+            self.current_state = 'mop'
+            return 'mop'
+        else:
+            return self.current_state
+
+    def scrubbing(self):
+        if self.check_scrub_outlet():
+            self.current_state = 'scrub'
+            return 'scrub'
+        else:
+            return self.current_state
+
+    def dusting(self):
+        if self.check_dust_outlet():
+            self.current_state = 'dust'
+            return 'dust'
+        else:
+            return self.current_state
+
+    def spraying(self):
+        if self.check_spray_outlet():
+            self.current_state = 'spray'
+            return 'spray'
+        else:
+            return self.current_state
+
+    def pouring(self):
+        if self.check_pour_outlet():
+            self.current_state = 'pour'
+            return 'pour'
+        else:
+            return self.current_state
+
+    def scooping(self):
+        if self.check_scoop_outlet():
+            self.current_state = 'scoop'
+            return 'scoop'
+        else:
+            return self.current_state
+
+    def checking(self):
+```

@@ -1,0 +1,120 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'DETECT_CHILD_NEAR_STOVE': self.detect_child_near_stove_state,
+            'GENTLY_DISTRACT_CHILD': self.gently_distract_child_state,
+            'ASSESS_DISTRACTION_OUTCOME': self.assess_distraction_outcome_state,
+            'SECURE_STOVE_AREA': self.secure_stove_area_state,
+            'MONITOR_STOVE': self.monitor_stove_state,
+            'ENSURE_CHILD_SAFETY': self.ensure_child_safety_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track the child's behavior and kitchen status
+        self.child_near_stove = False
+        self.kitchen_in_use = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        self.current_state = 'DETECT_CHILD_NEAR_STOVE'
+
+    def detect_child_near_stove_state(self):
+        if self.detect_child_near_stove():
+            self.current_state = 'GENTLY_DISTRACT_CHILD'
+        else:
+            self.current_state = 'MONITOR_STOVE'
+
+    def gently_distract_child_state(self):
+        self.attracting('child', 'safe_activity')  # Gently attract the child to a safe activity
+        self.current_state = 'ASSESS_DISTRACTION_OUTCOME'
+
+    def assess_distraction_outcome_state(self):
+        if self.detect_child_distracted():
+            self.current_state = 'SECURE_STOVE_AREA'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def secure_stove_area_state(self):
+        if self.detect_child_near_stove():
+            self.turning('stove_controls', 'off')  # Turn off the stove if the child is nearby
+            self.current_state = 'ENSURE_CHILD_SAFETY'
+        else:
+            self.current_state = 'MONITOR_STOVE'  # If the child is not near, monitor the stove
+
+    def monitor_stove_state(self):
+        if self.is_stove_cooking_properly():
+            self.current_state = 'MONITOR_ENVIRONMENT'  # Continue monitoring if cooking is proper
+        else:
+            self.turning('stove_controls', 'off')  # Turn off the stove if there's a risk of burning
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def ensure_child_safety_state(self):
+        if self.child_is_safe():
+            self.child_near_stove = False
+            self.current_state = 'MONITOR_ENVIRONMENT'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance
+        self.current_state = 'INITIAL'
+
+    # Function definitions for various actions
+    def monitoring(self, subject):
+        # Implement monitoring logic
+        pass
+
+    def detect_child_near_stove(self):
+        self.child_near_stove = self.monitoring('environment', 'child')
+        return self.child_near_stove
+
+    def attracting(self, child, activity):
+        self.responding(child,activity)
+        # Implement logic to attract the child to a safe activity
+
+    def detect_child_distracted(self):
+        state = self.monitoring('child')
+        # Implement logic to detect if the child is reaching for sharp objects
+        return state
+
+    def arranging(self, controls, action):
+        # Implement logic to rearrange stove controls based on the action
+        pass
+
+    def turning(self, item, action):
+        # Implement logic to rearrange stove controls based on the action
+        pass
+
+    def responding(self, child, activity):
+        # Implement logic to rearrange stove controls based on the action
+        pass
+
+    def is_stove_cooking_properly(self):
+        no_burning = self.monitoring('stove')
+        # Check if the stove is cooking properly without risk
+        return no_burning
+
+    def child_is_safe(self):
+        state = self.monitoring('child')
+        # Implement logic to check if the child is safe
+        return state
+
+    def calling_for_help(self):
+        # Implement logic to call for human assistance
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()

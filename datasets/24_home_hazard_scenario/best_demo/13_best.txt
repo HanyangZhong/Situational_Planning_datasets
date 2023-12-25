@@ -1,0 +1,109 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'SECURE_CHEMICALS': self.secure_chemicals_state,
+            'VENTILATE_AREA': self.ventilate_area_state,
+            'CHECK_WELLBEING': self.check_wellbeing_state,
+            'MONITOR_OCCUPANT': self.monitor_occupant_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track the environment and occupant status
+        self.chemical_hazard_detected = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        if self.detect_chemical_hazard():
+            self.current_state = 'SECURE_CHEMICALS'
+        else:
+            self.current_state = 'MONITOR_OCCUPANT'
+
+    def secure_chemicals_state(self):
+        self.grasping('chemical_bottles')  # Grasp the chemical bottles
+        self.closing('chemical_bottles')  # Close the bottles if open
+        self.placing_down('chemical_bottles', 'safe_storage')  # Place them in safe storage
+        self.current_state = 'VENTILATE_AREA'
+
+    def ventilate_area_state(self):
+        self.opening('window')  # Open windows to ventilate the area
+        self.current_state = 'CHECK_WELLBEING'
+
+    def check_wellbeing_state(self):
+        self.checking('occupant_wellbeing')  # Check the wellbeing of the pregnant woman
+        if self.occupant_is_safe():
+            self.current_state = 'MONITOR_OCCUPANT'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_occupant_state(self):
+        self.monitoring('occupant')  # Continuously monitor the occupant
+        if self.occupant_needs_assistance():
+            self.responding(self.assistance)
+            self.current_state = 'CHECK_WELLBEING'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance
+        self.current_state = 'INITIAL'
+
+    def detect_chemical_hazard(self):
+        self.chemical_hazard_detected = self.monitoring('environment')
+        # Detect any chemical hazards in the environment
+        return self.chemical_hazard_detected
+
+    def occupant_is_safe(self):
+        self.chemical_hazard_detected = self.checking('occupant_wellbeing')
+        # Check if the occupant is safe after mitigating the hazard
+        return self.chemical_hazard_detected
+
+    def occupant_needs_assistance(self):
+        self.assistance = self.checking('occupant_assistance')
+        # Check if the occupant is safe after mitigating the hazard
+        return self.assistance
+
+    def monitoring(self, subject):
+        # Monitor a specified subject (environment or occupant)
+        pass
+
+    def grasping(self, item):
+        # Grasp the specified item (chemical bottles)
+        pass
+
+    def closing(self, containers):
+        # Close any open containers
+        pass
+
+    def placing_down(self, item, location):
+        # Place the item in a specified location (safe storage)
+        pass
+
+    def opening(self, window):
+        # Open windows for ventilation
+        pass
+
+    def checking(self, condition):
+        # Check the specified condition (occupant wellbeing)
+        pass
+
+    def calling_for_help(self):
+        # Call for human assistance
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The 'run' method would typically include conditions for graceful exit in a real-world implementation.

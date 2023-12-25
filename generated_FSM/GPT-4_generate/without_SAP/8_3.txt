@@ -1,0 +1,94 @@
+Here's an example of how you could represent this as a finite-state machine:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Defining possible states
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'GRASP_KNIFE': self.grasp_knife_state,
+            'ROTATE_KNIFE': self.rotate_knife_state,
+            'PLACE_KNIFE': self.place_knife_state,
+            'CLOSE_DRAWER': self.close_drawer_state,
+            'ASSESS_SUPPORTING_ITEM': self.assess_supporting_item_state,
+            'REMOVE_CHOPPING_ITEM': self.remove_chopping_item_state,
+            'CLEAN_AND_PLACE_CHOPPING_ITEM': self.clean_and_place_chopping_item_state
+        }
+        self.current_state = 'INITIAL'
+        
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+        
+    def assess_situation_state(self):
+        if self.checking('draw is open') and self.checking('knives arranged in disarray'):
+            self.current_state = 'GRASP_KNIFE'
+        else:
+            self.current_state = 'CLOSE_DRAWER'
+        
+    def grasp_knife_state(self):
+        self.gripping('knife handle')
+        self.current_state = 'ROTATE_KNIFE'
+        
+    def rotate_knife_state(self):
+        self.rotating('knife')
+        self.current_state = 'PLACE_KNIFE'
+        
+    def place_knife_state(self):
+        self.placing_down('knife')
+        if self.checking('more knives in drawer'):
+            self.current_state = 'GRASP_KNIFE'
+        else:
+            self.current_state = 'CLOSE_DRAWER'
+        
+    def close_drawer_state(self):
+        if self.checking('drawer is open'):
+            self.pushing('drawer')
+        self.current_state = 'ASSESS_SUPPORTING_ITEM'
+        
+    def assess_supporting_item_state(self):
+        if self.checking('chopping bell pepper is present'):
+            self.current_state = 'REMOVE_CHOPPING_ITEM'
+        else:
+            self.current_state = 'INITIAL'
+        
+    def remove_chopping_item_state(self):
+        self.gripping('chopped bell pepper')
+        self.current_state = 'CLEAN_AND_PLACE_CHOPPING_ITEM'
+        
+    def clean_and_place_chopping_item_state(self):
+        self.wiping('chopped bell pepper')
+        self.placing_down('chopped bell pepper')
+        self.current_state = 'INITIAL'
+
+    # Action methods, template methods
+    def gripping(self, target):
+        print(f'Gripping {target}...')
+    
+    def rotating(self, target):
+        print(f'Rotating {target}...')
+        
+    def placing_down(self, target):
+        print(f'Placing down {target}...')
+        
+    def pushing(self, target):
+        print(f'Pushing {target}...')
+
+    def checking(self, target):
+        print(f'Checking if {target}...')
+        return True
+
+    def wiping(self, target):
+        print(f'Wiping {target}...')
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In this code, the bot first assesses the situation of the knives, picks up each knife one by one, rotates it to a safer position and places it inside the drawer, pushing the drawer close at the end. Then it assesses the bell pepper on the counter, grips it, cleans it, and places it down.

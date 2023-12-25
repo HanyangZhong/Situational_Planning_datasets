@@ -1,0 +1,88 @@
+Here is a modified version of the FSM that models the relevant actions in the provided scenario:
+
+```python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REMOVE_CHEMICALS': self.remove_chemicals_state,
+            'VENTILATE_ROOM': self.ventilate_room_state,
+            'INFORM_WOMAN': self.inform_woman_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if there are open chemicals near the pregnant woman
+        if self.are_chemicals_open() and self.is_woman_near():
+            self.current_state = 'REMOVE_CHEMICALS'
+        else:
+            self.current_state = 'INFORM_WOMAN'
+
+    def remove_chemicals_state(self):
+        # If dangerous chemicals are open, close them and remove them from the vicinity.
+        self.closing('open chemicals')
+        self.grasping('closed chemicals')
+        self.transporting('closed chemicals', 'safe storage space')
+        self.placing_down('closed chemicals')
+        self.current_state = 'VENTILATE_ROOM'
+
+    def ventilate_room_state(self):
+        # Open the window to ventilate the room
+        self.reaching('window')
+        self.opening('window')
+        self.current_state = 'INFORM_WOMAN'
+
+    def inform_woman_state(self):
+        # Inform the woman of what was done and caution her about the danger of open chemicals.
+        self.reminding('woman', 'chemical safety rules')
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def are_chemicals_open(self):
+        chemicals_open = self.checking('chemical bottles')
+        return chemicals_open
+
+    def is_woman_near(self):
+        woman_near = self.monitoring('woman', 'chemicals')
+        return woman_near
+
+    def closing(self, item):
+        print(f'Closing {item}.\n')
+
+    def grasping(self, item):
+        print(f'Grasping {item}.\n')
+
+    def transporting(self, item, destination):
+        print(f'Transporting {item} to {destination}.\n')
+
+    def placing_down(self, item):
+        print(f'Placing down {item}.\n')
+
+    def reaching(self, item):
+        print(f'Reaching for {item}.\n')
+
+    def opening(self, item):
+        print(f'Opening {item}.\n')
+
+    def reminding(self, person, message):
+        print(f'Reminding {person} about {message}.\n')
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+
+In this code, the robot first assesses the situation, then in sequence, it closes the chemicals, removes them, ventilates the room, and subsequently informs the woman while reminding her about the dangers of open chemicals. The robot then starts again from the initial state.

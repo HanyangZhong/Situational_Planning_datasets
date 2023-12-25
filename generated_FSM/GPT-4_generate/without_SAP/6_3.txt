@@ -1,0 +1,77 @@
+Sure, based on your description of the scene and the example provided, here's how a Finite State Machine that manages the cleaning process can be implemented:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'CHECKING_ROOM': self.checking_room_state,
+            'PICKING_UP_PRODUCTS': self.picking_up_products_state,
+            'RECAP_BOTTLES': self.recap_bottles_state,
+            'CLEAN_MESS': self.clean_mess_state,
+            'ARRANGE_SHELVES': self.arrange_shelves_state,
+            'CLOSE_DOOR': self.close_door_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        self.current_state = 'CHECKING_ROOM'
+    
+    def checking_room_state(self):
+        if self.are_products_uncovered() and self.is_door_open():
+            self.current_state = 'PICKING_UP_PRODUCTS'
+        else:
+            self.current_state = 'CLOSE_DOOR'
+
+    def picking_up_products_state(self):
+        self.collecting('cleaning products')
+        self.current_state = 'RECAP_BOTTLES'
+    
+    def recap_bottles_state(self):
+        self.gripping('uncapped bottle')
+        self.replacing('bottle cap')
+        self.current_state = 'CLEAN_MESS'
+    
+    def clean_mess_state(self):
+        if self.detect_mess():
+            self.grabbing('mop')
+            self.mopping('floor')
+            self.current_state = 'ARRANGE_SHELVES'
+        else:
+            self.current_state = 'ARRANGE_SHELVES'    
+    
+    def arrange_shelves_state(self):
+        self.grasping('loosely placed product')
+        self.placing_down('product', 'shelve')
+        self.current_state = 'CLOSE_DOOR'
+
+    def close_door_state(self):
+        # Irene: this state is for the last step. Maybe there's no if statement in here
+        self.grasping('door handle')
+        self.pulling('door')
+        self.current_state = 'INITIAL'
+
+    def are_products_uncovered(self):
+        products_uncovered = self.checking('cleaning products')
+        return products_uncovered
+
+    def is_door_open(self):
+        door_open = self.checking('door')
+        return door_open   
+
+    def detect_mess(self):
+        mess = self.checking('floor')
+        return mess
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+This finite state machine starts with INITIAL. It then proceeds to CHECKING_ROOM where it checks for exposed cleaning items and an open door. If conditions are met, it moves to PICKING_UP_PRODUCTS, where it cleans the room and secure the cleaning products, after securing the products it recaps them in RECAP_BOTTLES state. Next, in CLEAN_MESS stage, it'll clean any spillage if present, if none move directly to ARRANGE_SHELVES where it'll secure any loose items on the shelf. Finally, it closes the door in CLOSE_DOOR state. It then returns to the INITIAL state, completing the cycle.

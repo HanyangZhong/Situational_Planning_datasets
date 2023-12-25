@@ -1,0 +1,43 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIALIZE': self.initialize,
+            'ASSESS_SITUATION': self.assess_situation, 
+            'RETRIEVE_MEDICINE': self.retrieve_medicine,
+            'DELIVER_MEDICINE': self.deliver_medicine
+        }
+        self.current_state = 'INITIALIZE'
+
+    def initialize(self):
+        print("Butler Robot: Initializing...")
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation(self):
+        print("Butler Robot: Assessing situation...")
+        if self.person_needs_help_reaching_medicine():
+            self.current_state = 'RETRIEVE_MEDICINE'
+        else: 
+            self.current_state = 'INITIALIZE'
+
+    def retrieve_medicine(self):
+        print("Butler Robot: Reaching for and grasping medicine bottle") 
+        self.grasp_object('medicine bottle')
+        self.current_state = 'DELIVER_MEDICINE'
+
+    def deliver_medicine(self):
+        print("Butler Robot: Delivering medicine to person")
+        self.give_object_to_person('medicine bottle')
+        self.current_state = 'INITIALIZE'
+
+    def person_needs_help_reaching_medicine(self):
+        return True
+
+    def grasp_object(self, object):
+        print(f"Butler Robot: Grasping {object}")
+
+    def give_object_to_person(self, object):
+        print(f"Butler Robot: Giving {object} to person")
+
+butler = ButlerRobotFSM()
+butler.run()

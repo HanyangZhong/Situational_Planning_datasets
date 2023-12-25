@@ -1,0 +1,67 @@
+class KitchenButlerHFSM:
+
+    def __init__(self):
+        # Define the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REACH_BUTTON': self.reach_button_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Start by assessing the situation
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Check if the pregnant woman is able to reach the emergency button
+        if self.can_reach_button():
+            self.current_state = 'REACH_BUTTON'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def reach_button_state(self):
+        # Attempt to reach the emergency button
+        self.reaching('emergency button')
+        if self.can_grip_button():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.lower_button()
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for emergency assistance
+        self.calling('emergency assistance')
+
+    # Actions / Annotation methods
+    def can_reach_button(self):
+        # Check if the pregnant woman is able to reach the emergency button
+        return self.checking('reachability')
+
+    def reaching(self, object):
+        # Simulate reaching for an object
+        print(f'Reaching for {object}')
+
+    def can_grip_button(self):
+        # Check if the pregnant woman can grip the emergency button
+        return self.checking('gripability')
+
+    def lower_button(self):
+        # Lower the emergency button to a reachable position
+        self.lowering('emergency button')
+
+    def calling(self, service):
+        # Call for a particular service
+        print(f'Calling for {service}')
+
+    # Run the HFSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+kitchen_butler = KitchenButlerHFSM()
+kitchen_butler.run()

@@ -1,0 +1,93 @@
+Your solution should be in line with the example you provided, thus your python code would be something like this:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REMOVE_CHILD': self.remove_child_state,
+            'COVER_OUTLET': self.cover_outlet_state,
+            'MONITOR_ROOM': self.monitor_room_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if the outlet is unprotected and if the child is at risk
+        if self.is_outlet_uncovered() and self.is_child_at_risk():
+            self.current_state = 'REMOVE_CHILD'
+        else:
+            self.current_state = 'MONITOR_ROOM'
+
+    def remove_child_state(self):
+        # If the child is at risk, move the child away from the outlet.
+        self.lift_child()
+        self.place_child_safely()
+        self.current_state = 'COVER_OUTLET'
+
+    def cover_outlet_state(self):
+        # Cover the outlet with a child-proof cap.
+        self.grasp_outlet_cover()
+        self.insert_outlet_cover()
+        self.current_state = "MONITOR_ROOM"
+        
+    def monitor_room_state(self):
+        # Continuously monitor the room. If the child approaches the outlet, remove the child.
+        if self.is_child_at_risk():
+            self.current_state = 'REMOVE_CHILD'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the outlet cover is failing or the child is uncooperative.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Action methods
+    def is_outlet_uncovered(self):
+        # Checking if outlet is uncovered
+        return True  # replace with actual code
+
+    def is_child_at_risk(self):
+        # Monitoring if child is near the dangerous outlet
+        return True  # replace with actual code
+
+    def lift_child(self):
+        # Lifting child
+        return  # replace with actual code
+
+    def place_child_safely(self):
+        # Placing child at safe spot in the room
+        return  # replace with actual code
+
+    def grasp_outlet_cover(self):
+        # Grasping outlet cover
+        return  # replace with actual code
+
+    def insert_outlet_cover(self):
+        # Inserting outlet cover on outlet to make it safe
+        return  # replace with actual code
+
+    def call_for_help(self):
+        # Calling for human assistance
+        return  # replace with actual code
+
+    # Run the FSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Initialise and run the FSM
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+This code should run indefinitely, evaluating the situation at each step, protecting the child if he is reaching for the outlet, or monitoring the room if everything is safe.

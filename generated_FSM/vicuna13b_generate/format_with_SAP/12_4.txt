@@ -1,0 +1,53 @@
+Here's a Python class definition for the butler robot:
+```python
+class PregnantWomanButler(FSMRobot):
+    def __init__(self, environment):
+        self.environment = environment
+        self.current_state = "idle"
+        self.helper_methods = {
+            "reaching": self.reaching,
+            "lifting": self.lifting,
+            "transporting": self.transporting,
+            "checking": self.checking,
+            "opening": self.opening,
+            "closing": self.closing,
+            "reminding": self.reminding,
+        }
+
+    def fsm(self):
+        while True:
+            self.current_state = self.get_next_state(self.current_state)
+            self.handle_state()
+
+    def get_next_state(self, current_state):
+        if current_state == "idle":
+            return "see_obstacle"
+        elif current_state == "see_obstacle":
+            return "evaluate_obstacle"
+        elif current_state == "evaluate_obstacle":
+            return "plan_path"
+        elif current_state == "plan_path":
+            return "execute_path"
+        elif current_state == "execute_path":
+            return "check_completion"
+        elif current_state == "check_completion":
+            return "idle"
+
+    def handle_state(self):
+        method = getattr(self, self.current_state)()
+        if method:
+            self.current_state = "idle"
+```
+The `PregnantWomanButler` class inherits from the `FSMRobot` class, which is a custom class that defines the Finite State Machine (FSM) logic. The robot has an environment attribute that can be used to store information about the room and its contents. The robot has a current\_state attribute that tracks the active state, and a helper\_methods dictionary that maps high-level actions to lower-level methods.
+
+The `fsm` method is the main loop of the FSM, which calls the `get_next_state` method to determine the next state to transition to. The `get_next_state` method returns the next state based on the current state and the conditions in the FSM. The `handle_state` method is called for each state transition, and calls the corresponding method in the robot to perform the state-specific actions.
+
+The helper methods are abstract and don't have actual implementations, but they can be implemented later as needed. The helper methods include:
+
+* `reaching`: A method to help the robot reach an obstacle or item in the environment.
+* `lifting`: A method to help the robot lift and move an obstacle or item in the environment.
+* `transporting`: A method to help the robot transport an obstacle or item in the environment.
+* `checking`: A method to help the robot check the obstacle or item in the environment.
+* `opening`: A method to help the robot open a door or container.
+* `closing`: A method to help the robot close a door or container.
+* `reminding`: A method to help the robot remind the pregnant woman to take breaks or rest.

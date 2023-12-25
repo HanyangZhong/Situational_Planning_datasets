@@ -1,0 +1,85 @@
+Here is a Python Class Definition based on the provided scenario and instructions:
+
+```python
+class ButlerRobotFSM:
+    '''
+    This class models a Butler Robot with finite state machine(FSM) capabilities
+    '''
+    def __init__(self):
+        self.current_state = self.monitoring
+        
+    def monitoring(self):
+        '''
+        This state represents the robot's default behavior of monitoring the environment.
+        When the robot detects an emergency situation, it would transition to 'responding' state.
+        '''
+        if self.is_emergency_detected():
+            self.current_state = self.responding
+    
+    def responding(self):
+        '''
+        In this state, the robot engages in responding to the emergency by trying to reach the emergency button.
+        If the reaching action is successful, it would transition to 'pressing' state.
+        Otherwise, it returns to 'monitoring' state.
+        '''
+        if self.is_reachable():
+            reaching()
+            self.current_state = self.pressing
+        else:
+            self.current_state = self.monitoring
+    
+    def pressing(self):
+        '''
+        In this state, the robot attempts to press the emergency button.
+        If the pressing action is successful, it would transition to 'monitoring' state.
+        Otherwise, it returns to 'responding' state.
+        '''
+        if self.is_press_successful():
+            pressing()
+            self.current_state = self.monitoring
+        else:
+            self.current_state = self.responding
+            
+    # Helper methods
+    def is_emergency_detected(self):
+        '''
+        This method checks if an emergency is detected
+        '''
+        return True # this is just a placeholder. In reality, this should be a more sophisticated condition.
+
+    def is_reachable(self):
+        '''
+        This method checks if the emergency button is reachable
+        '''
+        return True # this is just a placeholder. In reality, this should be a more sophisticated condition.
+
+    def is_press_successful(self):
+        '''
+        This method checks if the pressing action was successful
+        '''
+        return True # this is just a placeholder. In reality, this should be a more sophisticated condition.
+        
+    def reaching(self):
+        '''
+        Robot action of reaching for the emergency button
+        '''
+        pass # abstract method
+        
+    def pressing(self):
+        '''
+        Robot action of pressing the emergency button
+        '''
+        pass # abstract method
+
+    def run(self):
+        '''
+        Function to run the FSM. Notice that since the FSM is recurrent, this function could run indefinitely
+        '''
+        while True:
+            self.current_state()
+    
+robot = ButlerRobotFSM()
+robot.run()
+```
+
+In the above class, the robot monitors the environment and when it detects an emergency (in this case a fallen pregnant woman) it responds by reaching the emergency button and presses it. If any action is unsuccessful, it goes back to the monitoring state. But once the emergency button is pressed successfully, the robot would resume the monitoring routine. The helper methods are abstract and would require actual implementation using sensors and actuators on the robot.

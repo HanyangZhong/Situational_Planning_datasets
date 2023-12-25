@@ -1,0 +1,95 @@
+```python
+class ButlerRobotFSM:
+    """
+    This class represents a Finite State Machine describing a Butler Robot's duties 
+    in a home scene where a toddler is near an unprotected staircase.
+    """
+
+    def __init__(self):
+        """
+        The constructor of the class. 
+        It initializes the current state of the FSM as "monitoring".
+        """
+        self.current_state = self.monitoring
+
+    # States of the FSM
+
+    def monitoring(self):
+        """
+        This state represents the scenario where the Robot is vigilantly observing the situation. 
+        If the child is too close to the staircase, it moves to the 'securing_child' state.
+        """
+        if self.is_child_close_to_stairs():
+            self.current_state = self.securing_child
+
+    def securing_child(self):
+        """
+        This state indicates that the Robot is maneuvering to the toddler 
+        and moving them away from the dangerous zone. Heading towards 'installing_gate' afterward.
+        """
+        self.reaching_child()
+        self.grasping_child()
+        self.transporting_child_away_from_danger()
+        if self.child_secured():
+            self.current_state = self.installing_gate
+            
+    def installing_gate(self):
+        """
+        This state highlights the Robot's action of installing a safety gate. 
+        After installing, checking the gate's stability, then returning to 'monitoring' state.
+        """
+        self.fetching_gate()
+        self.assembling_gate()
+        self.checking_gate_stability()
+        if self.gate_is_stable():
+            self.current_state = self.monitoring
+    
+    # Helper methods
+    
+    def is_child_close_to_stairs(self):
+        # Check if child is close to stairs. Return Boolean.
+        pass
+    
+    def reaching_child(self):
+        # Process of reaching the child.
+        pass
+
+    def grasping_child(self):
+        # Securely gripping the child.
+        pass
+
+    def transporting_child_away_from_danger(self):
+        # Transport child away from stairs.
+        pass
+
+    def child_secured(self):
+        # Check if child has been moved to a safe place. Return Boolean.
+        pass
+
+    def fetching_gate(self):
+        # Fetch safety gate.
+        pass
+    
+    def assembling_gate(self):
+        # Assemble the safety gate at stairs top.
+        pass
+
+    def checking_gate_stability(self):
+        # Check gate's stability after installing.
+        pass
+
+    def gate_is_stable(self):
+        # Confirm if gate is stable. Return Boolean.
+        pass
+
+    def run(self) -> None:
+        """
+        Runs the Robot's FSM until a signal to stop is received.
+        """
+        while True:
+            # Note: There needs to be an additional signal to stop the FSM loop (not shown here)
+            # that could be integrated as dictated by the application architecture.
+            self.current_state()
+```
+
+This FSM represents the high-level actions a Butler Robot would take to ensure child safety in the scenario of a child close to an unprotected staircase. It defines the actions: monitoring, securing the child, and installing a safety gate using an iterative approach. This FSM should be further tailored to the specific inputs and structure of the robot's operational environment.

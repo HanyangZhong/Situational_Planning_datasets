@@ -1,0 +1,74 @@
+Sure, here is a Finite State Machine in python code that applies to that kitchen scene:
+
+```python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_SITUATION': self.monitor_situation_state,
+            'MOVE_TO_BUTTON': self.move_to_button_state,
+            'PRESS_BUTTON': self.press_button_state,
+            'ASSIST_WOMAN': self.assist_woman_state,
+            'RETURN_TO_MONITOR': self.return_to_monitor_state
+        }
+    
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Initial state - monitoring the environment...")
+        self.current_state = 'MONITOR_SITUATION'
+
+    def monitor_situation_state(self):
+        if self.checking('woman fallen'):
+            print("Woman has fallen, need to respond...")
+            self.current_state = 'MOVE_TO_BUTTON'
+        else:
+            print("All is well in the kitchen.")
+            self.current_state = 'INITIAL'
+
+    def move_to_button_state(self):
+        print("Moving to reach the emergency button...")
+        self.reaching('emergency button')
+        self.current_state = 'PRESS_BUTTON'
+
+    def press_button_state(self):
+        print("Pressing the emergency button...")
+        self.pressing('emergency button')
+        self.current_state = 'ASSIST_WOMAN'
+
+    def assist_woman_state(self): 
+        print("Assisting the woman...")
+        self.monitoring('woman condition')
+        self.current_state = 'RETURN_TO_MONITOR'
+
+    def return_to_monitor_state(self):
+        print("Returning to monitoring situation...")
+        self.current_state = 'MONITOR_SITUATION'
+
+    def checking(self, situation):
+        # checks the environment for the collapsed woman condition
+        return True
+
+    def reaching(self, button):
+        # reaches out to the emergency button on the counter
+        pass
+
+    def pressing(self, button):
+        # presses the emergency button
+        pass
+
+    def monitoring(self, condition):
+        # monitors the condition of the woman 
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+Here, in, `initial_state()`, the robot starts monitoring the environment. If the robot notices that the woman has fallen in `monitor_situation_state()`, it changes state to `move_to_button_state()`. The robot moves towards the button, performs the reaching action and then changes the state `press_button_state()` where it presses the button to alert for help. After that, the robot assists the woman in `assist_woman_state()` by monitoring her condition. Finally, the robot goes back to monitoring routine in `return_to_monitor_state()`.
+Please note that this code is a skeleton script, and you will need environment monitoring mechanisms and mechanical actions (`pressing()`, `reaching()`, etc.) linked to specific robot mechanisms.

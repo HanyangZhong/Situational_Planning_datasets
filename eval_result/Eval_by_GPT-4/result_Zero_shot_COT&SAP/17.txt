@@ -1,0 +1,23 @@
+Here is the analysis of "17_3" and "17_4" FSMs under the mentioned dimensions as comparative to the "17_best" FSM:
+
+1) 17_3 FSM:
+    - State Coverage: The FSM covers five states but misses important states like distracting the child and assessing the child's reaction. Score: 7.
+    - Transition Coverage: Almost all transitions are covered, with only a few missed. Score: 8.
+    - Cyclomatic Complexity: The FSM presents moderate complexity with some levels of state interconnections. Score: 7.
+    - Safety Mindset: The FSM ensures safety by moving the child away from the stairs, but there’s not enough focus on distraction or securing the staircase before moving the child. Score: 8.
+    - Scalability: The code is well-structured and could easily be extended. Score: 9.
+    - Assistance UX: The FSM calls for human assistance when needed and monitors the area for safety but doesn’t necessarily prevent the issue from occurring beforehand. Score: 8. 
+    - Action Set Alignment: The FSM uses only the verbs from the provided action verb list. Score: 10.
+Overall Benchmark Score for "17_3": (7+8+7+8+9+8+10)/7 = 8.14
+
+2) 17_4 FSM:
+    - State Coverage: This FSM covers six states, covering aspects like ensuring safety and securing the child. It does a good job of state coverage. Score: 9.
+    - Transition Coverage: FSM covers all major expected transitions, providing full connectivity. Score: 10.
+    - Cyclomatic Complexity: The FSM is moderately complex, with each state having at least one follower state, enhancing its performance possibilities. Score: 8.
+    - Safety Mindset: The FSM does well in terms of safety, addressing the staircase situation, securing the child, and ensuring the area is safe. Score: 9.
+    - Scalability: The FSM's extendibility seems smooth, allowing for adjustment or addition of different states. Score: 9.
+    - Assistance UX: It does well on UX too, acting contextually based on situations, such as ensuring the staircase is safe. Score: 9.
+    - Action Set Alignment: The FSM maintains structure throughout without introducing any additional custom actions. Score: 10.
+Overall Benchmark Score for "17_4": (9+10+8+9+9+9+10)/7 = 9.14
+
+Both FSM systems demonstrate strong capabilities, with "17_4" having a slight edge over "17_3" due to better focus on child safety and smoother transitions. However, neither FSM fully matches the level of specificity and situational adherance presented by the "17_best" benchmark FSM.

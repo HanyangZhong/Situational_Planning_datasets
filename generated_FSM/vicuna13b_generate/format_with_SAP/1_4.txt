@@ -1,0 +1,92 @@
+Here is an example implementation of the Finite State Machine for the butler robot in the given scenario:
+```python
+class ButlerFSM:
+    def __init__(self):
+        self.current_state = 'idle'
+        self.states = {
+            'idle': {
+                'handle_event': self.handle_event_idle,
+                'handle_transition': self.handle_transition_idle,
+            },
+            'cleaning': {
+                'handle_event': self.handle_event_cleaning,
+                'handle_transition': self.handle_transition_cleaning,
+            },
+            'drying': {
+                'handle_event': self.handle_event_drying,
+                'handle_transition': self.handle_transition_drying,
+            },
+            'done': {
+                'handle_event': self.handle_event_done,
+                'handle_transition': self.handle_transition_done,
+            },
+        }
+
+    def handle_event(self, event):
+        self.states[self.current_state]['handle_event'](event)
+
+    def handle_transition(self, transition):
+        self.states[transition]['handle_transition'](transition)
+
+    def run(self):
+        while True:
+            event = self.get_event()
+            self.current_state = self.get_state(event)
+            self.handle_event(event)
+
+    def get_event(self):
+        # code to get event from environment
+        pass
+
+    def get_state(self, event):
+        # code to determine next state based on event and current state
+        pass
+
+    def handle_event_idle(self, event):
+        # handle event while idle
+        pass
+
+    def handle_transition_idle(self, transition):
+        # handle transition while idle
+        pass
+
+    def handle_event_cleaning(self, event):
+        # handle event while cleaning
+        pass
+
+    def handle_transition_cleaning(self, transition):
+        # handle transition while cleaning
+        pass
+
+    def handle_event_drying(self, event):
+        # handle event while drying
+        pass
+
+    def handle_transition_drying(self, transition):
+        # handle transition while drying
+        pass
+
+    def handle_event_done(self, event):
+        # handle event while done
+        pass
+
+    def handle_transition_done(self, transition):
+        # handle transition while done
+        pass
+```
+The `ButlerFSM` class has four states: `idle`, `cleaning`, `drying`, and `done`. Each state has a `handle_event` method that is called when an event is received, and a `handle_transition` method that is called when a transition is made. The `handle_event` method calls the appropriate method for the event, and the `handle_transition` method calls the appropriate transition method.
+
+The `run` method continuously runs the state machine loop until the robot is stopped. It gets an event from the environment using the `get_event` method, determines the next state using the `get_state` method, and calls the `handle_event` method for the current event.
+
+The helper methods (`handle_event_idle`, `handle_transition_idle`, etc.) are not implemented in this example, but would be responsible for specific actions and conditions related to each state.
+
+The `get_state` method is not implemented in this example, but would be responsible for determining the next state based on the current state and the received event.
+
+To use the `ButlerFSM` class, you would need to implement the helper methods, and pass in the appropriate methods for `get_event` and `get_state`. For example:
+```python
+class MyButler(ButlerFSM):
+    def __init__(self):
+        super().__init__()
+        self.get_event = self.get_event_from_environment
+        self.get_state = self.get_state_from
+```

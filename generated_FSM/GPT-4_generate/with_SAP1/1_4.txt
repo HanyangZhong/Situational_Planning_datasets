@@ -1,0 +1,72 @@
+Here is a Python code implementing the scenario with a finite state machine. The robot assesses the situation, cleans the bathroom, takes care of wet items and then monitors the area for safety hazards.
+
+```python
+class ButlerRobotBathroomHFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'DRY_FLOOR': self.dry_floor_state,
+            'ARRANGE_MAT': self.arrange_mat_state,
+            'HANDLE_TOWEL': self.handle_towel_state,
+            'WIPE_MIRROR': self.wipe_mirror_state,
+            'MONITOR_BATHROOM': self.monitor_bathroom_state,
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.is_floor_wet():
+            self.current_state = 'DRY_FLOOR'
+        else:
+            self.current_state = 'ARRANGE_MAT'
+    
+    def dry_floor_state(self):
+        self.mopping('floor')
+        self.current_state = 'ARRANGE_MAT'
+
+    def arrange_mat_state(self):
+        self.grasping('mat')
+        self.arranging('mat', 'beside tub')
+        self.checking('mat position')
+        self.current_state = 'HANDLE_TOWEL'
+
+    def handle_towel_state(self):
+        self.grasping('towel')
+        self.folding('towel')
+        self.placing_down('towel', 'on rack')
+        self.current_state = 'WIPE_MIRROR'
+
+    def wipe_mirror_state(self):
+        self.reaching('cloth') 
+        self.wiping('mirror with cloth')
+        self.current_state = 'MONITOR_BATHROOM'
+
+    def monitor_bathroom_state(self):
+        if self.is_bathroom_usage_over():
+            self.current_state = 'INITIAL'
+        else:
+            self.monitoring('bathroom')
+
+    def is_floor_wet(self):
+        floor_wet = self.checking('floor')
+        return floor_wet
+
+    def is_bathroom_usage_over(self):
+        bathroom_usage_over = self.checking('bathroom usage')
+        return bathroom_usage_over
+
+
+# Run the HFSM loop
+def run(self):
+    while True:
+        self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotBathroomHFSM()
+butler_robot.run()
+```
+Note: This pseudo-code is not executable. The annotation functions like "grasping()", "mopping()" etc. need to be defined including the code required for robot movement. This code is just a high-level overview of how to organise the states and transitions for such a scenario in a finite state machine.

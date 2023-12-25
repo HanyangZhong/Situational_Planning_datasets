@@ -1,0 +1,135 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'COVER_FLOOR': self.cover_floor_state,
+            'CLEAN_FLOOR': self.clean_floor_state,
+            'CHECK_KITCHEN': self.check_kitchen_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+        # Set initial variables for scene
+        self.floor_covered = False
+        self.floor_cleaned = False
+        self.kitchen_checked = False
+        self.help_called = False
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation and determine the next action
+        if not self.floor_covered:
+            self.current_state = 'COVER_FLOOR'
+        elif not self.floor_cleaned:
+            self.current_state = 'CLEAN_FLOOR'
+        elif not self.kitchen_checked:
+            self.current_state = 'CHECK_KITCHEN'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def cover_floor_state(self):
+        # Cover the wet floor to prevent accidents
+        self.reaching('mop')
+        self.gripping('mop')
+        self.lowering('mop')
+        self.transporting('mop', 'wet floor')
+        self.unfolding('mop')
+        self.lowering('mop')
+        self.releasing('mop')
+
+        # Update state variables
+        self.floor_covered = True
+
+        self.current_state = 'ASSESS_SITUATION'
+
+    def clean_floor_state(self):
+        # Clean the wet floor to remove the hazard
+        self.reaching('mop')
+        self.gripping('mop')
+        self.lowering('mop')
+        self.transporting('mop', 'wet floor')
+        self.mopping('wet floor')
+        self.raising('mop')
+        self.transporting('mop', 'cleaning supplies')
+        self.releasing('mop')
+
+        # Update state variables
+        self.floor_cleaned = True
+
+        self.current_state = 'ASSESS_SITUATION'
+
+    def check_kitchen_state(self):
+        # Check the rest of the kitchen for any other hazards or issues
+        self.reaching('checking supplies')
+        self.inspecting('kitchen')
+        self.gathering('necessary items')
+        self.inventorying('kitchen')
+
+        # Update state variables
+        self.kitchen_checked = True
+
+        self.current_state = 'ASSESS_SITUATION'
+
+    def call_for_help_state(self):
+        # Call for help if the robot is unable to handle the situation
+        if not self.help_called:
+            self.calling_for_help()
+
+            # Update state variables
+            self.help_called = True
+
+        self.current_state = 'ASSESS_SITUATION'
+
+    # Actions / Annotation methods
+    def reaching(self, item):
+        print(f"Reaching for {item}")
+
+    def gripping(self, item):
+        print(f"Gripping {item}")
+
+    def lowering(self, item):
+        print(f"Lowering {item}")
+
+    def transporting(self, item, destination):
+        print(f"Transporting {item} to {destination}")
+
+    def unfolding(self, item):
+        print(f"Unfolding {item}")
+
+    def releasing(self, item):
+        print(f"Releasing {item}")
+
+    def mopping(self, area):
+        print(f"Mopping {area}")
+
+    def raising(self, item):
+        print(f"Raising {item}")
+
+    def inspecting(self, area):
+        print(f"Inspecting {area}")
+
+    def gathering(self, items):
+        print(f"Gathering {items}")
+
+    def inventorying(self, area):
+        print(f"Inventorying {area}")
+
+    def calling_for_help(self):
+        print("Calling for help")
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()

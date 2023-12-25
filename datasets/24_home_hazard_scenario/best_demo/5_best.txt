@@ -1,0 +1,107 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'SORT_MEDICATION': self.sort_medication_state,
+            'ORGANIZE_STORAGE': self.organize_storage_state,
+            'CLEAN_SPILL': self.clean_spill_state,
+            'VERIFY_SAFETY': self.verify_safety_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'MONITOR_AREA': self.monitor_area_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables for decision-making
+        self.medication_hazard_detected = True
+        self.area_secured = False
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.detect_medication_hazard():
+            self.current_state = 'SORT_MEDICATION'
+        else:
+            self.current_state = 'INITIAL'
+
+    def sort_medication_state(self):
+        self.collecting('medication_jars')  # Collect medication jars
+        self.checking('medication_jars')  # Check jars for pills that belong inside
+        self.placing_down('medication_jars', 'safe_storage')  # Place jars in safe storage
+        self.current_state = 'ORGANIZE_STORAGE'
+
+    def organize_storage_state(self):
+        organized_parttern = self.checking('storage_pattern')  # Analyze the placement pattern in storage
+        self.arranging('medication', organized_parttern)  # Rearrange medication according to a safe pattern
+        self.current_state = 'CLEAN_SPILL'
+
+    def clean_spill_state(self):
+        self.sweeping('spilled_pills')  # Sweep up any spilled pills
+        self.collecting('swept_pills')  # Collect the swept pills
+        self.placing_down('swept_pills', 'trash')  # Dispose of the swept pills safely
+        self.current_state = 'VERIFY_SAFETY'
+
+    def verify_safety_state(self):
+        if self.check_area_safety():
+            self.area_secured = True
+            self.current_state = 'MONITOR_AREA'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_area_state(self):
+        self.monitoring('bathroom')
+        if not self.medication_hazard_detected:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance for unreachable pills
+        self.current_state = 'INITIAL'
+
+    def detect_medication_hazard(self):
+        state = self.monitoring('medicine')
+        return state
+
+    def check_area_safety(self):
+        # Additional check for any remaining unreachable pills
+        if self.detect_unreachable_pills():
+            return False
+        return True
+
+    def collecting(self, item):
+        pass
+
+    def checking(self, item):
+        pass
+
+    def arranging(self, item, pattern):
+        pass
+
+    def sweeping(self, item):
+        pass
+
+    def placing_down(self, item, destination):
+        pass
+
+    def monitoring(self, area,item):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def detect_unreachable_pills(self):
+        state = self.monitoring('bathroom','pills')
+        # Check for unreachable pills using robot's sensors
+        return state
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The run method would have conditions for graceful exit in a real-world implementation.

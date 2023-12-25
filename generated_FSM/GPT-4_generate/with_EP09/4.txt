@@ -1,0 +1,88 @@
+In the scenario you described, the butler robot's primary objective is to ensure safety in the kitchen by addressing the unattended gas stove and the potentially hazardous items around it. The finite state machine (FSM) will be designed to reflect this goal. Here's how the FSM can be structured in Python, using the verbs you provided and tailored to the specific kitchen scenario:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'TURN_OFF_STOVE': self.turn_off_stove_state,
+            'REMOVE_HAZARDS': self.remove_hazards_state,
+            'VENTILATE_AREA': self.ventilate_area_state,
+            'MONITOR_SITUATION': self.monitor_situation_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Start with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the kitchen situation for safety hazards.
+        if self.is_stove_on() and self.are_hazards_present():
+            self.current_state = 'TURN_OFF_STOVE'
+        else:
+            self.current_state = 'MONITOR_SITUATION'
+
+    def turn_off_stove_state(self):
+        # Turn off the stove if it's unattended.
+        self.reaching('stove knob')
+        self.turning('stove knob', 'to off position')
+        self.current_state = 'REMOVE_HAZARDS'
+
+    def remove_hazards_state(self):
+        # Remove any items that pose a fire risk near the stove.
+        self.grasping('hazardous items')
+        self.placing_down('hazardous items', 'in a safe area')
+        self.current_state = 'VENTILATE_AREA'
+
+    def ventilate_area_state(self):
+        # Ventilate the kitchen area to disperse gas and heat.
+        self.opening('windows')
+        self.turning('extractor fan', 'on')
+        self.current_state = 'MONITOR_SITUATION'
+
+    def monitor_situation_state(self):
+        # Continuously monitor the kitchen for any further hazards.
+        if self.is_safety_on_risk():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the situation is beyond the robot's control.
+        self.calling_for_help('emergency services')
+        self.current_state = 'INITIAL'
+
+    # Action / Annotation methods
+    def is_stove_on(self):
+        # Check if the stove is on
+        return self.checking('stove status')
+
+    def are_hazards_present(self):
+        # Check for potential hazards near the stove
+        return self.checking('kitchen hazards')
+
+    def is_safety_on_risk(self):
+        # Monitor ongoing safety in the kitchen
+        return self.monitoring('kitchen safety')
+
+    def calling_for_help(self, entity):
+        # Call for help from a specified entity
+        self.calling(entity)
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the robot and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+This code represents a FSM where the robot goes through various states to ensure kitchen safety, such as turning off the stove, removing hazards, and ventilating the area. The `run()` method keeps the FSM active, allowing the robot to respond dynamically to the changing situation in the kitchen.

@@ -1,0 +1,50 @@
+(Butler)Robot(FSM)
+
+The `ButlerRobotFSM` class represents the finite state machine of the butler robot in the given kitchen scene. The class contains the following attributes and methods:
+
+Attributes:
+
+* `current_state`: A string representing the current state of the robot.
+
+Methods:
+
+* `__init__(self)`: Initializes the robot's attributes.
+* `activate_state(self, state)`: Activates a specific state.
+* `handle_state(self, state, action)`: Handles the state-specific actions.
+* `check_conditions(self)`: Checks the conditions for state transitions.
+* `run(self)`: Executes the state machine loop.
+
+Here is the implementation of the `ButlerRobotFSM` class:
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.current_state = None
+
+    def activate_state(self, state):
+        self.current_state = state
+
+    def handle_state(self, state, action):
+        if state == "Idle":
+            self.check_conditions()
+        elif state == "Reaching":
+            self.reach(action)
+        elif state == "Gripping":
+            self.grip(action)
+        elif state == "Lifting":
+            self.lift(action)
+        elif state == "Lowering":
+            self.lower(action)
+        # ... Add other state actions
+
+    def check_conditions(self):
+        # Add condition checks for state transitions
+        pass
+
+    def run(self):
+        while True:
+            self.activate_state(self.current_state)
+            self.handle_state(self.current_state, None)
+```
+This implementation provides a basic finite state machine for the butler robot, which can be extended with additional states and methods to achieve more complex behavior. The `handle_state` method contains the state-specific actions, which can be implemented as helper methods. The `check_conditions` method can be used to add condition checks for state transitions.
+
+Remember that this is a simplified example and doesn't include all the possible states and actions that the butler robot might need to handle. You can extend the class with additional states, methods, and helper methods as needed to model more complex behavior.

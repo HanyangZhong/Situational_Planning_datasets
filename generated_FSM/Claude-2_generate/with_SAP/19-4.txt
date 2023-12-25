@@ -1,0 +1,40 @@
+class ButlerRobot:
+    
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state, 
+            'APPROACH_CHILD': self.approach_child_state,
+            'REDIRECT_CHILD': self.redirect_child_state,
+            'TURN_OFF_STOVE': self.turn_off_stove_state,
+            'MONITOR_SCENE': self.monitor_scene_state
+        }
+        self.current_state = 'INITIAL'
+        
+    def initial_state(self):
+        print("Assessing situation in kitchen...")
+        self.current_state = 'APPROACH_CHILD'
+
+    def approach_child_state(self):
+        print("Approaching child slowly to not startle") 
+        self.current_state = 'REDIRECT_CHILD'
+
+    def redirect_child_state(self):
+        print("Gently holding child's hand and guiding away from stove")
+        print("Speaking softly to provide reassurance")        
+        self.current_state = 'TURN_OFF_STOVE'
+
+    def turn_off_stove_state(self):
+        print("Reaching to stove dial and rotating to off position")
+        print("Removing pot from burner and placing on cool surface")        
+        self.current_state = 'MONITOR_SCENE'
+        
+    def monitor_scene_state(self):
+        print("Continuously monitoring child and stove in kitchen")
+        danger = self.check_danger()
+        if danger:
+            self.current_state = 'APPROACH_CHILD'
+        else:
+            print("Situation now safe")
+
+butler = ButlerRobot()
+butler.run()

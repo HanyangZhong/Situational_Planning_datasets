@@ -1,0 +1,102 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REMOVE_FLAMMABLES': self.remove_flammables_state,
+            'EXTINGUISH_FLAME': self.extinguish_flame_state,
+            'VERIFY_SUCCESS': self.verify_success_state,
+            'VENTILATE_AREA': self.ventilate_area_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'SECURE_AREA': self.secure_area_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to simulate the robot's decision-making process
+        self.flame_detected = True
+        self.flame_extinguished = False
+
+    def initial_state(self):
+        # Begin by assessing the situation
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Detect unattended flame
+        if self.detect_flame():
+            self.current_state = 'REMOVE_FLAMMABLES'
+        else:
+            self.current_state = 'INITIAL'
+
+    def remove_flammables_state(self):
+        self.reaching('flammables')  # Reach for flammable items
+        self.grasping('flammables')  # Remove them from the vicinity of the flame
+        self.placing_down('flammables','safe place')
+        # After removing flammables, extinguish the flame
+        self.current_state = 'EXTINGUISH_FLAME'
+
+    def extinguish_flame_state(self):
+        self.reaching('stove_knob')  # Reach for the stove knob
+        self.turning('stove_knob', 'off')  # Turn off the stove
+        self.current_state = 'VERIFY_SUCCESS'
+
+    def verify_success_state(self):
+        self.flame_extinguished = self.detect_flame()  # Assume the flame is extinguished
+        if self.flame_extinguished:
+            self.current_state = 'VENTILATE_AREA'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def ventilate_area_state(self):
+        self.opening('window')  # Open the window
+        self.turning('extractor_fan', 'on')  # Turn on the extractor fan
+        # After ventilating, secure the area
+        self.current_state = 'SECURE_AREA'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance if the flame couldn't be extinguished
+        self.current_state = 'INITIAL'
+
+    def secure_area_state(self):
+        self.checking('kitchen')  # Check the kitchen to ensure no further hazards
+        self.current_state = 'INITIAL'
+
+    def detect_flame(self):
+        state = monitoring('flame')
+        # Detect flame using robot's sensors
+        return state
+
+    def reaching(self, item):
+        pass
+
+    def grasping(self, item):
+        pass
+
+    def placing_down(self, item, place):
+        pass
+
+    def turning(self, item, action):
+        pass
+
+    def opening(self, item):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def checking(self, area):
+        pass
+
+    def monitoring(self, item):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: In a real-world implementation, the run method would include conditions for graceful exit.

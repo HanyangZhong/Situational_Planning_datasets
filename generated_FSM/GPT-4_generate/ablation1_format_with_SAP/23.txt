@@ -1,0 +1,55 @@
+Here is a Python class following the FSM (Finite State Machine) concept to handle this scenario:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.current_state = self.monitoring_play
+        self.child_engaged = False
+        self.dog_excited = False
+        self.risk_level = 0 
+
+    # Helper methods 
+    def assess_risk_level(self):
+        # Check the interaction and assess the risk level with some criteria
+        pass
+    
+    def calm_down_dog(self):
+        # Use some method to calm down the dog
+        pass
+    
+    def engage_child(self):
+        # Use some method to engage child safely
+        pass
+
+    # State methods
+    def monitoring_play(self):
+        self.risk_level = self.assess_risk_level()
+        if self.risk_level > 3:
+            self.current_state = self.calming_dog
+
+    def calming_dog(self):
+        self.calm_down_dog()
+        if not self.dog_excited:
+            self.current_state = self.engaging_child
+
+    def engaging_child(self):
+        self.engage_child()
+        if self.child_engaged:
+           self.current_state = self.monitoring_play
+
+    # Run method
+    def run(self):
+        while True:
+            self.current_state()
+```
+
+Explanation:
+This robot's finite state machine has three states: Monitoring play between the child and the dog, calming down the dog when it becomes too excited, and engaging the child to distract and possibly tire the child out a bit.
+
+The robot starts in the "monitoring_play" state. It assesses the risk level of the play based on some criteria (size, range of movement, speed, aggression etc.). If the risk level becomes too high, the robot transitions to the "calming_dog" state.
+
+In the "calming_dog" state, the robot takes action to calm down the dog (for example, by distracting it, showing it a command for ‘sit’ or ‘down’, or moving it to a less central part of the room). If the dog calms down (i.e., becomes less excited), the robot transitions to the "engaging_child" state.
+
+In the "engaging_child" state, the robot might do something to engage the child, like showing a toy or turning on a gentle child-friendly TV program. If the child becomes engaged (presumably leaving the dog to calm down further and reduce the risk level), the robot then transitions back to the "monitoring_play" state. 
+
+The robot continues cycling through these states as it continuationuously monitors and responds to the child and the dog's behavior.

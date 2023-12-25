@@ -1,0 +1,74 @@
+(Butler)Robot(FSM)
+====================
+
+This is a finite state machine class for a butler robot that can navigate a kitchen environment to clean up a spill on the floor. The object has several states, including an initial state, and transitions between those states based on certain conditions.
+
+The states are as follows:
+
+* init: The initial state where the object is being created
+* reach: The object is reaching out to grab something
+* pickup: The object is picking up an item
+* transport: The object is carrying an item
+* drop: The object is dropping an item
+* wipe: The object is wiping up the spill
+* clean: The object has finished cleaning up the spill
+
+Here is the code for the class:
+
+```kotlin
+class (Butler)Robot(FSM):
+    def __init__(self):
+        self.current_state = 'init'
+
+    def init(self):
+        self.current_state = 'init'
+
+    def reach(self, target):
+        if self.check_condition('reach', target):
+            self.current_state = 'reach'
+        else:
+            return
+
+    def pickup(self, item):
+        if self.check_condition('pickup', item):
+            self.current_state = 'pickup'
+        else:
+            return
+
+    def transport(self, item):
+        if self.check_condition('transport', item):
+            self.current_state = 'transport'
+        else:
+            return
+
+    def drop(self, item):
+        if self.check_condition('drop', item):
+            self.current_state = 'drop'
+        else:
+            return
+
+    def wipe(self):
+        if self.check_condition('wipe'):
+            self.current_state = 'wipe'
+        else:
+            return
+
+    def clean(self):
+        if self.check_condition('clean'):
+            self.current_state = 'clean'
+        else:
+            return
+
+    def check_condition(self, state, target):
+        # Add logic for checking if the condition for the state is met
+        return True
+
+    def run(self):
+        while True:
+            self.current_state = self.current_state()
+            if self.current_state == 'clean':
+                break
+
+```
+
+In this code, the class has a constructor that initializes the object and sets the initial state to 'init'. The class also has methods for each state that the object can be in, including 'init', 'reach', 'pickup', 'transport', 'drop', 'wipe', and 'clean'. Each method checks the conditions for that state and transitions to that state if the condition is met. Finally, the object has a 'run' method that continuously checks the current state and transitions to the next state as needed.

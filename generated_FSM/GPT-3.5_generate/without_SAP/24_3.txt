@@ -1,0 +1,54 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'CHECK_TOYS': self.check_toys_state,
+            'ENGAGE_CHILD': self.engage_child_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Butler Robot: Assessing the situation.")
+        if self.are_toys_safe():
+            self.current_state = 'ENGAGE_CHILD'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def check_toys_state(self):
+        print("Butler Robot: Checking the toys.")
+        if self.are_toys_safe():
+            self.current_state = 'ENGAGE_CHILD'
+
+    def engage_child_state(self):
+        print("Butler Robot: Engaging the child.")
+        self.monitor_play()
+        self.current_state = 'CHECK_TOYS'
+
+    def call_for_help_state(self):
+        print("Butler Robot: Calling for help.")
+        self.call_for_assistance()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def are_toys_safe(self):
+        return self.checking('toys')
+
+    def monitor_play(self):
+        self.monitoring('child playing')
+
+    def call_for_assistance(self):
+        self.calling('human assistance')
+
+    # Run the FSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+            
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()

@@ -1,0 +1,51 @@
+# Define states
+APPROACH_PERSON = 'approach person' 
+OFFER_ASSISTANCE = 'offer assistance'
+CLEAR_PATH = 'clear path'
+CONFIRM_ACCESS = 'confirm access'
+
+# Initialize FSM  
+state = APPROACH_PERSON 
+
+while True:
+    if state == APPROACH_PERSON:
+        # Approach the person in wheelchair 
+        approach_person()  
+        state = OFFER_ASSISTANCE
+
+    elif state == OFFER_ASSISTANCE:   
+        # Ask if they need help accessing desk
+        offer_help()
+        # If help needed
+        if help_needed():
+            state = CLEAR_PATH
+        # Else done  
+        else: 
+            state = CONFIRM_ACCESS
+
+    elif state == CLEAR_PATH:
+        # Move chair and clear path 
+        move_chair()
+        state = CONFIRM_ACCESS
+
+    elif state == CONFIRM_ACCESS:  
+        # Confirm they can now access desk
+        confirm_access()
+        # Done
+        state = APPROACH_PERSON
+
+    # Define state actions
+    def approach_person():
+        print("Approaching person")
+
+    def offer_help():
+        print("Offering assistance")  
+
+    def help_needed():
+        return True
+    
+    def move_chair():
+        print("Clearing path by moving chair")
+
+    def confirm_access():
+        print("Confirming access to desk")

@@ -1,0 +1,44 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'OBSERVE': self.observe_state, 
+            'REDIRECT_DOG': self.redirect_dog_state,
+            'COMFORT_CHILD': self.comfort_child_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Initializing butler robot FSM")
+        self.current_state = 'OBSERVE'
+
+    def observe_state(self):
+        print("Observing child and dog interaction")
+        if self.is_play_too_rough():
+            self.current_state = 'REDIRECT_DOG'
+        else:
+            # Loop back to continue observing
+            self.current_state = 'OBSERVE'
+
+    def redirect_dog_state(self):
+        print("Dog play is too rough, redirecting dog")
+        self.grasping("dog toy")
+        self.transporting("dog toy", "to another room")
+        self.releasing("dog toy")  
+        self.current_state = 'COMFORT_CHILD'
+
+    def comfort_child_state(self):
+        print("Comforting child after rough play") 
+        self.reaching("child")
+        self.grasping("child")
+        self.lifting("child", "onto lap")
+        self.current_state = 'OBSERVE'
+
+    # Annotation methods  
+    def is_play_too_rough(self):
+        rough_play = self.observing("dog", "child", "play intensity")
+        return rough_play > threshold   
+
+fsm = ButlerRobotFSM()
+fsm.run()

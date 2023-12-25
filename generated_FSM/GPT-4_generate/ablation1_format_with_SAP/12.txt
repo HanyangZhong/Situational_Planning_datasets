@@ -1,0 +1,82 @@
+Here is a Python class definition for a Butler Robot designed as a finite state machine. This Butler Robot is designed to make the living room safer and more comfortable for the pregnant woman while minimizing the potential for future hazards. This robot will tidy the room, straighten the rug and enhance visibility. Here's a simplified example:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.current_state = self.check_environment
+
+    # State methods
+    def check_environment(self):
+        # If cluttered, change state to tidying
+        if self.is_cluttered():
+            self.current_state = self.tidy_room
+        # If rug edges are curled up, change state to straighten rug
+        elif self.is_rug_curled():
+            self.current_state = self.straighten_rug
+        # if environment is fine, but brightness is low, change state to enhance visibility
+        elif self.is_luminosity_poort():
+            self.current_state = self.enhance_visibility
+        # If there's no more tasks, change state to monitoring
+        else:
+            self.current_state = self.monitor_environment
+
+    def tidy_room(self):
+        # Collect and arrange items before switching back to checking environment
+        self.collecting('toys', 'magazines', 'throw pillow')
+        self.arranging('furniture')
+        self.current_state = self.check_environment
+
+    def straighten_rug(self):
+        # Flatten rug edges before switching back to checking environment
+        self.flattening('rug')
+        self.current_state = self.check_environment
+
+    def enhance_visibility(self):
+        # Open more curtains to enhance visibility, then go back to checking environment
+        self.opening('curtains')
+        self.current_state = self.check_environment
+
+    def monitor_environment(self):
+        # Monitor the environment. If any issue is detected, switch back to checking environment
+        if self.is_hazard_detected():
+            self.current_state = self.check_environment
+
+    # Helper methods
+    def is_cluttered(self):
+        # Check if there's clutter
+        pass
+
+    def is_rug_curled(self):
+        # Check if the rug edges are curled
+        pass
+
+    def is_luminosity_poort(self):
+        # Check if the room needs more light
+        pass
+
+    def is_hazard_detected(self):
+        # Monitor the environment for potential hazards
+        pass
+
+    def collecting(self, *items):
+        # Collect cluttered items
+        pass
+
+    def arranging(self, *items):
+        # Arrange items neatly
+        pass
+
+    def flattening(self, item):
+        # Flatten the rug
+        pass
+
+    def opening(self, item):
+        # Open the curtains
+        pass
+
+    # Main loop to run the FSM
+    def run(self):
+        while True:
+            self.current_state()
+```
+The state transitions are designed in a way that the robot will always go back to checking the environment after performing a task. This way, the robot can ensure the environment remains safe and comfortable for the pregnant woman, both immediately and in the future.

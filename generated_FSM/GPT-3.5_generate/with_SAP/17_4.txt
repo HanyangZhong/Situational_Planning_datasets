@@ -1,0 +1,77 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'CLOSING_GAS_VALVE': self.closing_gas_valve_state,
+            'OPENING_WINDOWS': self.opening_windows_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        print("Assessing the situation...")
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if the child is near the unprotected staircase
+        print("Checking if the child is near the staircase...")
+        if self.is_child_near_staircase():
+            self.current_state = 'CLOSING_GAS_VALVE'
+        else:
+            self.current_state = 'OPENING_WINDOWS'
+
+    def closing_gas_valve_state(self):
+        # If the child is near the unprotected staircase, close the gas valve to prevent potential accidents
+        print("Closing the gas valve...")
+        self.close_gas_valve()
+        self.current_state = 'OPENING_WINDOWS'
+
+    def opening_windows_state(self):
+        # Open the windows to allow fresh air in and create a safer environment
+        print("Opening the windows...")
+        self.open_windows()
+        self.current_state = 'ASSESS_SITUATION'
+
+    def call_for_help_state(self):
+        # If necessary, call for human assistance to ensure the safety of the child
+        print("Calling for help...")
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_child_near_staircase(self):
+        # Check if the child is near the unprotected staircase
+        # Returns True if the child is near, False otherwise
+        child_near_staircase = False
+        # Implement logic to check if child is near staircase
+        return child_near_staircase
+
+    def close_gas_valve(self):
+        # Close the gas valve to prevent potential accidents
+        # Implement logic to close the gas valve
+        pass
+
+    def open_windows(self):
+        # Open the windows to allow fresh air in and create a safer environment
+        # Implement logic to open the windows
+        pass
+
+    def call_for_help(self):
+        # Call for human assistance if necessary
+        # Implement logic to call for help
+        pass
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()

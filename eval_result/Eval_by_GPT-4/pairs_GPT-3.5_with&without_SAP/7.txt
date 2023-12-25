@@ -1,0 +1,51 @@
+Let's start with scoring the FSMs in code "7_3" across the seven dimensions:
+
+1. State Coverage: 
+   The FSM in "7_3" defined states such as 'ASSESS', 'NAVIGATE', 'CLEANUP', 'ALERT', which covers important aspects of the scenario like assessment, navigating, cleaning up obstacles, and raising alerts. However, it does not include specific handling for conditions like overflowing shoe rack or a bunched-up rug. So, its state coverage score would be `6/10`.
+
+2. Transition Coverage: 
+   The FSM in "7_3" does a good job of transitioning between states based on certain conditions. However, the transition from 'CLEANUP' to 'NAVIGATE' lacks a re-assessment that could have potentially detected new hazards. Hence, the transition coverage score would be `7/10`.
+
+3. Cyclomatic Complexity: 
+    The FSM in "7_3" has a medium level of interconnectivity. States are not densely interconnected, each state is followed by only one or two states. This offers simplicity, SO, the cyclomatic complexity score would be `5/10`.
+
+4. Safety Mindset: 
+    The FSM in "7_3" takes safety into consideration and changes state to "ALERT" if the path is blocked. But this FSM lacks a re-assessment of safety after the 'CLEANUP' state. Hence the safety mindset score would be `7/10`.
+
+5. Scalability: 
+    The FSM's states and transitions in "7_3" are loosely coupled, allowing for easy extensions like adding new states and transitions. So, the scalability score would be `8/10`.
+
+6. Assistance UX: 
+    This FSM is fairly plain in terms of interaction with users. With only print statements as a means of communication, the overall user experience might seem robotic. Hence, assistance UX score would be `4/10`.
+
+7. Action Set Alignment: 
+    This FSM does not precisely align with the defined action set vocabulary of 56 verbs. Actions like "pick_up_items", "organize_shoes", "call_for_help" are used which aren't directly from the action set vocabulary. Hence, the action set alignment score would be `5/10`.
+
+Overall Benchmark Score for "7_3" = (6+7+5+7+8+4+5) / 7 = `6`
+
+Now, let's score the FSMs in code "7_4" across the seven dimensions:
+
+1. State Coverage: 
+   The FSM in "7_4" incorporates more detailed coverage, with states to handle evaluation of individual items, such as clearing up items, fixing the rug, organizing shoes, and removing the cord. So, the state coverage score would be `8/10`.
+
+2. Transition Coverage: 
+   The FSM in "7_4" ensures full and logical transition coverage. After each cleaning action, the situation is re-assessed before moving on to the next task. Hence, the transition coverage score would be `10/10`.
+
+3. Cyclomatic Complexity: 
+    The FSM in "7_4" is less complex than that in "7_3", as it keeps states and transitions minimalistic and well segregated, resulting in a lower cyclomatic complexity score of `4/10`.
+
+4. Safety Mindset: 
+    The FSM in "7_4" employs a continuous monitoring approach to ensure safety. It always goes back and checks for new clutter or danger following cleanup actions. Hence its safety mindset score is `9/10`.
+
+5. Scalability: 
+    The FSM in "7_4" is more tightly coupled than that in "7_3", making it a little more difficult to scale. Therefore, the scalability score would be `6/10`.
+
+6. Assistance UX: 
+    Similar to "7_3", this FSM does not offer very rich assistance UX and its interactions seem robotic. Hence the assistance UX score would be `4/10`.
+
+7. Action Set Alignment: 
+    "7_4" leverages more of the standard action set vocabulary, with actions such as 'transporting', 'flattening', 'arranging', 'disconnecting', 'checking'. The alignment of the actions enables the FSM to be more general and adaptable. Hence, the action set alignment score would be `7/10`.
+
+Overall Benchmark Score for "7_4" = (8+10+4+9+6+4+7) / 7 = `6.86`
+
+Remember that these evaluations are relative to the "perfect" model "7_best", and with further tuning, these FSMs can improve on the evaluated dimensions.

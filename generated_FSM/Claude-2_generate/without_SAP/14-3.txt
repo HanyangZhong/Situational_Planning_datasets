@@ -1,0 +1,52 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state, 
+            'ASSESS': self.assess_state,
+            'REMOVE_HAZARDS': self.remove_hazards_state,
+            'REDIRECT_PET': self.redirect_pet_state,
+            'MONITOR': self.monitor_state
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Initializing...")
+        self.current_state = 'ASSESS'
+
+    def assess_state(self):
+        print("Assessing situation...")
+        if self.pet_near_hazard():  
+            self.current_state = 'REMOVE_HAZARDS'
+        else:
+            self.current_state = 'REDIRECT_PET'  
+
+    def remove_hazards_state(self):
+        print("Removing food hazards...")
+        self.grasping('chocolate')
+        self.transporting('chocolate', 'pantry')
+        self.grasping('grapes')
+        self.transporting('grapes', 'fridge')
+        self.grasping('onions') 
+        self.transporting('onions', 'pantry')
+        self.current_state = 'REDIRECT_PET'
+
+    def redirect_pet_state(self):
+        print("Redirecting pet...")        
+        self.collecting('cat toys')
+        self.delivering('cat toys', 'living room')        
+        self.current_state = 'MONITOR'
+
+    def monitor_state(self):
+        print("Monitoring situation...")
+        if self.pet_near_hazard():
+           self.current_state = 'REMOVE_HAZARDS'
+        else:
+           self.current_state = 'ASSESS'
+
+    # Helper annotation methods
+    def pet_near_hazard(self):
+        return self.checking('pet proximity to hazards') 
+
+butler = ButlerRobotFSM()
+butler.run()

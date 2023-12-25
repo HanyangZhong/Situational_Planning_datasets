@@ -1,0 +1,97 @@
+Here is a Python class for a finite state machine (FSM) to represent the scenario you provided:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.states = ["idle", 
+                        "extinguishing_flame", 
+                        "cooling_pan", 
+                        "cleaning_area", 
+                        "checking_airflow", 
+                        "enhancing_lighting", 
+                        "monitoring_state"]
+        self.current_state = "idle"
+        self.kitchen_items = []
+
+    # Helper Methods
+    def check_flame(self):
+        # check the condition of the stove flame, return True if the flame is on
+        pass
+
+    def check_pan_heat(self):
+        # Check the temperature of the saucepan to ensure it's not overheating
+        pass
+
+    def check_airflow(self):
+        # Check the extractor fan and the status of the windows to determine their conditions
+        pass
+
+    def check_lighting(self):
+        # Check the current lighting status of the kitchen
+        pass
+
+    # State Methods
+    def extinguishing_flame(self):
+        # Task: turning off the stove and extinguishing the flame
+        pass
+
+    def cooling_pan(self):
+        # Task: Removing the pan from the stove and placing it in a safe location to cool
+        pass
+
+    def cleaning_area(self):
+        # Tasks: Collecting and placing down kitchen items away from stove
+        pass
+
+    def checking_airflow(self):
+        # Tasks: Turning on the extractor fan and opening windows to improve ventilation
+        pass
+
+    def enhancing_lighting(self):
+        # Task: turning on lights to improve visibility in the kitchen
+        pass
+
+    def monitoring_state(self):
+        # keep monitoring the kitchen's current state to ensure safety
+        pass
+
+    # Transition Logic
+    def transition(self):
+        if self.current_state == "idle":
+            if self.check_flame():
+                self.current_state = "extinguishing_flame"
+                
+        elif self.current_state == "extinguishing_flame":
+            if not self.check_flame() and self.check_pan_heat():
+                self.current_state = "cooling_pan"
+                
+        elif self.current_state == "cooling_pan":
+            if not self.check_pan_heat():
+                self.current_state = "cleaning_area"
+                
+        elif self.current_state == "cleaning_area":
+            if self.check_airflow():
+                self.current_state = "checking_airflow"
+                
+        elif self.current_state == "checking_airflow":
+            if not self.check_airflow() and self.check_lighting():
+                self.current_state = "enhancing_lighting"
+                
+        elif self.current_state == "enhancing_lighting":
+            if not self.check_lighting():
+                self.current_state = "monitoring_state"
+                
+        elif self.current_state == "monitoring_state":
+            if not self.check_flame() and not self.check_pan_heat() and not self.check_airflow() and not self.check_lighting():
+                self.current_state = "idle"
+
+    # Run Method
+    def run(self):
+        while True:
+            self.transition()
+            getattr(self, self.current_state)()
+```
+
+This FSM engages the robot to turn off the stove, cool down the pan, move flammables away, ensure proper airflow and good lighting, then monitor the kitchen environment to ensure the safety thereof. The robot will transition from one state to another based on the evaluations of the helper methods. This process will repeat as the robot continuously monitors the kitchen environment. 
+
+Remember, this is a high-level architecture. Actual programming of robot actions, object recognition, and sensor data integrations are complex tasks that require advanced artificial intelligence and robotics knowledge.

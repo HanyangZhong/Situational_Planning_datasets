@@ -1,0 +1,30 @@
+Let's evaluate FSMs in codes "13_3" and "13_4" by scoring them. Please note, all dimensions are graded from 0 to 10, with 10 indicating complete adherence, and 0 indicating a total lack of adherence to the given dimension. 
+
+**Code "13_3" - ButlerRobotFSM Evaluation:**
+
+1. State Coverage: 8. All necessary states have been included (e.g., assessing situation, removing chemicals, ensuring safety, and calling help) but misses out on ventilation step present in "13_best".
+2. Transition Coverage: 7.5. Major sequences are covered, but there might be less connectivity compared to the "13_best" FSM.
+3. Cyclomatic Complexity: 5. State interconnectivity is moderate. Each state in almost linear path. Fewer states have immediate following states.
+4. Safety Mindset: 7.5. The FSM considers safety but does not have comprehensive strategies to ensure air quality such as ventilation present in "13_best".
+5. Scalability: 7. The structure is clear but not as encapsulating as "13_best". However, it can still be extended straightforwardly.
+6. Assistance UX: 8. The user experience is likely to be fairly natural and contextual, but there might be a slight lack of personalization.
+7. Action Set Alignment: 7.5. The FSM does stick to the action set vocabulary but also introduces some custom actions.
+
+Overall Benchmark Score for "13_3" = Sum of all scores / number of dimensions = (8 + 7.5 + 5 + 7.5 + 7 + 8 + 7.5) / 7 ≈ 7.36
+
+**Code "13_4" - ButlerRobotFSM Evaluation:**
+
+1. State Coverage: 7. It covers major states such as assessing, removing chemicals, and ensuring safety but lacks ventilation and ongoing monitoring like "13_best".
+2. Transition Coverage: 7. The FSM covers the significant transitions, but may not cover the transitions as completely as "13_best".
+3. Cyclomatic Complexity: 5. Again, there is a moderate level of complexity and the structure tends to be linear.
+4. Safety Mindset: 7. The FSM considers safety but lacks comprehensive strategies like ventilation and ongoing monitoring compared to "13_best".
+5. Scalability: 6.5. The state diagram is straightforward, but it could be even more modular for easy extension.
+6. Assistance UX: 8. The FSM provides a protocol to check if additional help is needed and ensure safety but lacks ongoing monitoring for personalized service.
+7. Action Set Alignment: 7.5. The FSM includes action vocabulary but also introduces some custom actions.
+
+Overall Benchmark Score for "13_4" = Sum of all scores / number of dimensions = (7 + 7 + 5 + 7 + 6.5 + 8 + 7.5) / 7 ≈ 6.86
+
+**Concluding thoughts:**
+Both FSMs in the codes "13_3" and "13_4" demonstrate consideration of user safety, and includes major steps of assessing, removing chemicals, and ensuring safety. However, both FSMs lack measures on handling air quality such as ventilation, which exists in "13_best". Furthermore, both FSMs do not follow an ongoing monitoring strategy as in "13_best". However, both FSMs shows good scalability and utilizes industry action set vocabulary, making it arguably user-friendly. 
+
+Code "13_3" performs slightly better (7.36) than code "13_4" (6.86) in comparison with the "13_best" FSM (10). Both have room for improvements to match or outperform "13_best". For instance, adding a ventilation step and establishing ongoing monitoring could immensely enhance the robot's safety precautions and user experience. On a final note, the overall effectiveness of these systems will also depend heavily on how well they are implemented in the real world, beyond the theoretical models here.

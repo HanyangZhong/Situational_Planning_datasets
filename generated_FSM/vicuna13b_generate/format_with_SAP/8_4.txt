@@ -1,0 +1,48 @@
+(KitchenRobot)FSM(StateMachine)
+
+This class represents a kitchen robot that can take actions to address hazards and maintain a clean and safe environment. The robot is designed to follow a finite state machine (FSM) to make decisions on what actions to take based on its current state and the current context.
+
+The class has the following attributes:
+
+* current\_state: an integer representing the current state of the robot
+* states: a list of tuples representing the states and their corresponding methods
+* helper\_methods: a dictionary of helper methods for each state
+
+The class has the following methods:
+
+* \_\_init\_\_(): initializes the robot's attributes
+* run(): executes the state machine loop
+* go\_to\_state(state): sets the current\_state to the given state
+* handle\_state(): the main method for handling the current state
+
+The states are defined as follows:
+
+* READING:
+	+ action: READING
+	+ helper\_methods:
+		- check\_knife\_danger(): checks if the knife drawer is hazardous and sets the current\_state accordingly
+		- none
+* PLACING\_OBJECTS\_AWAY:
+	+ action: PLACING\_OBJECTS\_AWAY
+	+ helper\_methods:
+		- reach\_knives(): reaches into the drawer and grasps the knives, one by one
+		- place\_knives\_away(): places the knives into the designated safe storage location
+		- none
+* CLEANING\_UP:
+	+ action: CLEANING\_UP
+	+ helper\_methods:
+		- wipe\_countertop(): wipes the countertop with a damp cloth
+		- none
+* REMINDING:
+	+ action: REMINDING
+	+ helper\_methods:
+		- none
+* RESPONDING\_TO\_INPUT:
+	+ action: RESPONDING\_TO\_INPUT
+	+ helper\_methods:
+		- none
+
+Here's an example implementation of the class:
+
+python
+(code)

@@ -1,0 +1,63 @@
+Here's a simple finite state machine class in Python for this scenario:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        self.current_state = self.monitoring
+        self.electrical_outlet_covered = False
+        self.potted_plant_moved = False
+        self.toy_collected = False
+
+    # State methods
+    def monitoring(self):
+        if not self.electrical_outlet_covered:
+            self.current_state = self.covering_outlet
+        elif not self.potted_plant_moved:
+            self.current_state = self.moving_potted_plant
+        elif not self.toy_collected:
+            self.current_state = self.collecting_toy
+        else:
+            self.current_state = self.monitoring
+
+    def covering_outlet(self):
+        self.electrical_outlet_covered = self.cover_outlet()
+        self.current_state = self.monitoring
+
+    def moving_potted_plant(self):
+        self.potted_plant_moved = self.move_potted_plant()
+        self.current_state = self.monitoring
+
+    def collecting_toy(self):
+        self.toy_collected = self.collect_toy()
+        self.current_state = self.monitoring
+
+    # Helper methods
+    def cover_outlet(self):
+        print('Reaching for outlet cover.')
+        print('Gripping outlet cover.')
+        print('Placing cover on outlet.')
+        print('Securing outlet cover.')
+        return True
+
+    def move_potted_plant(self):
+        print('Lifting potted plant.')
+        print('Transporting plant to higher shelf.')
+        print('Lowering plant onto shelf.')
+        return True
+
+    def collect_toy(self):
+        print('Gripping toy.')
+        print('Lifting toy.')
+        print('Transporting toy to safe storage.')
+        return True
+
+    # Run method
+    def run(self):
+        while True:
+            self.current_state()
+            if self.current_state == self.monitoring and self.electrical_outlet_covered and self.potted_plant_moved and self.toy_collected:
+                break
+```
+
+This Python class models a butler robot using finite state machine logic. It starts in the monitoring state, if there's an electrical outlet uncovered, it will change state to the covering_outlet state and completes the task, then returns back to the monitoring state. The same process repeats for the potted plant and the toy. When all the tasks are done, the robot remains in the monitoring state where it does nothing. To stop the run loop, check whether all tasks are done and break the while loop at that point.

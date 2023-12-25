@@ -1,0 +1,101 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_HAZARD': self.assess_hazard_state,
+            'CLEAR_PATHWAY': self.clear_pathway_state,
+            'ARRANGE_SHOES': self.arrange_shoes_state,
+            'STRAIGHTEN_RUG': self.straighten_rug_state,
+            'SECURE_CORD': self.secure_cord_state,
+            'FINAL_CHECK': self.final_check_state,
+            'MONITOR': self.monitor_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variable to simulate the environment status
+        self.hazard_present = True
+
+    def initial_state(self):
+        # Begin with assessing the hazard
+        self.current_state = 'ASSESS_HAZARD'
+
+    def assess_hazard_state(self):
+        if self.detect_hazard():
+            self.current_state = 'CLEAR_PATHWAY'
+        else:
+            self.current_state = 'MONITOR'
+
+    def clear_pathway_state(self):
+        self.collecting('obstacles')  # Collect obstacles like toys and books
+        self.placing_down('obstacles', 'appropriate_places')  # Place them in their appropriate places
+        self.current_state = 'ARRANGE_SHOES'
+
+    def arrange_shoes_state(self):
+        self.arranging('shoes', 'shoe_rack')  # Arrange the shoes on the shoe rack
+        self.current_state = 'STRAIGHTEN_RUG'
+
+    def straighten_rug_state(self):
+        self.unfolding('rug')  # Straighten the bunched-up rug
+        self.current_state = 'SECURE_CORD'
+
+    def secure_cord_state(self):
+        self.arranging('lamp_cord')  # Secure the lamp cord to prevent tripping
+        self.current_state = 'FINAL_CHECK'
+
+    def final_check_state(self):
+        if self.check_safety():
+            self.hazard_present = False
+            self.current_state = 'MONITOR'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_state(self):
+        self.hazard_present = self.monitoring('hallway')  # Continuously monitor the hallway for any new hazards
+        if self.hazard_present:
+            self.current_state = 'ASSESS_HAZARD'
+        else:
+            self.current_state = 'INITIAL'
+            
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance if the area cannot be made safe
+        self.current_state = 'INITIAL'
+
+    def detect_hazard(self):
+        state = self.monitoring('hallway')
+        # Detect hazard using robot's sensors
+        return state
+
+    def check_safety(self):
+        # Check the safety of the hallway
+        return not self.detect_hazard()
+
+    def collecting(self, item):
+        pass
+
+    def placing_down(self, item, location):
+        pass
+
+    def arranging(self, item, location):
+        pass
+
+    def unfolding(self, item):
+        pass
+
+    def monitoring(self, area):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: In a real-world implementation, the 'run' method would include conditions for graceful exit.

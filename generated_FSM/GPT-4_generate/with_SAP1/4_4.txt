@@ -1,0 +1,84 @@
+Sure, Here is a pseudo python state machine for your kitchen scene:
+
+```python
+class KitchenSafetyFSM:
+    
+    def __init__(self):
+        # Initialize FSM states
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REMove_FIRE_HAZARDS': self.remove_fire_hazards_state,
+            'TURN_OFF_STOVE': self.turn_off_stove_state,
+            'VENTILATE_AREA': self.ventilate_area_state,
+            'TURN_ON_LIGHTS': self.turn_on_lights_state
+        }
+        
+        # Initial state 
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial state, robot will start by assessing the situation
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        self.monitoring('stove', 'fire hazards', 'lighting')
+        # If there are fire hazards, remove them
+        if self.are_fire_hazards_near():
+            self.current_state = 'REMove_FIRE_HAZARDS'
+        # If the stove is on, turn it off
+        elif self.is_stove_on():
+            self.current_state = 'TURN_OFF_STOVE'
+        else:
+            self.current_state = 'TURN_ON_LIGHTS'
+
+    def remove_fire_hazards_state(self):
+        # Remove any potential fire hazards near the stove
+        self.grasping('hazard')
+        self.transporting('hazard', 'safe location')
+        # After removing fire hazards, turn off the stove
+        self.current_state = 'TURN_OFF_STOVE'
+
+    def turn_off_stove_state(self):
+        # Stove is on, so turn it off
+        self.reaching('stove knob')
+        self.turning('stove knob', 'off')
+        # Then ventilate the area
+        self.current_state = 'VENTILATE_AREA'
+
+    def ventilate_area_state(self):
+        # Open windows to ventilate the kitchen
+        self.reaching('window handle')
+        self.turning('window handle', 'open')
+        # Turn on the extractor fan
+        self.reaching('fan switch')
+        self.flipping('fan switch', 'on')
+        # Then turn on the lights
+        self.current_state = 'TURN_ON_LIGHTS'
+
+    def turn_on_lights_state(self):
+        # Lights are off, so turn them on
+        self.reaching('light switch')
+        self.flipping('light switch', 'on')
+        # Return back to initial state
+        self.current_state = 'INITIAL'
+
+    # Annotation methods
+    def are_fire_hazards_near(self):
+        # Check if there are any fire hazards near the stove
+        # Code to determine if fire hazards are near
+    def is_stove_on(self):
+        # Check if the stove is on
+        # Code to determine if stove is on
+
+    def run(self):
+        # Run the FSM loop
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+kitchen_robot = KitchenSafetyFSM()
+kitchen_robot.run()
+```
+
+In this FSM, the robot starts by assessing the situation. If there are fire hazards near the stove, it removes them. Then it turns off the stove, ventilates the area, and turns on the lights. After all actions are taken, it returns back to its initial state and starts the process again. Each state represents a phase in the process, and the actions are chosen based on the situation observed in each state.

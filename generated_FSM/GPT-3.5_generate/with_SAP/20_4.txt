@@ -1,0 +1,107 @@
+Based on the provided information, here is an HFSM implementation in Python code for the butler robot in the given scene:
+
+```python
+class ButlerRobotHFSM:
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_DISTRESS': self.assess_distress_state,
+            'REACH_DEVICE': self.reach_device_state,
+            'TAKE_DEVICE': self.take_device_state,
+            'ASSIST_PERSON': self.assist_person_state,
+            'CHECK_EMERGENCY': self.check_emergency_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Move to assess the distress state
+        self.current_state = 'ASSESS_DISTRESS'
+
+    def assess_distress_state(self):
+        # Check if the person is in distress
+        if self.is_person_in_distress():
+            # Move to reach device state
+            self.current_state = 'REACH_DEVICE'
+        else:
+            # No distress, continue monitoring
+            self.current_state = 'CHECK_EMERGENCY'
+
+    def reach_device_state(self):
+        # Reach the emergency device
+        self.reach('emergency device')
+        # Move to take device state
+        self.current_state = 'TAKE_DEVICE'
+
+    def take_device_state(self):
+        # Grip the emergency device
+        self.grip('emergency device')
+        # Move to assist person state
+        self.current_state = 'ASSIST_PERSON'
+
+    def assist_person_state(self):
+        # Assist the person by giving them the emergency device
+        self.assist('person', 'emergency device')
+        # Move to check emergency state
+        self.current_state = 'CHECK_EMERGENCY'
+
+    def check_emergency_state(self):
+        # Check if there is an emergency
+        if self.is_emergency():
+            # Move to call for help state
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            # No emergency, continue monitoring
+            self.current_state = 'ASSESS_DISTRESS'
+
+    def call_for_help_state(self):
+        # Call for help
+        self.call_for_help()
+        # Move back to initial state
+        self.current_state = 'INITIAL'
+
+    # Annotation methods
+    def is_person_in_distress(self):
+        if self.monitoring('person', 'distress'):
+            return True
+        return False
+
+    def reach(self, object_name):
+        # Perform the reach action for the specified object
+        print(f"Reaching {object_name}...")
+
+    def grip(self, object_name):
+        # Perform the grip action for the specified object
+        print(f"Gripping {object_name}...")
+
+    def assist(self, person_name, object_name):
+        # Perform the assistance action for the specified person and object
+        print(f"Assisting {person_name} with {object_name}...")
+
+    def is_emergency(self):
+        if self.monitoring('emergency system', 'emergency'):
+            return True
+        return False
+
+    def call_for_help(self):
+        # Perform the call for help action
+        print("Calling for help...")
+
+    def monitoring(self, object_name, condition):
+        # Perform monitoring for the specified object and condition
+        # Return True or False based on the monitoring result
+        return False
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+
+Please note that the annotation methods (e.g., `reach`, `grip`, `assist`, `monitoring`, `call_for_help`) are just placeholders for the actual implementation of the actions and monitoring functionalities. You should replace them with the appropriate actions and monitoring logic based on the capabilities of the butler robot.

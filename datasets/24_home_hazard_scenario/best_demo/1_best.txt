@@ -1,0 +1,113 @@
+class BathroomCleanupRobotHFSM:
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'CHECK_ENVIRONMENT': self.check_environment_state,
+            'CHECK_SHOWER': self.check_shower_state,
+            'CLEAN_FLOOR': self.clean_floor_state,
+            'ORGANIZE_BATHROOM': self.organize_bathroom_state,
+            'DEFOG_MIRROR': self.defog_mirror_state,
+            'FINAL_CHECK': self.final_check_state,
+            'ROUTINE_CHECK': self.routine_check_state,
+            'COMPLETE': self.complete_state
+        }
+        # The initial state
+        self.current_state = 'INITIAL'
+        self.initial_cleaning_done = False
+
+    # Entry state, the robot starts here
+    def initial_state(self):
+        # Transition to checking the environment
+        self.current_state = 'CHECK_ENVIRONMENT'
+
+    # Check the bathroom environment for safety hazards
+    def check_environment_state(self):
+        # Assess wet floor and displaced items
+        # Transition to checking if the shower is closed
+        self.current_state = 'CHECK_SHOWER'
+
+    # Check if the shower is closed properly
+    def check_shower_state(self):
+        if self.shower_is_closed():
+            # If the shower is closed, proceed to clean the floor
+            self.current_state = 'CLEAN_FLOOR'
+        else:
+            # If the shower is not closed, close it and then clean the floor
+            self.closing('shower')
+            self.current_state = 'CLEAN_FLOOR'
+
+    # Clean the wet floor
+    def clean_floor_state(self):
+        self.mopping('floor')  # Mop the wet floor
+        # After mopping, organize the bathroom items
+        self.current_state = 'ORGANIZE_BATHROOM'
+
+    # Organize the bathroom, arrange items properly
+    def organize_bathroom_state(self):
+        self.lifting('bath_mat')  # Lift and arrange bath mat
+        self.hanging('damp_towel')  # Hang the damp towel
+        # Transition to defogging the mirror
+        self.current_state = 'DEFOG_MIRROR'
+
+    # Defog the bathroom mirror
+    def defog_mirror_state(self):
+        self.wiping('mirror')  # Wipe the fog from the mirror
+        # After defogging, perform a final check
+        self.initial_cleaning_done = True
+        self.current_state = 'FINAL_CHECK'
+
+    # Final check to ensure everything is in order
+    def final_check_state(self):
+        self.checking('bathroom')  # Check if everything is clean and organized
+        # Transition to monitoring the bathroom
+        self.current_state = 'MONITOR'
+
+    # Perform routine checks to ensure ongoing cleanliness
+    def routine_check_state(self):
+        if not self.initial_cleaning_done or self.detect_new_spill():
+            # If initial cleaning is not done or a new spill is detected
+            self.current_state = 'CHECK_SHOWER'
+        else:
+            # If all conditions are met, consider completing the task
+            self.current_state = 'COMPLETE'
+
+    # Task completion state
+    def complete_state(self):
+        # Signal that the cleaning task is completed
+        pass
+
+    # Simulated action methods
+    def mopping(self, target):
+        pass
+    def lifting(self, item):
+        pass
+    def hanging(self, item):
+        pass
+    def wiping(self, target):
+        pass
+    def checking(self, area):
+        pass
+    def closing(self, item):
+        pass
+    def monitoring(self, item):
+        pass
+    def shower_is_closed(self):
+        if monitoring("shower"):
+             return True  # Simulate checking shower status
+        else:
+             return False
+    def detect_new_spill(self):
+        if monitoring("spill"):
+            return False  # Simulate detection of new spills
+        else:
+            return True
+
+    # Run the HFSM
+    def run(self):
+        while self.current_state != 'COMPLETE':
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+cleanup_robot = BathroomCleanupRobotHFSM()
+cleanup_robot.run()

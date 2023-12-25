@@ -1,0 +1,75 @@
+Based on the provided details, here's a Python class:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        self.current_state = self.monitoring
+
+    def monitoring(self):
+        # While monitoring, the robot checks regularly for any abnormal situation 
+        # such as the current person's position and surroundings.
+        if self.check_person_fallen():
+            self.current_state = self.reaching_button
+
+    def reaching_button(self):
+        # The robot moves to where the emergency alert button is located on the wall.
+        self.navigate_to_button()
+
+        # If the robot reaches the button succesfully, push it.
+        if self.at_button():
+            self.pushing_alert_button()
+
+    def pushing_alert_button(self):
+        # The robot pushes the emergency alert button to signal for help.
+        self.press_button()
+
+        # After pressing the button, the robot gets back to the fallen person to provide
+        # immediate first aid or comfort.
+        if self.button_pressed():
+            self.current_state = self.assisting_person
+
+    def assisting_person(self):
+        # The robot attempts to provide support to the fallen person until help arrives.
+        self.provide_comfort()
+
+        # Once help has arrived, the robot returns to monitoring mode.
+        if self.help_arrived():
+            self.current_state = self.monitoring
+
+    def run(self):
+        # Continually executes the current state until changed.
+        while True:
+            self.current_state()
+
+    # Helper methods
+    def check_person_fallen(self):
+        # This function checks if the person has fallen from the wheelchair
+        pass
+
+    def navigate_to_button(self):
+        # This function helps the robot to navigate to the alert button
+        pass
+
+    def at_button(self):
+        # This function checks if the robot is at the button
+        pass
+
+    def press_button(self):
+        # This function presses the alert button
+        pass
+
+    def button_pressed(self):
+        # This function checks if the button has been pressed successfully
+        pass
+
+    def provide_comfort(self):
+        # Function to provide comfort and first aid to the person in need
+        pass
+
+    def help_arrived(self):
+        # This function checks if the help has arrived
+        pass
+```
+
+This finite state machine is designed to deal with the situation when a disabled person falls and is unable to reach the emergency button. The robot is in a continuous loop of monitoring the situation. When the person falls, it navigates to the button, presses it, and provides comfort to the person until help arrives, after which it returns to the monitoring state. It's a simple and minimalist design but can be extended with more states and actions based on further requirements.

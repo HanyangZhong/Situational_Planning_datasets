@@ -1,0 +1,79 @@
+Python code for the butler robot finite state machine in the given scene:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'LYING_IN_BED': self.lying_in_bed_state,
+            'REACH_MEDICINE': self.reach_medicine_state,
+            'DELIVER_MEDICINE': self.deliver_medicine_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start by assessing the person's condition.
+        self.current_state = 'LYING_IN_BED'
+
+    def lying_in_bed_state(self):
+        # Assess the person's state and determine the next action.
+        if self.is_person_weak():
+            self.current_state = 'REACH_MEDICINE'
+        else:
+            self.current_state = 'INITIAL'
+
+    def reach_medicine_state(self):
+        # Attempt to reach the medicine on the bedside table.
+        self.reach()
+        if self.is_medicine_reached():
+            self.current_state = 'DELIVER_MEDICINE'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def deliver_medicine_state(self):
+        # Deliver the medicine to the person in bed.
+        self.deliver()
+        self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance as the medicine cannot be reached.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_person_weak(self):
+        # TODO: Implement logic to check if person is weak
+        return True
+
+    def reach(self):
+        # TODO: Implement logic to perform reaching action
+        pass
+
+    def is_medicine_reached(self):
+        # TODO: Implement logic to check if medicine is reached
+        return True
+
+    def deliver(self):
+        # TODO: Implement logic to deliver the medicine
+        pass
+
+    def call_for_help(self):
+        # TODO: Implement logic to call for help
+        pass
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+butler_robot_fsm = ButlerRobotFSM()
+butler_robot_fsm.run()
+```
+
+In this code, the butler robot FSM starts in the `INITIAL` state and transitions through different states based on the person's condition and the actions performed. The annotations describe the purpose of each state and action, which can be implemented with the required logic.

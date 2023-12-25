@@ -1,0 +1,45 @@
+Here's a Python class definition for the butler robot with the FSM logic:
+```python
+class ButlerRobot(FSM):
+    def __init__(self):
+        super().__init__()
+        self.current_state = 'idle'
+
+    def idle(self):
+        self.current_state = 'monitor'
+
+    def monitor(self):
+        if self.check_toxic_plants() or self.check_loose_outlet() or self.check_toy_parts():
+            self.current_state = 'act'
+
+    def act(self):
+        if self.remove_toxic_plant() or self.cover_outlet() or self.remove_toy_parts():
+            self.current_state = 'idle'
+
+    def remove_toxic_plant(self):
+        # Implement code to remove the toxic plant safely
+        pass
+
+    def cover_outlet(self):
+        # Implement code to cover the loosely covered electrical outlet safely
+        pass
+
+    def remove_toy_parts(self):
+        # Implement code to remove the toy parts safely
+        pass
+
+    def check_toxic_plants(self):
+        # Implement code to check if there are any toxic plants in the room
+        pass
+
+    def check_loose_outlet(self):
+        # Implement code to check if any electrical outlets are loose or uncovered
+        pass
+
+    def check_toy_parts(self):
+        # Implement code to check if there are any small toy parts or pieces within reach of the cat
+        pass
+```
+This class defines a `ButlerRobot` that inherits from the `FSM` class. The `idle` state simply sets the current state to 'monitor'. The `monitor` state checks for the presence of toxic plants, loose outlets, and toy parts within reach of the cat. If any of these hazards are found, the current state is set to 'act'. The `act` state checks for the presence of toxic plants, loose outlets, and toy parts, and if any are found, the current state is set back to 'idle'.
+
+The `remove_toxic_plant`, `cover_outlet`, and `remove_toy_parts` methods are abstract and don't need actual implementation, as they are specific to the objects in the scene. The `check_toxic_plants`, `check_loose_outlet`, and `check_toy_parts` methods are also abstract and can be implemented according to the characteristics of the objects in the scene.

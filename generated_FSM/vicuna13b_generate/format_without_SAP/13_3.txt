@@ -1,0 +1,91 @@
+(Butler)FSM(StateMachine)
+The class is defined as follows:
+```python
+class ButlerFSM:
+    def __init__(self):
+        self.current_state = 'idle'
+        self.helper_methods = {}
+
+    def add_helper_method(self, method_name, method):
+        self.helper_methods[method_name] = method
+
+    def set_current_state(self, state):
+        self.current_state = state
+
+    def current_state(self):
+        return self.current_state
+
+    def transition(self, action):
+        action = action.lower()
+        if action in self.helper_methods:
+            self.helper_methods[action](self)
+        else:
+            print(f"Invalid action: {action}")
+
+    def run(self):
+        while True:
+            action = input("Enter action: ")
+            self.transition(action)
+
+    def check_conditions(self):
+        # Implement any necessary checks here
+        pass
+
+    def handle_action(self, action):
+        # Implement action handling logic here
+        pass
+
+    def dispense(self, item):
+        # Implement dispensing action logic here
+        pass
+
+    def cleaning_action(self):
+        # Implement cleaning action logic here
+        pass
+```
+Now, let's define the states and their associated methods:
+```python
+# Define states
+butler = ButlerFSM()
+butler.add_helper_method('reaching', lambda s: None)
+butler.add_helper_method('lifting', lambda s: None)
+butler.add_helper_method('lowering', lambda s: None)
+butler.add_helper_method('transporting', lambda s: None)
+butler.add_helper_method('rotating', lambda s: None)
+butler.add_helper_method('turning', lambda s: None)
+butler.add_helper_method('folding', lambda s: None)
+butler.add_helper_method('hanging', lambda s: None)
+butler.add_helper_method('unfolding', lambda s: None)
+butler.add_helper_method('wiping', lambda s: None)
+butler.add_helper_method('sweeping', lambda s: None)
+butler.add_helper_method('mopping', lambda s: None)
+butler.add_helper_method('scrubbing', lambda s: None)
+butler.add_helper_method('dusting', lambda s: None)
+butler.add_helper_method('spraying', lambda s: None)
+butler.add_helper_method('squeezing', lambda s: None)
+butler.add_helper_method('shaking', lambda s: None)
+butler.add_helper_method('stirring', lambda s: None)
+butler.add_helper_method('whisking', lambda s: None)
+butler.add_helper_method('pouring', lambda s: None)
+butler.add_helper_method('scooping', lambda s: None)
+butler.add_helper_method('checking', lambda s: None)
+butler.add_helper_method('opening', lambda s: None)
+butler.add_helper_method('closing', lambda s: None)
+butler.add_helper_method('pushing', lambda s: None)
+butler.add_helper_method('pulling', lambda s: None)
+butler.add_helper_method('dragging', lambda s: None)
+butler.add_helper_method('sliding', lambda s: None)
+butler.add_helper_method('pressing', lambda s: None)
+butler.add_helper_method('grasping', lambda s: None)
+butler.add_helper_method('releasing', lambda s: None)
+butler.add_helper_method('placing down', lambda s: None)
+butler.add_helper_method('collecting', lambda s: None)
+butler.add_helper_method('inserting', lambda s: None)
+butler.add_helper_method('removing', lambda s: None)
+butler.add_helper_method('gathering', lambda s: None)
+butler.add_helper_method('dispensing', lambda s: None)
+butler.add_helper_method('serving', lambda s: None)
+butler.add_helper_method('portioning', lambda s: None)
+butler.add_helper_method('arranging', lambda s: None)
+butler.add_helper_method('loading
+```

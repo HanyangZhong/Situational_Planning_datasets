@@ -1,0 +1,99 @@
+```python
+class KitchenSafetyHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'SECURE_CHEMICALS': self.secure_chemicals_state,
+            'CHECK_AIR_QUALITY': self.check_air_quality_state,
+            'VENTILATE_ROOM': self.ventilate_room_state,
+            'MONITOR_AREA': self.monitor_area_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Check if the chemicals bottles are open and the woman is close to them.
+        if self.are_bottles_open() and self.is_woman_near():
+            self.current_state = 'SECURE_CHEMICALS'
+        else:
+            self.current_state = 'MONITOR_AREA'
+
+    def secure_chemicals_state(self):
+        # The robot will close all the open bottles.
+        self.close_all_bottles()
+        self.current_state = 'CHECK_AIR_QUALITY'
+
+    def check_air_quality_state(self):
+        # Check the air quality in the room.
+        if self.is_air_safety_on_risk():
+            self.current_state = 'VENTILATE_ROOM'
+        else:
+            self.current_state = 'MONITOR_AREA'
+
+    def ventilate_room_state(self):
+        # Open the window to improve air quality.
+        self.open_window()
+        self.current_state = 'MONITOR_AREA'
+
+    def monitor_area_state(self):
+        # Continuously monitor the woman and the kitchen. If chemicals are open, secure them.
+        if self.are_bottles_open() and self.is_woman_near():
+            self.current_state = 'SECURE_CHEMICALS'
+        elif self.is_safety_on_risk():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the chemicals are not secure or the air is not safe.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def are_bottles_open(self):
+        bottles_open = self.checking('chemical bottles')
+        return bottles_open
+
+    def is_woman_near(self):
+        woman_near = self.monitoring('woman', 'chemical bottles')
+        return woman_near
+
+    def close_all_bottles(self):
+        self.gripping('chemical bottle')
+        self.closing('chemical bottle')
+        self.placing_down('chemical bottle')
+
+    def is_air_safety_on_risk(self):
+        safety_risk = self.checking('air quality')
+        return safety_risk
+
+    def open_window(self):
+        self.reaching('window')
+        self.opening('window')
+
+    def is_safety_on_risk(self):
+        safety_risk = self.monitoring('woman', 'bottles') or self.is_air_safety_on_risk()
+        return safety_risk
+
+    def call_for_help(self):
+        self.calling('help')
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = KitchenSafetyHFSM()
+butler_robot.run()
+```
+This finite state machine would constantly `assess the situation` and take the necessary actions to `secure the chemicals`, `check air quality` and if required `ventilate the room`. The robot will `call for help` if the chemicals are not secure or if the air quality is not safe.

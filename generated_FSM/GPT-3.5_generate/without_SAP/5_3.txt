@@ -1,0 +1,74 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = (
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'SECURE_MEDICATION': self.secure_medication_state,
+            'CLEAN_UP': self.clean_up_state
+        )
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if the medication is unsecured and the bathroom is disorganized
+        if self.is_medication_unsecured() and self.is_bathroom_disorganized():
+            self.current_state = 'SECURE_MEDICATION'
+        else:
+            self.current_state = 'INITIAL'
+
+    def secure_medication_state(self):
+        # Secure the medication to prevent any accidents
+        self.gather_medication()
+        self.close_cabinet()
+        self.place_medication_in_secure_storage()
+        self.current_state = 'CLEAN_UP'
+
+    def clean_up_state(self):
+        # Clean up the bathroom after securing the medication
+        self.clean_bathroom()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_medication_unsecured(self):
+        # Check if the medication is unsecured
+        medication_unsecured = self.checking('medication')
+        return medication_unsecured
+
+    def is_bathroom_disorganized(self):
+        # Check if the bathroom is disorganized
+        bathroom_disorganized = self.checking('bathroom')
+        return bathroom_disorganized
+
+    def gather_medication(self):
+        # Gather all the medication from the cabinet
+        self.collecting('medication')
+
+    def close_cabinet(self):
+        # Close the medicine cabinet to prevent access
+        self.closing('medicine cabinet')
+
+    def place_medication_in_secure_storage(self):
+        # Place the medication in a secure storage area
+        self.placing('medication', 'secure storage')
+
+    def clean_bathroom(self):
+        # Clean up the bathroom after securing the medication
+        self.wiping('bathroom surfaces')
+        self.sweeping('pills')
+        self.mopping('floor')
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()

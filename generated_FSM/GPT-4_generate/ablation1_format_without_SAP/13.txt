@@ -1,0 +1,70 @@
+Based on your instruction, here is a simplified python code of the butler robot FSM. The objective of the butler robot is to remove the hazardous chemical bottles around the pregnant woman and place them to a safer location, reducing the risk associated with it. 
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        """Initialize the FSM with the starting state"""
+        self.current_state = self.monitoring_environment
+
+    def monitoring_environment(self):
+        """State: Continuously checking the environment for potential hazards"""
+        if self.check_hazard():
+            self.current_state = self.reaching_chemical_bottles
+
+    def reaching_chemical_bottles(self):
+        """State: The robot reaches towards the hazardous chemical bottles"""
+        self.reach()
+        self.current_state = self.gripping_chemical_bottles
+
+    def gripping_chemical_bottles(self):
+        """State: The robot grips the hazardous chemical bottles"""
+        self.grip()
+        self.current_state = self.lifting_chemical_bottles
+
+    def lifting_chemical_bottles(self):
+        """State: The robot lifts the hazardous chemical bottles"""
+        self.lift()
+        self.current_state = self.transporting_chemical_bottles_to_safe_location
+
+    def transporting_chemical_bottles_to_safe_location(self):
+        """State: The robot transports the hazardous chemical bottles to a safe location"""
+        self.transport()        
+        self.current_state = self.placing_down_chemical_bottles
+
+    def placing_down_chemical_bottles(self):
+        """State: The robot places down the hazardous chemical bottles safely"""
+        self.place_down()
+        self.current_state = self.monitoring_environment
+
+    def check_hazard(self):
+        """A helper method to check if there is any hazard (hazardous chemical bottles in this instance)"""
+        # Check for hazard logic
+        return True
+
+    def reach(self):
+        """A helper method to perform the reaching action"""
+        # Reaching logic
+
+    def grip(self):
+        """A helper method to perform the gripping action"""
+        # Gripping logic
+
+    def lift(self):
+        """A helper method to perform the lifting action"""
+        # Lifting logic
+
+    def transport(self):
+        """A helper method to perform the transporting action"""
+        # Transporting logic
+
+    def place_down(self):
+        """A helper method to perform the placing down action"""
+        # Placing down logic
+
+    def run(self):
+        """Execute the FSM loop"""
+        while True:
+            self.current_state()  # Call the current_state method
+```
+
+This Python class suits your request, where it obeys the finite state machine model and states correspond to the verbs provided. The logic transitions between states based on the environment and the task of the butler robot. The helper methods are placeholders and do not actually implement the actions, but you can fill in these fields as per your requirement.

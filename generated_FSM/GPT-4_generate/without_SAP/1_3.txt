@@ -1,0 +1,78 @@
+Here is a Finite State Machine for a butler robot designed to handle the given bathroom scenario after a shower. Not every verb was used as not all of them were applicable to the given scenario.
+
+```python
+class CleanupRobotFSM:
+
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'DRY_FLOOR': self.dry_floor_state,
+            'ARRANGE_MAT': self.arrange_mat_state,
+            'HANDLE_TOWEL': self.handle_towel_state,
+            'CLEAR_MIRROR': self.clear_mirror_state,
+            'SANITIZE': self.sanitize_state,
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.is_floor_wet():
+            self.current_state = 'DRY_FLOOR'
+        elif self.is_mat_displaced():
+            self.current_state = 'ARRANGE_MAT'
+        elif self.is_towel_on_sink():
+            self.current_state = 'HANDLE_TOWEL'
+        elif self.is_mirror_fogged():
+            self.current_state = 'CLEAR_MIRROR'
+        else:
+            self.current_state = 'SANITIZE'
+
+    def dry_floor_state(self):
+        self.mopping('floor')
+        self.sweeping('water towards drain')
+        self.current_state = 'INITIAL'
+
+    def arrange_mat_state(self):
+        self.gripping('mat')
+        self.lifting('mat')
+        self.transporting('mat')
+        self.placing_down('mat', 'in the correct place')
+        self.current_state = 'INITIAL'
+
+    def handle_towel_state(self):
+        self.gripping('towel')
+        self.removing('towel from sink')
+        self.folding('towel')
+        self.hanging('towel', 'on the rail')
+        self.current_state = 'INITIAL'
+
+    def clear_mirror_state(self):
+        self.wiping('mirror')
+        self.current_state = 'INITIAL'
+
+    def sanitize_state(self):
+        self.spraying('sanitizer on surfaces')
+        self.scrubbing('surfaces')
+        self.current_state = 'INITIAL'
+
+    def is_floor_wet(self):
+        return self.checking('floor')
+
+    def is_mat_displaced(self):
+        return self.checking('mat')
+
+    def is_towel_on_sink(self):
+        return self.checking('towel')
+
+    def is_mirror_fogged(self):
+        return self.checking('mirror')
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+```
+
+This example first enters the 'ASSESS_SITUATION' state where it checks the statuses of wet floor, mat placemat, placed towel on the sink and fogged mirror. Depending on what the situation is, It switches state to the next applicable one. Once that task is done, it returns back to the 'INITIAL' state which in turn takes it back to the 'ASSESS_SITUATION' state again, allowing it to periodically reassess the situation and carry out necessary actions. At the end it sprays and scrubs the surfaces to sanitize them.

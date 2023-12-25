@@ -1,0 +1,56 @@
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define states
+        self.states = {
+            'INITIALIZE': self.initialize,
+            'IDENTIFY_HAZARD': self.identify_hazard,
+            'SECURE_AREA': self.secure_area,
+            'REDIRECT_CHILD': self.redirect_child,
+            'MONITOR_CHILD': self.monitor_child
+        }
+        
+        self.current_state = 'INITIALIZE'
+
+    def initialize(self):
+        # Initial state to observe environment
+        print("Observing playroom for any hazards")  
+        self.current_state = 'IDENTIFY_HAZARD'
+
+    def identify_hazard(self):
+        # Check if small/choking hazard toys are present
+        if self.scan_toys() == 'SMALL_TOYS': 
+            self.current_state = 'SECURE_AREA'
+        else:
+            self.current_state = 'MONITOR_CHILD'
+
+    def secure_area(self):
+        # Remove and store hazardous toys if found
+        print("Small toys found within reach of child")
+        self.collecting('small toys') 
+        self.storing('small toys', 'safe container')  
+        print("Hazardous toys removed and stored safely")
+        self.current_state = 'REDIRECT_CHILD'
+
+    def redirect_child(self):
+        # Engage child with alternative safe toys  
+        print("Engaging child's attention with safe toys")
+        self.delivering('safe toys', 'to child')
+        self.current_state = 'MONITOR_CHILD'
+
+    def monitor_child(self):
+        # Keep observing for any emerging hazards
+        print("Monitoring child's play")
+        self.current_state = 'IDENTIFY_HAZARD'
+
+    # Helper annotation methods
+    def scan_toys(self):
+        # Check toys in area
+        toys = self.observing('toys') 
+        if toys == 'SMALL':
+            return 'SMALL_TOYS'
+        else:
+            return 'SAFE_TOYS'
+
+fsm = ButlerRobotFSM()
+fsm.run()

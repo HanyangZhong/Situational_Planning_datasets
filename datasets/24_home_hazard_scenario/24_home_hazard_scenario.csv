@@ -1,0 +1,2599 @@
+scenes list,events,planning complexity,detail scene,img_num,best HFSM code,HFSM img
+Slip and Fall Hazards,Wet floors in bathrooms,level1(potential dangerous£¬no interaction),"The scene is a small, modern bathroom immediately after a shower has been used. The floor is tiled in light blue ceramic, glistening with water droplets that have splashed out from the shower area. A brightly colored bath mat is crumpled against the wall, displaced from its usual spot beside the tub, leaving the area directly in front of the shower exposed and dangerously slippery. The shower curtain, partially open, drips water onto the floor. On the edge of the white porcelain sink, a damp towel is haphazardly left, half-draped over the side, with one end touching the wet floor. Steam still lingers in the air, fogging up the mirror and giving the chrome fixtures a dewy appearance.",0.png,"class BathroomCleanupRobotHFSM:
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'CHECK_ENVIRONMENT': self.check_environment_state,
+            'CHECK_SHOWER': self.check_shower_state,
+            'CLEAN_FLOOR': self.clean_floor_state,
+            'ORGANIZE_BATHROOM': self.organize_bathroom_state,
+            'DEFOG_MIRROR': self.defog_mirror_state,
+            'FINAL_CHECK': self.final_check_state,
+            'ROUTINE_CHECK': self.routine_check_state,
+            'COMPLETE': self.complete_state
+        }
+        # The initial state
+        self.current_state = 'INITIAL'
+        self.initial_cleaning_done = False
+
+    # Entry state, the robot starts here
+    def initial_state(self):
+        # Transition to checking the environment
+        self.current_state = 'CHECK_ENVIRONMENT'
+
+    # Check the bathroom environment for safety hazards
+    def check_environment_state(self):
+        # Assess wet floor and displaced items
+        # Transition to checking if the shower is closed
+        self.current_state = 'CHECK_SHOWER'
+
+    # Check if the shower is closed properly
+    def check_shower_state(self):
+        if self.shower_is_closed():
+            # If the shower is closed, proceed to clean the floor
+            self.current_state = 'CLEAN_FLOOR'
+        else:
+            # If the shower is not closed, close it and then clean the floor
+            self.closing('shower')
+            self.current_state = 'CLEAN_FLOOR'
+
+    # Clean the wet floor
+    def clean_floor_state(self):
+        self.mopping('floor')  # Mop the wet floor
+        # After mopping, organize the bathroom items
+        self.current_state = 'ORGANIZE_BATHROOM'
+
+    # Organize the bathroom, arrange items properly
+    def organize_bathroom_state(self):
+        self.lifting('bath_mat')  # Lift and arrange bath mat
+        self.hanging('damp_towel')  # Hang the damp towel
+        # Transition to defogging the mirror
+        self.current_state = 'DEFOG_MIRROR'
+
+    # Defog the bathroom mirror
+    def defog_mirror_state(self):
+        self.wiping('mirror')  # Wipe the fog from the mirror
+        # After defogging, perform a final check
+        self.initial_cleaning_done = True
+        self.current_state = 'FINAL_CHECK'
+
+    # Final check to ensure everything is in order
+    def final_check_state(self):
+        self.checking('bathroom')  # Check if everything is clean and organized
+        # Transition to monitoring the bathroom
+        self.current_state = 'MONITOR'
+
+    # Perform routine checks to ensure ongoing cleanliness
+    def routine_check_state(self):
+        if not self.initial_cleaning_done or self.detect_new_spill():
+            # If initial cleaning is not done or a new spill is detected
+            self.current_state = 'CHECK_SHOWER'
+        else:
+            # If all conditions are met, consider completing the task
+            self.current_state = 'COMPLETE'
+
+    # Task completion state
+    def complete_state(self):
+        # Signal that the cleaning task is completed
+        pass
+
+    # Simulated action methods
+    def mopping(self, target):
+        pass
+    def lifting(self, item):
+        pass
+    def hanging(self, item):
+        pass
+    def wiping(self, target):
+        pass
+    def checking(self, area):
+        pass
+    def closing(self, item):
+        pass
+    def monitoring(self, item):
+        pass
+    def shower_is_closed(self):
+        if monitoring(""shower""):
+             return True  # Simulate checking shower status
+        else:
+             return False
+    def detect_new_spill(self):
+        if monitoring(""spill""):
+            return False  # Simulate detection of new spills
+        else:
+            return True
+
+    # Run the HFSM
+    def run(self):
+        while self.current_state != 'COMPLETE':
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+cleanup_robot = BathroomCleanupRobotHFSM()
+cleanup_robot.run()
+",0_HFSM.png
+Slip and Fall Hazards,Wet floors in kitchens,level1(potential dangerous£¬no interaction),"This scene depicts a spacious kitchen with a focus on the hazard posed by a wet floor. In the center of the room, there's a large puddle of clear water mixed with a slick of olive oil, creating a reflective sheen on the dark stone tiles. The source of the spill is evident: an overturned bottle of olive oil lies near the edge of the counter, its cap off, and a pot on the stove shows signs of having boiled over. Sunlight streams through a window, illuminating the spill and making the oily surface glisten. The kitchen is otherwise tidy, with utensils neatly placed and a basket of fresh produce on the counter, contrasting sharply with the mess on the floor. A dog bowl sits in one corner, suggesting the presence of pets. ",1.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_KITCHEN': self.monitor_kitchen_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'SECURE_ENVIRONMENT': self.secure_environment_state,
+            'CLEAN_SPILL': self.clean_spill_state,
+            'FINAL_CHECK': self.final_check_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variable to simulate dynamic environment changes
+        self.spill_exists = False
+
+    # Entry state, the robot starts here
+    def initial_state(self):
+        self.current_state = 'MONITOR_KITCHEN'
+
+    # Monitor the kitchen for spills or hazards
+    def monitor_kitchen_state(self):
+        self.monitoring('kitchen')  # Continuous monitoring of the kitchen area
+        if self.detect_spill():
+            self.spill_exists = True
+            self.current_state = 'ASSESS_SITUATION'
+        else:
+            self.spill_exists = False
+
+    # Assess the situation to understand the spill and potential hazards
+    def assess_situation_state(self):
+        if self.spill_exists:
+            self.current_state = 'SECURE_ENVIRONMENT'
+        else if self.other_harzard_exists() and not self.spill_exists:
+            self.current_state = 'CALL_FOR_HELP'
+
+    # Secure the environment to prevent accidents
+    def secure_environment_state(self):
+        self.monitoring('environment')  # Monitor the environment for safety
+        self.placing_down('warning_sign', 'near_spill')  # Place a warning sign near the spill
+        self.current_state = 'CLEAN_SPILL'
+
+    # Clean the spill to remove the hazard
+    def clean_spill_state(self):
+        self.gripping('mop')  # Collect necessary cleaning tools like a mop
+        self.mopping('spill_area')  # Mop the spill area
+        self.spill_exists = False  # Assume spill is cleaned
+        self.current_state = 'FINAL_CHECK'
+
+    # Perform a final check to ensure everything is in order
+    def final_check_state(self):
+        if not self.spill_exists:
+            self.arranging('tools', 'storage')  # Arrange tools back to storage
+            self.current_state = 'MONITOR_KITCHEN'  # Return to monitoring state
+        else:
+            self.current_state = 'CLEAN_SPILL'
+
+    # Call for human assistance in case of unexpected situations
+    def call_for_help_state(self):
+        self.calling_for_help()  # Implement the actual call for help method
+
+    # Detect if there is a spill
+    def detect_spill(self):
+        self.spill_exists = monitoring('spill')
+        # Interface with the robot's sensors to detect spill
+        # For simulation, return True if a spill is detected
+        return self.spill_exists
+
+    # Detect if there is a spill
+    def other_harzard_exists(self):
+        objects = monitoring('hazard objects')
+        # Interface with the robot's sensors to detect spill
+        # For simulation, return True if a spill is detected
+        return objects
+
+    # Implement monitoring action
+    def monitoring(self, area):
+        # The robot would monitor the specified area
+        pass
+
+    # Implement monitoring action
+    def checking(self, item):
+        # The robot would monitor the specified item
+        pass
+
+    # Implement placing down action
+    def placing_down(self, item, location):
+        # Place an item down at a specific location
+        pass
+
+    # Implement collecting action
+    def gripping(self, item):
+        # Collect specified item
+        pass
+
+    # Implement mopping action
+    def mopping(self, area):
+        # Mop the specified area
+        pass
+
+    # Implement arranging action
+    def arranging(self, item, location):
+        # Arrange items back to their designated location
+        pass
+
+    # Implement calling for help
+    def calling_for_help(self):
+        # Call for human assistance here
+        pass
+
+    # Run the HFSM
+    def run(self):
+        # Run the current state method in a loop with a condition to exit
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: In a real-world scenario, the 'run' method would include a condition to exit the loop, like a shutdown signal.
+",1_HFSM.png
+Fire Hazards,open flames,level1(potential dangerous£¬no interaction),"In a cozy study room, a lit candle sits precariously on a crowded wooden bookshelf. The candle, halfway melted, is positioned dangerously close to a pile of old, hardcover books. The flame flickers, casting a warm, yet ominous glow on the surrounding volumes, some with visibly dry, aged pages that could easily catch fire. Nearby, a pair of reading glasses and a forgotten cup of tea suggest recent human activity, but the room is now deserted. The candle is in a thin holder, offering little protection against the growing wax pool which threatens to overflow. ",2.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'JUDGE_HAZARD': self.judge_hazard_state,
+            'EXTINGUISH_CANDLE': self.extinguish_candle_state,
+            'VERIFY_SUCCESS': self.verify_success_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'SECURE_AREA': self.secure_area_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to simulate the robot's decision-making
+        self.room_occupied = False
+        self.candle_extinguished = False
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.detect_candle_hazard():
+            self.current_state = 'JUDGE_HAZARD'
+        else:
+            self.current_state = 'INITIAL'
+
+    def judge_hazard_state(self):
+        # Assess if the room is likely to be unoccupied for an extended period
+        self.room_occupied = self.monitoring('people in room')
+        if not self.room_occupied:
+            self.current_state = 'EXTINGUISH_CANDLE'
+        else:
+            # Continue monitoring if the room is expected to be occupied soon
+            self.current_state = 'INITIAL'
+
+    def extinguish_candle_state(self):
+        self.reaching('candle cover')
+        self.grasping('candle cover')
+        self.placing_down('candle cover',""candle"")
+        self.current_state = 'VERIFY_SUCCESS'
+
+    def verify_success_state(self):
+        self.candle_extinguished = self.monitoring('candle')
+        if self.candle_extinguished:
+            self.current_state = 'SECURE_AREA'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        self.calling_for_help()
+        self.current_state = 'INITIAL'
+
+    def secure_area_state(self):
+        self.placing_down('candle', 'safe_place')
+        self.checking('area')
+        self.current_state = 'INITIAL'
+
+    def detect_candle_hazard(self):
+        state = monitoring('candle')
+        # Detect candle hazard using robot's sensors
+        return state  # Assuming hazard is always detected for this scenario
+
+    def reaching(self, item):
+        pass
+
+    def grasping(self, item):
+        pass
+
+    def placing_down(self, item, location):
+        pass
+
+    def checking(self, area):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def monitoring(self,item):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The run method would have a condition for graceful exit in a real-world implementation.
+",2_HFSM.png
+Fire Hazards,open flames,level1(potential dangerous£¬no interaction),"The scene is set in a modern kitchen where a small gas stove flame burns unattended. The flame is low but steady, heating an empty, slightly scorched saucepan. Around the stove are various cooking ingredients ¨C an oil bottle with its cap off, a dish towel haphazardly thrown nearby, and a wooden cutting board with chopped vegetables. These items are perilously close to the open flame, posing a significant fire risk. Above the stove, the extractor fan is switched off, and the window is closed, preventing the dispersal of heat or gas build-up. The lighting in the kitchen is dim, with the stove's blue flame casting an eerie light on the metallic surfaces, emphasizing the solitary danger of the forgotten flame.",3.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REMOVE_FLAMMABLES': self.remove_flammables_state,
+            'EXTINGUISH_FLAME': self.extinguish_flame_state,
+            'VERIFY_SUCCESS': self.verify_success_state,
+            'VENTILATE_AREA': self.ventilate_area_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'SECURE_AREA': self.secure_area_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to simulate the robot's decision-making process
+        self.flame_detected = True
+        self.flame_extinguished = False
+
+    def initial_state(self):
+        # Begin by assessing the situation
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Detect unattended flame
+        if self.detect_flame():
+            self.current_state = 'REMOVE_FLAMMABLES'
+        else:
+            self.current_state = 'INITIAL'
+
+    def remove_flammables_state(self):
+        self.reaching('flammables')  # Reach for flammable items
+        self.grasping('flammables')  # Remove them from the vicinity of the flame
+        self.placing_down('flammables','safe place')
+        # After removing flammables, extinguish the flame
+        self.current_state = 'EXTINGUISH_FLAME'
+
+    def extinguish_flame_state(self):
+        self.reaching('stove_knob')  # Reach for the stove knob
+        self.turning('stove_knob', 'off')  # Turn off the stove
+        self.current_state = 'VERIFY_SUCCESS'
+
+    def verify_success_state(self):
+        self.flame_extinguished = self.detect_flame()  # Assume the flame is extinguished
+        if self.flame_extinguished:
+            self.current_state = 'VENTILATE_AREA'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def ventilate_area_state(self):
+        self.opening('window')  # Open the window
+        self.turning('extractor_fan', 'on')  # Turn on the extractor fan
+        # After ventilating, secure the area
+        self.current_state = 'SECURE_AREA'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance if the flame couldn't be extinguished
+        self.current_state = 'INITIAL'
+
+    def secure_area_state(self):
+        self.checking('kitchen')  # Check the kitchen to ensure no further hazards
+        self.current_state = 'INITIAL'
+
+    def detect_flame(self):
+        state = monitoring('flame')
+        # Detect flame using robot's sensors
+        return state
+
+    def reaching(self, item):
+        pass
+
+    def grasping(self, item):
+        pass
+
+    def placing_down(self, item, place):
+        pass
+
+    def turning(self, item, action):
+        pass
+
+    def opening(self, item):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def checking(self, area):
+        pass
+
+    def monitoring(self, item):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: In a real-world implementation, the run method would include conditions for graceful exit.
+",3_HFSM.png
+Poisoning Hazards,Unsecured medicines,level1(potential dangerous£¬no interaction),"In a small bathroom, a medicine cabinet hangs open, revealing an array of unsecured medication bottles, pillboxes, and prescription packets. Some of the bottles are open, with pills spilling out onto the lower shelves and a few dropping to the counter below. Among the medications, there are brightly colored capsules and tablets, which could be mistaken for candy by children. Next to the medicine cabinet, a small sink reflects the disarray in its mirror, emphasizing the accessibility of these potentially dangerous substances. On the counter, there's a toothbrush holder and a soap dispenser, indicating frequent use of the space, increasing the risk of accidental ingestion. The lighting in the bathroom is soft, casting a gentle glow on the chaotic cabinet contents, underscoring the silent threat posed by these unsecured medications.",4.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'SORT_MEDICATION': self.sort_medication_state,
+            'ORGANIZE_STORAGE': self.organize_storage_state,
+            'CLEAN_SPILL': self.clean_spill_state,
+            'VERIFY_SAFETY': self.verify_safety_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'MONITOR_AREA': self.monitor_area_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables for decision-making
+        self.medication_hazard_detected = True
+        self.area_secured = False
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.detect_medication_hazard():
+            self.current_state = 'SORT_MEDICATION'
+        else:
+            self.current_state = 'INITIAL'
+
+    def sort_medication_state(self):
+        self.collecting('medication_jars')  # Collect medication jars
+        self.checking('medication_jars')  # Check jars for pills that belong inside
+        self.placing_down('medication_jars', 'safe_storage')  # Place jars in safe storage
+        self.current_state = 'ORGANIZE_STORAGE'
+
+    def organize_storage_state(self):
+        organized_parttern = self.checking('storage_pattern')  # Analyze the placement pattern in storage
+        self.arranging('medication', organized_parttern)  # Rearrange medication according to a safe pattern
+        self.current_state = 'CLEAN_SPILL'
+
+    def clean_spill_state(self):
+        self.sweeping('spilled_pills')  # Sweep up any spilled pills
+        self.collecting('swept_pills')  # Collect the swept pills
+        self.placing_down('swept_pills', 'trash')  # Dispose of the swept pills safely
+        self.current_state = 'VERIFY_SAFETY'
+
+    def verify_safety_state(self):
+        if self.check_area_safety():
+            self.area_secured = True
+            self.current_state = 'MONITOR_AREA'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_area_state(self):
+        self.monitoring('bathroom')
+        if not self.medication_hazard_detected:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance for unreachable pills
+        self.current_state = 'INITIAL'
+
+    def detect_medication_hazard(self):
+        state = self.monitoring('medicine')
+        return state
+
+    def check_area_safety(self):
+        # Additional check for any remaining unreachable pills
+        if self.detect_unreachable_pills():
+            return False
+        return True
+
+    def collecting(self, item):
+        pass
+
+    def checking(self, item):
+        pass
+
+    def arranging(self, item, pattern):
+        pass
+
+    def sweeping(self, item):
+        pass
+
+    def placing_down(self, item, destination):
+        pass
+
+    def monitoring(self, area,item):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def detect_unreachable_pills(self):
+        state = self.monitoring('bathroom','pills')
+        # Check for unreachable pills using robot's sensors
+        return state
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The run method would have conditions for graceful exit in a real-world implementation.
+",4_HFSM.png
+Poisoning Hazards,Unsecured chemicals,level1(potential dangerous£¬no interaction),"This scene is set in a well-lit laundry room. On the floor, a variety of household cleaning products are carelessly left open and within easy reach. There's a bucket with a mop, suggesting recent cleaning activity, but the chlorine bleach bottle next to it is uncapped, and a detergent container is tipped over, its contents slowly oozing out. Shelves above the washing machine hold more chemicals, like fabric softeners and stain removers, with some of their caps loosely placed or missing. The laundry room's door is ajar, suggesting easy access, especially for curious pets or children. The stark lighting in the room highlights the vivid labels on the cleaning products, many of which feature bright, eye-catching designs, potentially attracting unintended interest.",5.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'SECURE_CHEMICALS': self.secure_chemicals_state,
+            'CLEAN_SPILLS': self.clean_spills_state,
+            'VERIFY_SAFETY': self.verify_safety_state,
+            'MONITOR_AREA': self.monitor_area_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables for decision-making
+        self.hazard_detected = True
+        self.area_secured = False
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.detect_hazard():
+            self.current_state = 'SECURE_CHEMICALS'
+        else:
+            self.current_state = 'INITIAL'
+
+    def secure_chemicals_state(self):
+        self.collecting('chemicals')  # Collect open chemical containers
+        self.closing('containers')  # Close any open containers
+        self.placing_down('containers', 'secure_storage')  # Place them in secure storage
+        self.current_state = 'CLEAN_SPILLS'
+
+    def clean_spills_state(self):
+        self.wiping('spilled_chemicals')  # Wipe up any chemical spills
+        self.sweeping('wiped_chemicals', 'safe_disposal')  # Dispose of them safely
+        self.current_state = 'VERIFY_SAFETY'
+
+    def verify_safety_state(self):
+        if self.check_area_safety():
+            self.area_secured = True
+            self.current_state = 'MONITOR_AREA'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_area_state(self):
+        self.monitoring('laundry_room')
+        if not self.detect_hazard():
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance if the area cannot be secured
+        self.current_state = 'INITIAL'
+
+    def detect_hazard(self):
+        state = self.checking('chemicals')
+        return state
+
+    def check_area_safety(self):
+        state = self.checking('chemicals') and self.checking('chemical_spills')
+        return state
+
+    def collecting(self, item):
+        pass
+
+    def closing(self, containers):
+        pass
+
+    def placing_down(self, item, location):
+        pass
+
+    def wiping(self, item):
+        pass
+
+    def sweeping(self, item, destination):
+        pass
+
+    def monitoring(self, area):
+        pass
+
+    def checking(self, item):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The run method would have conditions for graceful exit in a real-world implementation.
+",5_HFSM.png
+Tripping Hazards,Cluttered walkways,level1(potential dangerous£¬no interaction),"The scene is a narrow hallway in a family home, cluttered in a way that poses a significant tripping hazard. The floor is covered with various items: a pair of sneakers lying askew, a small, overturned toy car, a dog leash coiled in a heap, and a couple of large, hardcover books that appear to have been dropped and left there. The hallway rug is bunched up in one corner, creating an uneven surface. Along one wall, a low-lying shoe rack is overflowing with shoes, some of which have tumbled off and are now part of the obstacle course on the floor. At one end of the hallway, a small table stands with a lamp atop it, its cord snaking across the walkway and contributing to the hazardous setup. The light from the lamp casts shadows over the clutter, making it harder to discern the individual items on the floor, increasing the risk of tripping. The walls are adorned with family photos and children's artwork, suggesting a busy household. The hallway leads to a staircase, the top step barely visible, further emphasizing the danger posed by the cluttered pathway in the event of a fall.",6.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_HAZARD': self.assess_hazard_state,
+            'CLEAR_PATHWAY': self.clear_pathway_state,
+            'ARRANGE_SHOES': self.arrange_shoes_state,
+            'STRAIGHTEN_RUG': self.straighten_rug_state,
+            'SECURE_CORD': self.secure_cord_state,
+            'FINAL_CHECK': self.final_check_state,
+            'MONITOR': self.monitor_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variable to simulate the environment status
+        self.hazard_present = True
+
+    def initial_state(self):
+        # Begin with assessing the hazard
+        self.current_state = 'ASSESS_HAZARD'
+
+    def assess_hazard_state(self):
+        if self.detect_hazard():
+            self.current_state = 'CLEAR_PATHWAY'
+        else:
+            self.current_state = 'MONITOR'
+
+    def clear_pathway_state(self):
+        self.collecting('obstacles')  # Collect obstacles like toys and books
+        self.placing_down('obstacles', 'appropriate_places')  # Place them in their appropriate places
+        self.current_state = 'ARRANGE_SHOES'
+
+    def arrange_shoes_state(self):
+        self.arranging('shoes', 'shoe_rack')  # Arrange the shoes on the shoe rack
+        self.current_state = 'STRAIGHTEN_RUG'
+
+    def straighten_rug_state(self):
+        self.unfolding('rug')  # Straighten the bunched-up rug
+        self.current_state = 'SECURE_CORD'
+
+    def secure_cord_state(self):
+        self.arranging('lamp_cord')  # Secure the lamp cord to prevent tripping
+        self.current_state = 'FINAL_CHECK'
+
+    def final_check_state(self):
+        if self.check_safety():
+            self.hazard_present = False
+            self.current_state = 'MONITOR'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_state(self):
+        self.hazard_present = self.monitoring('hallway')  # Continuously monitor the hallway for any new hazards
+        if self.hazard_present:
+            self.current_state = 'ASSESS_HAZARD'
+        else:
+            self.current_state = 'INITIAL'
+            
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance if the area cannot be made safe
+        self.current_state = 'INITIAL'
+
+    def detect_hazard(self):
+        state = self.monitoring('hallway')
+        # Detect hazard using robot's sensors
+        return state
+
+    def check_safety(self):
+        # Check the safety of the hallway
+        return not self.detect_hazard()
+
+    def collecting(self, item):
+        pass
+
+    def placing_down(self, item, location):
+        pass
+
+    def arranging(self, item, location):
+        pass
+
+    def unfolding(self, item):
+        pass
+
+    def monitoring(self, area):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: In a real-world implementation, the 'run' method would include conditions for graceful exit.
+",6_HFSM.png
+Sharp Object Hazards,Accessible knives,level1(potential dangerous£¬no interaction),"In a well-lit, contemporary kitchen, an open drawer reveals a careless arrangement of sharp knives, posing a significant hazard. The drawer, slightly ajar, is filled with various types of knives, including a serrated bread knife, a large chef's knife, and several smaller utility knives. Their blades are haphazardly oriented, some with points and edges facing outward, creating a dangerous situation for anyone reaching in.
+Above the drawer, a marble countertop reflects the ambient light, casting a sheen over the metallic surfaces of the knives. Next to the drawer, a cutting board and a half-chopped bell pepper suggest a meal preparation interrupted. The knives' polished handles catch the light, emphasizing their accessibility and the lack of any safety locks or child-proofing mechanisms on the drawer.
+In the background, the kitchen is pristine and modern, with stainless steel appliances and minimalist decor, contrasting starkly with the disorganized and hazardous state of the knife drawer.",7.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_HAZARD': self.assess_hazard_state,
+            'SECURE_KNIVES': self.secure_knives_state,
+            'ORGANIZE_DRAWER': self.organize_drawer_state,
+            'CLOSE_DRAWER': self.close_drawer_state,
+            'FINAL_CHECK': self.final_check_state,
+            'MONITOR': self.monitor_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variable to simulate the detection of the hazard
+        self.knife_hazard_detected = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR'
+
+    def assess_hazard_state(self):
+        if self.detect_knife_hazard():
+            self.current_state = 'SECURE_KNIVES'
+        else:
+            self.current_state = 'MONITOR'
+
+    def secure_knives_state(self):
+        self.grasping('knives')  # Carefully grasp each knife
+        self.placing_down('knives', 'secure_orientation')  # Place them down securely with blades facing away
+        self.current_state = 'ORGANIZE_DRAWER'
+
+    def organize_drawer_state(self):
+        self.arranging('knives', 'safe_positions')  # Arrange knives in a safe position in the drawer
+        self.current_state = 'CLOSE_DRAWER'
+
+    def close_drawer_state(self):
+        self.closing('drawer')  # Close the knife drawer
+        self.current_state = 'FINAL_CHECK'
+
+    def final_check_state(self):
+        if self.check_safety():
+            self.current_state = 'INITIAL'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_state(self):
+        self.monitoring('kitchen')  # Continuously monitor the kitchen for any new hazards
+        if self.knife_hazard_detected:
+            self.current_state = 'ASSESS_HAZARD'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance if the hazard cannot be mitigated
+        self.current_state = 'INITIAL'
+
+    def detect_knife_hazard(self):
+        state = self.checking('knives')
+        self.knife_hazard_detected = state
+        # Detect knife hazard using robot's sensors
+        return state
+
+    def check_safety(self):
+        # Check if the drawer is securely closed and knives are safely arranged
+        return not self.detect_knife_hazard()
+
+    def grasping(self, item):
+        pass
+
+    def placing_down(self, item, orientation):
+        pass
+
+    def checking(self, area):
+        pass
+
+    def arranging(self, item, position):
+        pass
+
+    def closing(self, drawer):
+        pass
+
+    def monitoring(self, area):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: In a real-world implementation, the 'run' method would include conditions for graceful exit.
+",7_HFSM.png
+Elderly people,Medication Management,level1(potential dangerous£¬no interaction),"The scene is set in a small living area, where medication management for an elderly person has become chaotic. On a side table, various pill bottles are scattered, some with their caps off, indicating recent use. The bottles have different shapes and sizes, and there's a noticeable lack of organization, with no clear system to distinguish between the medications.
+Next to the bottles, a weekly pill organizer is left open, its compartments either empty or incorrectly filled, reflecting confusion and potential mismanagement of the medication schedule. On the same table, a spilled glass of water and a disheveled newspaper add to the sense of disorder.
+The living area itself is cozy but cluttered, with a comfortable chair and a small TV, suggesting it's a frequently used space. ",8.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_MEDICATION': self.assess_medication_state,
+            'ORGANIZE_MEDICATION': self.organize_medication_state,
+            'FILL_PILL_ORGANIZER': self.fill_pill_organizer_state,
+            'CLEAN_AREA': self.clean_area_state,
+            'VERIFY_ORGANIZATION': self.verify_organization_state,
+            'MONITOR': self.monitor_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variable to simulate the environment status
+        self.medication_disorder_detected = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR'
+
+    def assess_medication_state(self):
+        if self.detect_medication_disorder():
+            self.current_state = 'ORGANIZE_MEDICATION'
+        else:
+            self.current_state = 'MONITOR'
+
+    def organize_medication_state(self):
+        self.collecting('medication_bottles')  # Collect scattered medication bottles
+        self.arranging('medication_bottles', 'organized_manner')  # Arrange them in an organized manner
+        self.current_state = 'FILL_PILL_ORGANIZER'
+
+    def fill_pill_organizer_state(self):
+        self.checking('pill_organizer')  # Check the current state of the pill organizer
+        self.grasping('pill_organizer')
+        self.placing_down('pill_organizer', 'correct_medications')  # Fill the organizer with the correct medications
+        self.current_state = 'CLEAN_AREA'
+
+    def clean_area_state(self):
+        self.wiping('spilled_water')  # Wipe up the spilled water
+        self.arranging('newspaper', 'neat_order')  # Arrange the newspaper in a neat order
+        self.current_state = 'VERIFY_ORGANIZATION'
+
+    def verify_organization_state(self):
+        if self.check_medication_safety():
+            self.current_state = 'MONITOR'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_state(self):
+        self.monitoring('living_area')  # Continuously monitor the living area for any new medication-related disorder
+        if self.medication_disorder_detected:
+            self.current_state = 'ASSESS_MEDICATION'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance if the disorder cannot be mitigated
+        self.current_state = 'INITIAL'
+
+    def detect_medication_disorder(self):
+        self.medication_disorder_detected = self.checking('medication')
+        # Detect medication disorder using robot's sensors
+        return self.medication_disorder_detected
+
+    def check_medication_safety(self):
+        # Check if the medications are organized and safe
+        return not self.detect_medication_disorder()
+
+    def collecting(self, item):
+        pass
+
+    def grasping(self, item):
+        pass
+
+    def arranging(self, item, manner):
+        pass
+
+    def checking(self, item):
+        pass
+
+    def placing_down(self, organizer, medications):
+        pass
+
+    def wiping(self, item):
+        pass
+
+    def monitoring(self, area):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: In a real-world implementation, the 'run' method would include conditions for graceful exit.
+",8_HFSM.png
+Disabled people,Mobility Hazards,level2(limited interaction),"In this home study, a clear mobility challenge is presented: a person in a wheelchair is positioned at the entrance, facing an office chair that has been left carelessly in the middle of the room, blocking the path to the desk. The wheelchair user, ready to work or study, appears momentarily halted by this obstacle.
+The study itself is neatly arranged with a desk against the far wall, flanked by bookshelves filled with books and a filing cabinet to the side. The desk is set up for use, with a computer and some papers neatly placed on it. However, the thoughtlessly placed office chair in the center of the room creates a barrier, preventing direct access from the doorway to the desk.
+The room is brightly lit, with sunlight streaming through a window and illuminating the space, casting a shadow of the wheelchair onto the floor. This lighting also highlights the obstructive office chair, underscoring the ease with which it could be moved. ",9.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'ASSESS_OWNER_NEEDS': self.assess_owner_needs_state,
+            'ASSIST_OWNER': self.assist_owner_state,
+            'ENSURE_PATH_CLEAR': self.ensure_path_clear_state,
+            'CALL_FAMILY': self.call_family_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track environment and owner status
+        self.mobility_challenge_detected = False
+        self.owner_needs_assistance = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        if self.detect_mobility_challenge():
+            self.current_state = 'ASSESS_OWNER_NEEDS'
+        else:
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def assess_owner_needs_state(self):
+        if self.detect_owner_needs():
+            self.current_state = 'ASSIST_OWNER'
+        elif self.mobility_challenge_detected:
+            self.current_state = 'ENSURE_PATH_CLEAR'
+        else:
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def assist_owner_state(self):
+        self.responding('owner_needs')  # Respond to the owner's needs
+        if self.detect_owner_feeling():
+            self.owner_needs_assistance = False
+            self.current_state = 'MONITOR_ENVIRONMENT'
+        else:
+            self.current_state = 'CALL_FAMILY'
+
+    def ensure_path_clear_state(self):
+        self.grasping('obstacle')  # Grasp any obstacle in the path
+        self.transporting('obstacle', 'appropriate_location')  # Transport it to an appropriate location
+        if self.path_is_clear():
+            self.current_state = 'MONITOR_ENVIRONMENT'
+        else:
+            self.current_state = 'CALL_FAMILY'
+
+    def call_family_state(self):
+        self.calling_for_help()  # Call for help from family members
+        self.current_state = 'INITIAL'
+
+    def detect_mobility_challenge(self):
+        self.mobility_challenge_detected = self.monitoring('environment')
+        # Detect any mobility challenges in the environment
+        return self.mobility_challenge_detected
+
+    def detect_owner_needs(self):
+        self.owner_needs_assistance = self.monitoring('owner')
+        # Detect if the owner is attempting to do something but is unable
+        return self.owner_needs_assistance
+
+    def detect_owner_feeling(self):
+        self.satisfied = self.monitoring('owner_satisfied')
+        return self.satisfied
+
+    def path_is_clear(self):
+        state = self.monitoring('environment')
+        # Check if the path is clear for the wheelchair user
+        return state
+
+    def monitoring(self, area):
+        # Monitor a specified area
+        pass
+
+    def responding(self, needs):
+        # Respond to specific needs detected
+        pass
+
+    def grasping(self, item):
+        # Grasp the specified item
+        pass
+
+    def transporting(self, item, location):
+        # Transport the item to a specified location
+        pass
+
+    def calling_for_help(self):
+        # Call the owner's family members for assistance
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The 'run' method would typically include conditions for graceful exit in a real-world implementation.
+",9_HFSM.png
+Sick people,Access to Medical Supplies,level2(limited interaction),"In this scene, a person suffering from a headache is LYing in bed, appearing weak and unable to get up. Next to the bed, on a small bedside table, is a bottle of medicine that they need. However, due to their weakness and the discomfort from the headache, the person finds it challenging to even sit up and reach the medicine that's just a few inches away.
+The bedroom is calm and orderly, with soft lighting that should be conducive to rest. Yet, the person's distress is evident in their attempt to stretch towards the table, their effort hindered by their physical state. The medicine bottle, within sight but frustratingly just out of reach, highlights the struggle faced by sick individuals when they are alone and too unwell to access even nearby items.",10.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'RETRIEVE_MEDICINE': self.retrieve_medicine_state,
+            'DELIVER_MEDICINE': self.deliver_medicine_state,
+            'ENSURE_COMFORT': self.ensure_comfort_state,
+            'MONITOR_PATIENT': self.monitor_patient_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variable to simulate the detection of the patient's need
+        self.patient_needs_assistance = False
+
+    def initial_state(self):
+        # Start by assessing the situation
+        self.current_state = 'MONITOR_PATIENT'
+
+    def assess_situation_state(self):
+        if self.detect_patient_need():
+            self.current_state = 'RETRIEVE_MEDICINE'
+        else:
+            self.current_state = 'MONITOR_PATIENT'
+
+    def retrieve_medicine_state(self):
+        self.reaching('medicine_bottle')  # Reach for the medicine bottle
+        self.grasping('medicine_bottle')  # Grasp the medicine bottle
+        self.current_state = 'DELIVER_MEDICINE'
+
+    def deliver_medicine_state(self):
+        self.transporting('medicine_bottle', 'patient')  # Transport the medicine to the patient
+        self.current_state = 'ENSURE_COMFORT'
+
+    def ensure_comfort_state(self):
+        self.checking('patient_comfort')  # Check if the patient is comfortable
+        if self.patient_is_comfortable():
+            self.patient_needs_assistance = False
+            self.current_state = 'MONITOR_PATIENT'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_patient_state(self):
+        self.monitoring('patient')  # Continuously monitor the patient
+        if self.detect_patient_need():
+            self.current_state = 'ASSESS_SITUATION'
+        else:
+            self.current_state = 'INITIAL'
+
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance
+        self.current_state = 'INITIAL'
+
+    def detect_patient_need(self):
+        self.patient_needs_assistance = self.monitoring('patient')
+        # Detect if the patient needs assistance
+        return self.patient_needs_assistance
+
+    def patient_is_comfortable(self):
+        state = self.checking('patient_comfort')
+        # Check if the patient is comfortable after receiving the medicine
+        return state
+
+    def reaching(self, item):
+        pass
+
+    def grasping(self, item):
+        pass
+
+    def transporting(self, item, destination):
+        pass
+
+    def checking(self, condition):
+        pass
+
+    def monitoring(self, subject):
+        pass
+
+    def calling_for_help(self):
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: In a real-world implementation, the 'run' method would include conditions for graceful exit.
+",10_HFSM.png
+Pregnant Individuals,Fall Prevention,level2(limited interaction),"In this living room, a visibly pregnant woman carefully navigates around potential fall hazards. She is in the later stages of pregnancy, as indicated by her pronounced belly, and moves cautiously across the room. The central area features a large, decorative rug on a sleek hardwood floor. However, the rug's edges are noticeably curled up, creating a tripping hazard that the woman carefully avoids.
+The floor is cluttered with various items: children's toys, magazines, and a throw pillow, all of which are potential obstacles in her path. She carefully steps around these items, her movements deliberate and cautious. The room's furniture, including a sofa and a coffee table, is arranged close together, further narrowing the walking space and adding complexity to her navigation.
+Bright sunlight streams through a window, illuminating the room but also casting shadows over the rug and clutter, potentially obscuring her view of these hazards. ",11.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'CLEAR_HAZARDS': self.clear_hazards_state,
+            'STRAIGHTEN_RUG': self.straighten_rug_state,
+            'REARRANGE_FURNITURE': self.rearrange_furniture_state,
+            'ENSURE_SAFETY': self.ensure_safety_state,
+            'MONITOR_OCCUPANT': self.monitor_occupant_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track the environment and occupant status
+        self.hazards_detected = False
+        self.occupant_needs_assistance = False
+
+    def initial_state(self):
+        # Begin with monitoring the environment
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        if self.detect_hazards():
+            self.current_state = 'CLEAR_HAZARDS'
+        else:
+            self.current_state = 'MONITOR_OCCUPANT'
+
+    def clear_hazards_state(self):
+        self.collecting('toys')  # Collect toys from the floor
+        self.placing_down('toys','safe place')
+        self.collecting('magazines')  # Collect magazines
+        self.placing_down('magazines', 'safe place')
+        self.current_state = 'STRAIGHTEN_RUG'
+
+    def straighten_rug_state(self):
+        self.unfolding('rug')  # Adjust the rug to lay flat
+        self.current_state = 'REARRANGE_FURNITURE'
+
+    def rearrange_furniture_state(self):
+        self.arranging('furniture')  # Rearrange furniture to create a safe walking space
+        self.current_state = 'ENSURE_SAFETY'
+
+    def ensure_safety_state(self):
+        if self.check_occupant_safety():
+            self.hazards_detected = False
+            self.current_state = 'MONITOR_OCCUPANT'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_occupant_state(self):
+        self.monitoring('occupant')  # Continuously monitor the occupant
+        if self.occupant_needs_assistance:
+            self.current_state = 'ASSESS_OCCUPANT_NEEDS'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance
+        self.current_state = 'INITIAL'
+
+    def detect_hazards(self):
+        self.hazards_detected = self.monitoring('environment')
+        # Detect any hazards in the environment
+        return self.hazards_detected
+
+    def check_occupant_safety(self):
+        # Check if the occupant is safe and the environment is secure
+        return not self.detect_hazards()
+
+    def monitoring(self, subject):
+        # Monitor a specified subject (environment or occupant)
+        pass
+
+    def collecting(self, item):
+        # Collect specified items (toys, magazines)
+        pass
+
+    def unfolding(self, item):
+        # Collect specified items (toys, magazines)
+        pass
+
+    def placing_down(self, item,place):
+        # Collect specified items (toys, magazines)
+        pass
+
+    def arranging(self, item):
+        # Rearrange the specified item (furniture)
+        pass
+
+    def calling_for_help(self):
+        # Call for human assistance
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The 'run' method would typically include conditions for graceful exit in a real-world implementation.
+",11_HFSM.png
+Pregnant Individuals,Chemical Exposure,level2(limited interaction),"In this small kitchen, a pregnant woman faces a significant hazard due to exposed cleaning chemicals. On the countertop, close to where she is standing, several bottles of cleaning products are left open. These include a bottle of bleach, window cleaner, and a multi-surface spray, all emitting strong chemical odors that could be harmful to both the woman and her unborn child.
+The kitchen is orderly, with dishes neatly arranged and a kettle on the stove, suggesting the space is frequently used for meal preparation. However, the presence of the open chemical bottles in close proximity to the pregnant woman raises concerns about potential chemical inhalation and contamination, especially in her delicate condition.
+Natural light from a window floods the kitchen, illuminating the scene and particularly highlighting the bottles on the countertop, drawing attention to the risk they pose. ",12.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'SECURE_CHEMICALS': self.secure_chemicals_state,
+            'VENTILATE_AREA': self.ventilate_area_state,
+            'CHECK_WELLBEING': self.check_wellbeing_state,
+            'MONITOR_OCCUPANT': self.monitor_occupant_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track the environment and occupant status
+        self.chemical_hazard_detected = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        if self.detect_chemical_hazard():
+            self.current_state = 'SECURE_CHEMICALS'
+        else:
+            self.current_state = 'MONITOR_OCCUPANT'
+
+    def secure_chemicals_state(self):
+        self.grasping('chemical_bottles')  # Grasp the chemical bottles
+        self.closing('chemical_bottles')  # Close the bottles if open
+        self.placing_down('chemical_bottles', 'safe_storage')  # Place them in safe storage
+        self.current_state = 'VENTILATE_AREA'
+
+    def ventilate_area_state(self):
+        self.opening('window')  # Open windows to ventilate the area
+        self.current_state = 'CHECK_WELLBEING'
+
+    def check_wellbeing_state(self):
+        self.checking('occupant_wellbeing')  # Check the wellbeing of the pregnant woman
+        if self.occupant_is_safe():
+            self.current_state = 'MONITOR_OCCUPANT'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def monitor_occupant_state(self):
+        self.monitoring('occupant')  # Continuously monitor the occupant
+        if self.occupant_needs_assistance():
+            self.responding(self.assistance)
+            self.current_state = 'CHECK_WELLBEING'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance
+        self.current_state = 'INITIAL'
+
+    def detect_chemical_hazard(self):
+        self.chemical_hazard_detected = self.monitoring('environment')
+        # Detect any chemical hazards in the environment
+        return self.chemical_hazard_detected
+
+    def occupant_is_safe(self):
+        self.chemical_hazard_detected = self.checking('occupant_wellbeing')
+        # Check if the occupant is safe after mitigating the hazard
+        return self.chemical_hazard_detected
+
+    def occupant_needs_assistance(self):
+        self.assistance = self.checking('occupant_assistance')
+        # Check if the occupant is safe after mitigating the hazard
+        return self.assistance
+
+    def monitoring(self, subject):
+        # Monitor a specified subject (environment or occupant)
+        pass
+
+    def grasping(self, item):
+        # Grasp the specified item (chemical bottles)
+        pass
+
+    def closing(self, containers):
+        # Close any open containers
+        pass
+
+    def placing_down(self, item, location):
+        # Place the item in a specified location (safe storage)
+        pass
+
+    def opening(self, window):
+        # Open windows for ventilation
+        pass
+
+    def checking(self, condition):
+        # Check the specified condition (occupant wellbeing)
+        pass
+
+    def calling_for_help(self):
+        # Call for human assistance
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The 'run' method would typically include conditions for graceful exit in a real-world implementation.
+",12_HFSM.png
+Pets,Accessible foods that are toxic to pets,level3(complex interaction),"In this kitchen scene, a pet hazard is evident with a curious cat on the floor, eyeing the low kitchen counter where toxic foods are easily accessible. The counter holds items like chocolate, grapes, and onions, all of which are dangerous for pets. The cat, appearing interested and unaware of the danger, is a few steps away from jumping onto the counter to investigate.
+The kitchen itself is typical, with household appliances and a tidy countertop. However, the positioning of these toxic foods within easy reach creates a significant risk for the inquisitive cat. A pet bowl on the floor further indicates the presence and activity of pets in this household.
+Bright lighting in the kitchen highlights both the cat and the dangerous foods on the counter. ",13.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'DETECT_POTENTIAL_HAZARD': self.detect_potential_hazard_state,
+            'INTERACT_WITH_CAT': self.interact_with_cat_state,
+            'REMOVE_HAZARD': self.remove_hazard_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track environment and cat's status
+        self.hazard_detected = False
+        self.cat_near_hazard = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        self.current_state = 'DETECT_POTENTIAL_HAZARD'
+
+    def detect_potential_hazard_state(self):
+        if self.detect_hazard():
+            self.current_state = 'INTERACT_WITH_CAT'
+        else:
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def interact_with_cat_state(self):
+        if self.detect_cat_near_hazard():
+            self.attracting('cat', 'safe_activity')  # Attract the cat's attention to a safe activity
+            if self.cat_distracted():
+                self.current_state = 'REMOVE_HAZARD'
+            else:
+                self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.monitoring('cat_behavior')  # Monitor cat's behavior
+            self.current_state = 'REMOVE_HAZARD'
+
+    def remove_hazard_state(self):
+        self.grasping('hazardous_items')  # Grasp the hazardous items
+        self.placing_down('hazardous_items', 'safe_location')  # Place them in a safe location
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance in case of an emergency
+        self.current_state = 'INITIAL'
+
+    def detect_hazard(self):
+        self.hazard_detected = self.monitoring('environment')
+        # Detect if there is any hazard in the environment
+        return self.hazard_detected
+
+    def detect_cat_near_hazard(self):
+        self.cat_near_hazard = self.monitoring('cat')
+        # Detect if there is any hazard in the environment
+        return self.cat_near_hazard
+
+    def attracting(self, cat, activity):
+        self.grasping('ball')
+        self.sliding('ball')
+        # Attract the cat's attention to a safe activity
+        pass
+
+    def cat_distracted(self):
+        state = self.detect_cat_near_hazard() or self.monitoring('cat_distracted')
+        # Check if the cat has been successfully distracted from the hazard
+        return state
+
+    def monitoring(self, subject):
+        # Monitor a specified subject (environment, cat, cat behavior)
+        pass
+
+    def grasping(self, item):
+        # Grasp the specified item (hazardous items)
+        pass
+
+    def sliding(self, item):
+        # sliding the specified item (hazardous items)
+        pass
+
+    def placing_down(self, item, location):
+        # Place the item in a specified location (safe location)
+        pass
+
+    def calling_for_help(self):
+        # Call for human assistance
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The 'run' method would typically include conditions for graceful exit in a real-world implementation.
+",13_HFSM.png
+Pets,Pet-Proofing,level3(complex interaction),"In this cozy living room, a few pet-proofing oversights create hazards that can be quickly fixed. A curious cat is eyeing a loosely covered electrical outlet near the floor, posing a risk of shock. On a low shelf, a potted plant that is toxic to pets is within easy reach of the cat. Nearby, a small toy with detachable parts is left on the rug, posing a choking hazard for the cat. 
+The living room is otherwise inviting, with comfortable furniture and warm lighting.",14.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # The states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'ATTEMPT_TO_DISTRACT_CAT': self.attempt_to_distract_cat_state,
+            'CHECK_CAT_RESPONSE': self.check_cat_response_state,
+            'REMOVE_HAZARDS': self.remove_hazards_state,
+            'CALM_CAT_IF_SCARED': self.calm_cat_if_scared_state,
+            'CALL_FOR_OWNER': self.call_for_owner_state,
+            'MONITOR_CAT': self.monitor_cat_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track environment, cat's status, and cat's reaction
+        self.hazards_detected = False
+        self.cat_at_risk = False
+        self.cat_scared = False
+        self.cat_distract = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        if self.detect_hazards():
+            self.current_state = 'ATTEMPT_TO_DISTRACT_CAT'
+        else:
+            self.current_state = 'MONITOR_CAT'
+
+    def attempt_to_distract_cat_state(self):
+        self.attracting('cat', 'safe_activity')  # Attempt to attract the cat to a safe activity
+        self.current_state = 'CHECK_CAT_RESPONSE'
+
+    def check_cat_response_state(self):
+        self.cat_distracted()
+        if self.cat_distract:
+            self.current_state = 'REMOVE_HAZARDS'
+        elif self.cat_scared:
+            self.current_state = 'CALM_CAT_IF_SCARED'
+        else:
+            self.current_state = 'ATTEMPT_TO_DISTRACT_CAT'
+
+    def remove_hazards_state(self):
+        self.grasping('hazardous_items')  # Grasp the hazardous items
+        self.placing_down('hazardous_items', 'safe_storage')  # Place them in safe storage
+        self.current_state = 'MONITOR_CAT'
+
+    def calm_cat_if_scared_state(self):
+        self.calming('cat')  # Calm the cat if it is scared
+        if self.cat_calmed():
+            self.current_state = 'REMOVE_HAZARDS'
+        else:
+            self.current_state = 'CALL_FOR_OWNER'
+
+    def call_for_owner_state(self):
+        self.calling_for_help('owner')  # Call the owner for assistance
+        self.current_state = 'MONITOR_CAT'
+
+    def monitor_cat_state(self):
+        self.monitoring('cat')  # Continuously monitor the cat
+        if self.detect_cat_at_risk():
+            self.current_state = 'ATTEMPT_TO_DISTRACT_CAT'
+        else:
+            self.current_state = 'INITIAL'
+
+    def detect_hazards(self):
+        self.hazards_detected = self.monitoring('environment')
+        # Detect if there are any hazards in the environment
+        return self.hazards_detected
+
+    def detect_hazards(self):
+        # Detect if there are any hazards in the environment
+        pass
+
+    def detect_cat_at_risk(self):
+        self.cat_at_risk = self.monitoring('hazards','cat')
+        # Detect if there are any hazards in the environment
+        return self.cat_at_risk
+
+    def attracting(self, cat, activity):
+        self.grasping('ball')
+        self.sliding('ball')
+        # Attract the cat's attention to a safe activity
+        pass
+
+    def cat_distracted(self):
+        state = self.monitoring('cat')
+        if state ==0:
+            self.cat_distract=1
+            self.cat_scared=0
+        elif state ==1:
+            self.cat_distract=0
+            self.cat_scared=1
+        else:
+            self.cat_distract=0
+            self.cat_scared=0
+        # Check if the cat has been distracted from the hazard
+
+    def calming(self, cat):
+        self.responding(cat,'gently')
+        # Attempt to calm the cat
+        pass
+
+    def sliding(self, item):
+        # Attempt to sliding
+        pass
+
+    def responding(self, creature, action):
+        # Attempt to responding
+        pass
+
+    def cat_calmed(self):
+        self.cat_scared = self.monitoring('cat')
+        # Check if the cat has calmed down
+        return not self.cat_scared
+
+    def monitoring(self, subject):
+        # Monitor a specified subject (environment, cat)
+        pass
+
+    def grasping(self, item):
+        # Grasp the specified item (hazardous items)
+        pass
+
+    def placing_down(self, item, location):
+        # Place the item in a specified location (safe storage)
+        pass
+
+    def calling_for_help(self, recipient):
+        # Call for help from a specific recipient (owner)
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+# Note: The 'run' method would typically include conditions for graceful exit in a real-world implementation.
+",14_HFSM.png
+children,Sharp Objects,level3(complex interaction),"In this kitchen scene, a young child is standing on tiptoe, reaching towards the kitchen counter where sharp objects are carelessly left unattended. On the counter, there's a knife block with several knives protruding, and a pair of scissors lying next to a cutting board. The child's curiosity is directed towards these objects, unaware of the potential danger they pose.
+The kitchen is otherwise a typical family space, with a fridge covered in colorful magnets and a small table set for a meal. However, the placement of sharp objects within the child's reach creates a significant safety risk.
+Bright sunlight from a nearby window illuminates the scene, casting a spotlight on the child and the dangerous items on the counter. ",15.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'DETECT_CHILD_REACHING': self.detect_child_reaching_state,
+            'DISTRACT_CHILD': self.distract_child_state,
+            'CHECK_CHILD_RESPONSE': self.check_child_response_state,
+            'SECURE_SHARP_OBJECTS': self.secure_sharp_objects_state,
+            'CALM_DOWN_CHILD': self.calm_down_child_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track child's behavior and safety
+        self.child_reaching_for_sharp_objects = False
+        self.child_distracted = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        self.current_state = 'DETECT_CHILD_REACHING'
+
+    def detect_child_reaching_state(self):
+        if self.detect_child_reaching():
+            self.current_state = 'DISTRACT_CHILD'
+        else:
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def distract_child_state(self):
+        self.attracting('child', 'story')  # Attract the child to a safe activity
+        self.current_state = 'CHECK_CHILD_RESPONSE'
+
+    def check_child_response_state(self):
+        if self.detect_child_distracted():
+            self.current_state = 'SECURE_SHARP_OBJECTS'
+        if self.detect_child_reaching():
+            self.current_state = 'CALM_DOWN_CHILD'
+        else:
+            self.current_state = 'DISTRACT_CHILD'
+
+    def secure_sharp_objects_state(self):
+        self.grasping('sharp_objects')  # Grasp sharp objects
+        self.placing_down('sharp_objects', 'safe_location')  # Place them in a safe location
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def calm_down_child_state(self):
+        self.calming('child')  # Attempt to calm the child
+        if self.child_is_safe():
+            self.current_state = 'SECURE_SHARP_OBJECTS'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance
+        self.current_state = 'INITIAL'
+
+    # Function definitions for various actions
+    def monitoring(self, subject):
+        # Implement monitoring logic
+        pass
+
+    def detect_child_reaching(self):
+        self.child_reaching_for_sharp_objects = self.monitoring('environment','child')
+        # Implement logic to detect if the child is reaching for sharp objects
+        return self.child_reaching_for_sharp_objects
+
+    def detect_child_distracted(self):
+        self.child_distracted = self.monitoring('child')
+        # Implement logic to detect if the child is reaching for sharp objects
+        return self.child_distracted
+
+    def attracting(self, child, activity):
+        self.responding(child,activity)
+        # Implement logic to attract the child to a safe activity
+
+    def calming(self, child):
+        self.responding(child, activity, 'gently')
+        # Implement logic to calm the child
+
+    def child_is_safe(self):
+        state = self.monitoring('child')
+        # Implement logic to check if the child is safe
+        return state
+
+    def grasping(self, item):
+        # Implement grasping logic
+        pass
+
+    def responding(self, item, content,motion):
+        # Implement grasping logic
+        pass
+
+    def placing_down(self, item, location):
+        # Implement placing down logic
+        pass
+
+    def calling_for_help(self):
+        # Implement logic to call for human assistance
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+",15_HFSM.png
+children,Falls,level3(complex interaction),"In this home scene, a young child is precariously close to an unprotected staircase, highlighting a significant fall hazard. The stairs, leading down from a second-floor landing, do not have a safety gate, leaving the top of the staircase completely open and accessible to the child.
+The child, who appears to be a toddler, is standing near the edge of the top step, looking curiously down the stairway. The lack of barriers or railings increases the risk of a potential fall.
+The surrounding area is part of a family home, with family photos on the wall and a hallway leading to other rooms. The lighting in the scene is soft, emphasizing the child's innocence and the imminent danger posed by the unsecured staircase.",16.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'DETECT_CHILD_NEAR_STAIRS': self.detect_child_near_stairs_state,
+            'GENTLY_DISTRACT_CHILD': self.gently_distract_child_state,
+            'ASSESS_CHILD_REACTION': self.assess_child_reaction_state,
+            'SECURE_STAIRCASE_AREA': self.secure_staircase_area_state,
+            'ENSURE_CHILD_SAFETY': self.ensure_child_safety_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track the child's behavior and safety
+        self.child_near_stairs = False
+        self.child_distraction_successful = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        self.current_state = 'DETECT_CHILD_NEAR_STAIRS'
+
+    def detect_child_near_stairs_state(self):
+        if self.detect_child_near_stairs():
+            self.current_state = 'GENTLY_DISTRACT_CHILD'
+        else:
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def gently_distract_child_state(self):
+        self.attracting('child', 'safe_activity')  # Gently attract the child to a safe activity
+        self.current_state = 'ASSESS_CHILD_REACTION'
+
+    def assess_child_reaction_state(self):
+        if self.detect_child_distracted():
+            self.current_state = 'SECURE_STAIRCASE_AREA'
+        else:
+            if self.detect_child_near_stairs():
+                self.current_state = 'CALL_FOR_HELP'  # Call for help if the child is at immediate risk
+            else:
+                self.current_state = 'GENTLY_DISTRACT_CHILD'  # Attempt to distract again
+
+    def secure_staircase_area_state(self):
+        self.grasping('block')
+        self.placing_down('block','staircase')  # Temporarily block access to the staircase
+        self.current_state = 'ENSURE_CHILD_SAFETY'
+
+    def ensure_child_safety_state(self):
+        if self.child_is_safe():
+            self.child_near_stairs = False
+            self.current_state = 'MONITOR_ENVIRONMENT'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance
+        self.current_state = 'INITIAL'
+
+    # Function definitions for various actions
+    def monitoring(self, subject):
+        # Implement monitoring logic
+        pass
+
+    def detect_child_near_stairs(self):
+        self.child_near_stairs = self.monitoring('environment', 'child')
+        return self.child_near_stairs
+
+    def detect_child_distracted(self):
+        self.child_distraction_successful = self.monitoring('child')
+        # Implement logic to detect if the child is reaching for sharp objects
+        return self.child_distraction_successful
+
+    def attracting(self, child, activity):
+        self.responding(child,activity)
+        # Implement logic to attract the child to a safe activity
+
+    def grasping(self, item):
+        # Implement logic to temporarily block access to a hazardous area
+        pass
+
+    def placing_down(self, item, area):
+        # Implement logic to temporarily block access to a hazardous area
+        pass
+
+    def child_is_safe(self):
+        state = self.monitoring('child')
+        # Implement logic to check if the child is safe
+        return state
+
+    def calling_for_help(self):
+        # Implement logic to call for human assistance
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+",16_HFSM.png
+children,Electric Shocks,level4(complex interaction),"In this living room scene, a young child is playing on the floor close to an uncovered electrical outlet. The child, curious and unaware of the danger, is reaching towards the outlet with a metal toy in hand, posing a significant risk of electric shock.
+The room is comfortably furnished with a couch, a colorful rug, and various toys spread around, indicating that it's a space commonly used for play. However, the presence of the accessible, unprotected outlet in the play area makes it a safety concern for the child.
+Bright, natural light fills the room from a nearby window, drawing attention to the child's innocent exploration and the looming danger of the electrical outlet.",17.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'DETECT_CHILD_NEAR_OUTLET': self.detect_child_near_outlet_state,
+            'GENTLY_DISTRACT_CHILD': self.gently_distract_child_state,
+            'SECURE_OUTLET': self.secure_outlet_state,
+            'ENSURE_CHILD_SAFETY': self.ensure_child_safety_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track the child's behavior and safety
+        self.child_near_outlet = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        self.current_state = 'DETECT_CHILD_NEAR_OUTLET'
+
+    def detect_child_near_outlet_state(self):
+        if self.detect_child_near_outlet():
+            self.current_state = 'GENTLY_DISTRACT_CHILD'
+        else:
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def gently_distract_child_state(self):
+        self.attracting('child', 'safe_activity')  # Gently attract the child to a safe activity
+        if self.detect_child_distracted():
+            self.current_state = 'SECURE_OUTLET'
+        else:
+            if self.detect_child_near_outlet():
+                self.current_state = 'CALL_FOR_HELP'
+            else:
+                self.current_state = 'GENTLY_DISTRACT_CHILD'
+
+    def secure_outlet_state(self):
+        self.grasping('outlet_cover')  # Grasp an outlet cover or a safe object to cover the outlet
+        self.placing_down('outlet_cover', 'electrical_outlet')  # Place it over the electrical outlet
+        self.current_state = 'ENSURE_CHILD_SAFETY'
+
+    def ensure_child_safety_state(self):
+        if self.child_is_safe():
+            self.child_near_outlet = False
+            self.current_state = 'MONITOR_ENVIRONMENT'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance
+        self.current_state = 'INITIAL'
+
+    # Function definitions for various actions
+    def monitoring(self, subject):
+        # Implement monitoring logic
+        pass
+
+    def detect_child_near_outlet(self):
+        self.child_near_outlet = self.monitoring('environment', 'child')
+        return self.child_near_outlet
+
+    def attracting(self, child, activity):
+        self.responding(child,activity)
+        # Implement logic to attract the child to a safe activity
+
+    def detect_child_distracted(self):
+        state = self.monitoring('child')
+        # Implement logic to detect if the child is reaching for sharp objects
+        return state
+
+    def grasping(self, item):
+        # Grasp the specified item (outlet cover or safe object)
+        pass
+
+    def placing_down(self, item, location):
+        # Place the item over the electrical outlet
+        pass
+
+    def child_is_safe(self):
+        state = self.monitoring('child')
+        # Implement logic to check if the child is safe
+        return state
+
+    def calling_for_help(self):
+        # Implement logic to call for human assistance
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+",17_HFSM.png
+children,Burns and Scalds,level3(complex interaction),"In this kitchen scene, a young child is standing close to a stove where a pot of boiling water is on the burner. The child, intrigued by the steam and bubbling sound, is reaching out towards the pot, unaware of the danger it poses. The stove is at a height that is easily accessible to the child, increasing the risk of burns and scalds.
+The rest of the kitchen is typical of a family home, with utensils, a fruit bowl on the counter, and a fridge magnetically adorned with children's artwork. However, the unattended hot stove in the presence of the child creates a significant safety concern.
+Natural light from a window illuminates the kitchen, drawing attention to the child's curiosity and the perilous situation.",18.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'DETECT_CHILD_NEAR_STOVE': self.detect_child_near_stove_state,
+            'GENTLY_DISTRACT_CHILD': self.gently_distract_child_state,
+            'ASSESS_DISTRACTION_OUTCOME': self.assess_distraction_outcome_state,
+            'SECURE_STOVE_AREA': self.secure_stove_area_state,
+            'MONITOR_STOVE': self.monitor_stove_state,
+            'ENSURE_CHILD_SAFETY': self.ensure_child_safety_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track the child's behavior and kitchen status
+        self.child_near_stove = False
+        self.kitchen_in_use = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        self.current_state = 'DETECT_CHILD_NEAR_STOVE'
+
+    def detect_child_near_stove_state(self):
+        if self.detect_child_near_stove():
+            self.current_state = 'GENTLY_DISTRACT_CHILD'
+        else:
+            self.current_state = 'MONITOR_STOVE'
+
+    def gently_distract_child_state(self):
+        self.attracting('child', 'safe_activity')  # Gently attract the child to a safe activity
+        self.current_state = 'ASSESS_DISTRACTION_OUTCOME'
+
+    def assess_distraction_outcome_state(self):
+        if self.detect_child_distracted():
+            self.current_state = 'SECURE_STOVE_AREA'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def secure_stove_area_state(self):
+        if self.detect_child_near_stove():
+            self.turning('stove_controls', 'off')  # Turn off the stove if the child is nearby
+            self.current_state = 'ENSURE_CHILD_SAFETY'
+        else:
+            self.current_state = 'MONITOR_STOVE'  # If the child is not near, monitor the stove
+
+    def monitor_stove_state(self):
+        if self.is_stove_cooking_properly():
+            self.current_state = 'MONITOR_ENVIRONMENT'  # Continue monitoring if cooking is proper
+        else:
+            self.turning('stove_controls', 'off')  # Turn off the stove if there's a risk of burning
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def ensure_child_safety_state(self):
+        if self.child_is_safe():
+            self.child_near_stove = False
+            self.current_state = 'MONITOR_ENVIRONMENT'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance
+        self.current_state = 'INITIAL'
+
+    # Function definitions for various actions
+    def monitoring(self, subject):
+        # Implement monitoring logic
+        pass
+
+    def detect_child_near_stove(self):
+        self.child_near_stove = self.monitoring('environment', 'child')
+        return self.child_near_stove
+
+    def attracting(self, child, activity):
+        self.responding(child,activity)
+        # Implement logic to attract the child to a safe activity
+
+    def detect_child_distracted(self):
+        state = self.monitoring('child')
+        # Implement logic to detect if the child is reaching for sharp objects
+        return state
+
+    def arranging(self, controls, action):
+        # Implement logic to rearrange stove controls based on the action
+        pass
+
+    def turning(self, item, action):
+        # Implement logic to rearrange stove controls based on the action
+        pass
+
+    def responding(self, child, activity):
+        # Implement logic to rearrange stove controls based on the action
+        pass
+
+    def is_stove_cooking_properly(self):
+        no_burning = self.monitoring('stove')
+        # Check if the stove is cooking properly without risk
+        return no_burning
+
+    def child_is_safe(self):
+        state = self.monitoring('child')
+        # Implement logic to check if the child is safe
+        return state
+
+    def calling_for_help(self):
+        # Implement logic to call for human assistance
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+",18_HFSM.png
+Elderly people,Emergency Response,level4(complex interaction),"In this living room scene, an elderly person is seated in a recliner, appearing to be in distress and in need of assistance. Across the room, an emergency response system device is placed on a high shelf, well out of reach. The person is trying to get up from the chair, reaching out towards the device, but it's clear they are unable to stand and walk across the room to access it.
+The room is comfortably furnished with a couch, a coffee table, and family photos on the walls, creating a cozy atmosphere. However, the placement of the emergency device in a hard-to-reach location poses a significant risk, as the elderly individual cannot easily activate it in case of an emergency.
+Natural light filters in through a window, casting a gentle glow in the room and highlighting the elderly person's struggle and the poorly placed emergency device.",19.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'ASSESS_ELDERLY_PERSON': self.assess_elderly_person_state,
+            'RETRIEVE_EMERGENCY_DEVICE': self.retrieve_emergency_device_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'WAIT_FOR_RESPONSE': self.wait_for_response_state,
+            'USE_EMERGENCY_DEVICE': self.use_emergency_device_state,
+            'ASSIST_HUMAN_HELPERS': self.assist_human_helpers_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track the elderly person's condition and needs
+        self.elderly_in_distress = False
+        self.help_has_arrived = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        self.current_state = 'ASSESS_ELDERLY_PERSON'
+
+    def assess_elderly_person_state(self):
+        if self.detect_elderly_in_distress():
+            self.current_state = 'RETRIEVE_EMERGENCY_DEVICE'
+        else:
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def retrieve_emergency_device_state(self):
+        self.grasping('emergency_device')  # Grasp the emergency device
+        self.placing_down('emergency_device', 'accessible_location')  # Place it within easy reach of the elderly person
+        self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance immediately
+        self.current_state = 'WAIT_FOR_RESPONSE'
+
+    def wait_for_response_state(self):
+        if self.assessment_delayed_help():
+            self.current_state = 'ASSIST_HUMAN_HELPERS'
+        else:
+            self.current_state = 'USE_EMERGENCY_DEVICE'
+
+    def use_emergency_device_state(self):
+        self.pressing('emergency_device')  # Use the emergency device gently if human help is delayed
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def assist_human_helpers_state(self):
+        self.assisting_helpers()  # Assist human helpers in managing the emergency
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    # Function definitions for various actions
+    def monitoring(self, subject):
+        # Implement monitoring logic
+        pass
+
+    def checking(self, people):
+        pass
+
+    def detect_elderly_in_distress(self):
+        self.elderly_in_distress = self.monitoring('elderly')
+        # Implement logic to detect if the elderly person is in distress
+        return self.elderly_in_distress
+
+    def grasping(self, item):
+        # Grasp the specified item (emergency device)
+        pass
+
+    def placing_down(self, item, location):
+        # Place the item in an accessible location
+        pass
+
+    def calling_for_help(self):
+        # Implement logic to call for human assistance
+        pass
+
+    def assessment_delayed_help(self):
+        delayed_help = self.monitoring('help')
+        return delayed_help
+
+    def pressing(self, device):
+        # Implement logic to operate the emergency device
+        pass
+
+    def responding(self, people, state):
+        # Implement logic to operate the emergency device
+        pass
+
+    def assisting_helpers(self):
+        state = self.checking('elderly')
+        self.responding('helper',state)
+        # Implement logic to assist human helpers
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+",19_HFSM.png
+Disabled people,Emergency Response,level4(complex interaction),"In this bedroom scene, a disabled person has accidentally fallen from their wheelchair and is now on the floor, unable to reach the emergency alert button. The button is mounted on the wall next to the bed, normally within reach, but due to the fall, it is now frustratingly out of reach for the person in need.
+The bedroom is comfortably furnished, indicating it's a primary living space for the disabled individual, with personal touches like photographs and a bookshelf. However, the person's current position on the floor, away from the wheelchair and the emergency button, underscores a critical hazard.
+The room is bathed in gentle light from a bedside lamp, casting a soft glow on the scene.",20.png,"class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'PROVIDE_IMMEDIATE_ASSISTANCE': self.provide_immediate_assistance_state,
+            'ACTIVATE_EMERGENCY_BUTTON': self.activate_emergency_button_state,
+            'ASSESS_INJURIES': self.assess_injuries_state,
+            'PROVIDE_NEEDED_HELP': self.provide_needed_help_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'MONITOR_SITUATION': self.monitor_situation_state
+        }
+        # The initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.detect_person_fallen():
+            self.current_state = 'PROVIDE_IMMEDIATE_ASSISTANCE'
+        else:
+            self.current_state = 'MONITOR_SITUATION'
+
+    def provide_immediate_assistance_state(self):
+        self.assisting_person_on_floor()
+        self.current_state = 'ACTIVATE_EMERGENCY_BUTTON'
+
+    def activate_emergency_button_state(self):
+        self.grasping('emergency_button')
+        self.pressing('emergency_button')
+        self.current_state = 'ASSESS_INJURIES'
+
+    def assess_injuries_state(self):
+        # Check for injuries and assess the condition of the disabled person
+        if self.detect_injuries():
+            self.current_state = 'PROVIDE_NEEDED_HELP'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def provide_needed_help_state(self):
+        # Provide help based on the identified needs or injuries
+        self.providing_appropriate_help()
+        self.current_state = 'MONITOR_SITUATION'
+
+    def call_for_help_state(self):
+        self.calling_for_help()
+        self.current_state = 'MONITOR_SITUATION'
+
+    def monitor_situation_state(self):
+        if self.help_has_arrived():
+            self.current_state = 'INITIAL'
+        else:
+            self.current_state = 'PROVIDE_NEEDED_HELP'
+
+    # Helper methods for actions
+    def detect_person_fallen(self):
+        fallen = self.monitoring('person')
+        # Logic to detect a fallen person
+        return fallen
+
+    def assisting_person_on_floor(self):
+        self.checking('person')
+        # Assist the person who has fallen
+        pass
+
+    def grasping(self, item):
+        # Grasp and operate the emergency button
+        pass
+
+    def pressing(self, item):
+        # Grasp and operate the emergency button
+        pass
+
+    def checking(self, item):
+        pass
+
+    def placing_down(self, item, place):
+        pass
+
+    def detect_injuries(self):
+        injuries = self.monitoring('person')
+        return injuries
+
+    def providing_appropriate_help(self):
+        self.grasping('medicine')
+        self.placing_down('medicine','person')
+        # Provide help based on assessed needs or injuries
+        pass
+
+    def calling_for_help(self):
+        # Call for additional help
+        pass
+
+    def help_has_arrived(self):
+        help = self.monitoring('help')
+        # Logic to detect a fallen person
+        return help
+
+    def run(self):
+        # Run the HFSM loop
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+",20_HFSM.png
+Pregnant Individuals,Fallen,level4(complex interaction),"In this kitchen scene, a pregnant woman has fallen to the floor and is unable to reach the emergency alert system. The alert button is on a countertop, normally within easy reach, but now out of reach due to her fall. She appears to be trying to get up or reach for the button, but her condition makes it difficult.
+The kitchen is a typical family space, with a dining table, chairs, and cooking appliances. However, the pregnant woman's position on the floor, away from the emergency button and unable to stand, emphasizes the need for more accessible emergency response methods.
+Natural light from a window illuminates the scene, casting a soft glow around the kitchen and highlighting the woman's struggle.",21.png,"In this scenario, where a pregnant woman has fallen and is unable to reach the emergency alert system, the butler robot's primary focus is to ensure her safety and provide necessary assistance. Here's a detailed Hierarchical Finite State Machine (HFSM) in pseudo-code:
+
+python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'PROVIDE_IMMEDIATE_ASSISTANCE': self.provide_immediate_assistance_state,
+            'ACTIVATE_EMERGENCY_ALERT': self.activate_emergency_alert_state,
+            'ASSESS_CONDITION': self.assess_condition_state,
+            'PROVIDE_COMFORT': self.provide_comfort_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'MONITOR_UNTIL_HELP_ARRIVES': self.monitor_until_help_arrives_state
+        }
+        # The initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        if self.detect_fallen_person():
+            self.current_state = 'PROVIDE_IMMEDIATE_ASSISTANCE'
+        else:
+            self.current_state = 'INITIAL'
+
+    def provide_immediate_assistance_state(self):
+        self.assisting_fallen_person()
+        if self.detect_awareness_person():
+            self.current_state = 'ACTIVATE_EMERGENCY_ALERT'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def activate_emergency_alert_state(self):
+        self.reminding('emergency_alert')
+        self.current_state = 'ASSESS_CONDITION'
+
+    def assess_condition_state(self):
+        if self.detect_severe_condition():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'PROVIDE_COMFORT'
+
+    def provide_comfort_state(self):
+        # Provide comfort and reassurance
+        self.comforting_person()
+        self.current_state = 'MONITOR_UNTIL_HELP_ARRIVES'
+
+    def call_for_help_state(self):
+        self.calling_for_help()
+        self.current_state = 'MONITOR_UNTIL_HELP_ARRIVES'
+
+    def monitor_until_help_arrives_state(self):
+        if self.help_has_arrived():
+            self.current_state = 'INITIAL'
+        else:
+            self.current_state = 'ASSESS_SITUATION'
+
+    # Helper methods for actions
+    def detect_fallen_person(self):
+        fallen = self.monitoring('person')
+        # Logic to detect a fallen person
+        return fallen
+
+    def detect_awareness_person(self):
+        no_hurt = self.checking('person')
+        # Logic to detect a fallen person
+        return no_hurt
+
+    def assisting_fallen_person(self):
+        self.checking('person')
+        # Assist the person who has fallen
+        pass
+
+    def grasping(self, item):
+        pass
+
+    def reminding(self, item):
+        pass
+
+    def checking(self, item):
+        pass
+
+    def detect_severe_condition(self):
+        aware = self.monitoring('person')
+        # Logic to detect a fallen person
+        return aware
+
+    def comforting_person(self, people):
+        self.responding(people, 'gently')
+        # Provide comfort and reassurance
+
+    def calling_for_help(self):
+        # Call for external help
+        pass
+
+    def help_has_arrived(self):
+        help = self.monitoring('help')
+        # Logic to detect a fallen person
+        return help
+
+    def run(self):
+        # Run the HFSM loop
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+
+In this HFSM, the robot first assesses the situation to confirm the woman's fall and need for assistance. It provides immediate assistance, activates the emergency alert, and assesses her condition. If the condition is severe, it calls for external help; otherwise, it provides comfort and reassurance while monitoring the situation until help arrives. Throughout, the robot's actions are tailored to the specific needs of a pregnant woman in distress.",21_HFSM.png
+children,Pet-Related Hazards,level4(complex interaction),"In this living room scene, a small child is playing with a large dog, but the play is becoming too rough, posing a potential hazard. The dog, much larger and stronger than the child, is excitedly jumping around, and the child is trying to keep up, laughing but also looking a bit overwhelmed.
+The room is furnished with a sofa, a coffee table, and scattered toys, indicating it's a common area for family activities. However, the size and energy of the dog in this enclosed space create a risk of accidental injury to the child, such as being knocked over or scratched.
+Natural light from a window brightens the room, casting playful shadows of the child and the dog, but also highlighting the precarious nature of their interaction.",22.png,"In the scenario where a small child is playing roughly with a large dog, posing a potential hazard, a butler robot must intervene to ensure safety. Here's a detailed Hierarchical Finite State Machine (HFSM) in pseudo-code to manage the situation:
+
+```python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_INTERACTION': self.assess_interaction_state,
+            'CALM_THE_DOG': self.calm_the_dog_state,
+            'ENGAGE_THE_CHILD': self.engage_the_child_state,
+            'MONITOR_PLAY': self.monitor_play_state,
+            'ENSURE_SAFETY': self.ensure_safety_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # The initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        self.current_state = 'ASSESS_INTERACTION'
+
+    def assess_interaction_state(self):
+        if self.dog_and_child_interaction_safe():
+            self.current_state = 'MONITOR_PLAY'
+        else:
+            self.current_state = 'CALM_THE_DOG'
+
+    def calm_the_dog_state(self):
+        self.calming_dog()
+        self.current_state = 'ENGAGE_THE_CHILD'
+
+    def engage_the_child_state(self):
+        self.engaging_child_away_from_rough_play()
+        self.current_state = 'ENSURE_SAFETY'
+
+    def monitor_play_state(self):
+        if self.play_becomes_unsafe():
+            self.current_state = 'CALM_THE_DOG'
+        else:
+            self.current_state = 'INITIAL'
+
+    def ensure_safety_state(self):
+        if self.safety_ensured():
+            self.current_state = 'MONITOR_PLAY'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        self.calling_for_help()
+        self.current_state = 'INITIAL'
+
+    # Helper methods for actions
+    def dog_and_child_interaction_safe(self):
+        # Assess if interaction between dog and child is safe
+        return self.safety_ensured()
+
+    def calming_dog(self, dog):
+        self.responding(dog, 'gently')
+        # Attempt to calm the cat
+        pass
+
+    def engaging_child_away_from_rough_play(self):
+        self.responding('child', 'guildence')
+        # Engage the child in a safer activity
+        pass
+
+    def play_becomes_unsafe(self):
+        no_safe = self.monitoring('child') or self.monitoring('dog')
+        # Monitor and assess if play becomes unsafe
+        return no_safe
+
+    def safety_ensured(self):
+        state = self.monitoring('child') and self.monitoring('dog')
+        # Implement logic to check if the child is safe
+        return state
+
+    def calling_for_help(self):
+        # Call for human assistance if needed
+        pass
+
+    def responding(self,item,action):
+        pass
+
+    def monitoring(self,item):
+        pass
+
+    def run(self):
+        # Run the HFSM loop
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+
+#In this HFSM, the robot first assesses the interaction between the dog and the child. If it deems the play unsafe, it intervenes to calm the dog and engage the child in safer activities. The robot continuously monitors the play, ensuring safety, and calls for human assistance if the situation becomes unmanageable. The robot's actions prioritize the child's safety while trying to maintain a playful and positive environment.",22_HFSM.png
+children,Choking Hazards,level4(complex interaction),"In this playroom scene, a young child is sitting on the floor surrounded by a variety of toys, including some that are small enough to pose a choking hazard. Among the toys, there are small building blocks and tiny figurines that the child is curiously picking up and examining, bringing them close to their mouth.
+The room is brightly colored and filled with child-friendly decorations, indicating it's a space dedicated to play and creativity. However, the presence of these small toys within the child's reach raises concerns about potential choking risks.
+Natural light from a nearby window illuminates the play area, casting a cheerful glow over the scene but also highlighting the small toys and the child's interaction with them.",23.png,"In the scenario where a young child is at risk of choking on small toys, a butler robot must act to ensure the child's safety. Here is a detailed Hierarchical Finite State Machine (HFSM) in pseudo-code for this situation:
+
+```python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REMOVE_HAZARDS': self.remove_hazards_state,
+            'ENGAGE_CHILD': self.engage_child_state,
+            'MONITOR_PLAY': self.monitor_play_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # The initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial monitoring and assessment
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the child's interaction with toys
+        if self.is_choking_hazard_present():
+            self.current_state = 'REMOVE_HAZARDS'
+        else:
+            self.current_state = 'MONITOR_PLAY'
+
+    def remove_hazards_state(self):
+        # Remove small toys that pose choking hazards
+        self.remove_choking_hazards()
+        self.current_state = 'ENGAGE_CHILD'
+
+    def engage_child_state(self):
+        # Engage the child with safe toys
+        self.provide_safe_toys()
+        self.current_state = 'MONITOR_PLAY'
+
+    def monitor_play_state(self):
+        # Continuously monitor the child's play
+        if self.is_child_safe():
+            self.current_state = 'INITIAL'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for human assistance if needed
+        self.calling_for_help()
+        self.current_state = 'INITIAL'
+
+    # Helper methods for actions
+    def is_choking_hazard_present(self):
+        too_close = self.monitoring('child','toys')
+        # Check for presence of choking hazards
+        return too_close
+
+    def remove_choking_hazards(self):
+        self.grasping('danger toys')
+        self.placing_down('danger toys', 'safe place')
+        # Physically remove small toys that are choking hazards
+
+    def provide_safe_toys(self):
+        self.grasping('safe toys')
+        self.placing_down('safe toys','child')
+        # Offer the child safer toys to play with
+
+    def grasping(self,item):
+        # Assess if the child is playing safely
+        pass
+
+    def placing_down(self,item,place):
+        # Assess if the child is playing safely
+        pass
+
+    def is_child_safe(self):
+        state = self.monitoring('child')
+        # Implement logic to check if the child is safe
+        return state
+
+    def calling_for_help(self):
+        # Call for human help if the situation is beyond the robot's control
+        pass
+
+    def run(self):
+        # Run the HFSM loop
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()
+```
+
+In this HFSM, the robot first assesses the child's play area to identify any choking hazards. If such hazards are present, the robot removes them and then engages the child with safe toys. The robot continuously monitors the child's play to ensure safety, ready to call for human assistance if needed. This approach prioritizes the child's safety while allowing them to play and explore in a secure environment.",23_HFSM.png

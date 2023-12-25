@@ -1,0 +1,91 @@
+To design a finite state machine (FSM) for a butler robot tasked with tidying up a bathroom after a shower, we'll follow the scene description closely. The FSM will consist of several states, each associated with specific actions to address the situation in the bathroom. We'll use the verbs provided in your list to define these actions.
+
+Here's a conceptual breakdown of the FSM:
+
+1. **Initial State**: Assess the bathroom situation.
+2. **Dry Floor State**: Address the water on the floor.
+3. **Arrange Bath Mat State**: Fix the bath mat position.
+4. **Hang Towel State**: Hang the damp towel properly.
+5. **Wipe Surfaces State**: Clean the foggy mirror and other surfaces.
+6. **Final State**: Finish cleaning and reset for next task.
+
+Let's implement this in Python:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'DRY_FLOOR': self.dry_floor_state,
+            'ARRANGE_BATH_MAT': self.arrange_bath_mat_state,
+            'HANG_TOWEL': self.hang_towel_state,
+            'WIPE_SURFACES': self.wipe_surfaces_state,
+            'FINAL': self.final_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Initial state: assess the situation in the bathroom
+        self.current_state = 'DRY_FLOOR'
+
+    def dry_floor_state(self):
+        # Dry the wet floor to prevent slipping
+        self.mopping('floor')
+        self.current_state = 'ARRANGE_BATH_MAT'
+
+    def arrange_bath_mat_state(self):
+        # Arrange the bath mat to its proper place
+        self.grasping('bath mat')
+        self.placing_down('bath mat', 'beside the tub')
+        self.current_state = 'HANG_TOWEL'
+
+    def hang_towel_state(self):
+        # Hang the damp towel properly
+        self.grasping('towel')
+        self.hanging('towel', 'towel rack')
+        self.current_state = 'WIPE_SURFACES'
+
+    def wipe_surfaces_state(self):
+        # Wipe the mirror and other surfaces
+        self.grasping('cloth')
+        self.wiping('mirror and chrome fixtures')
+        self.current_state = 'FINAL'
+
+    def final_state(self):
+        # Final state: cleaning complete, ready for next task
+        self.monitoring('bathroom', 'cleanliness')
+        # Transition to another task or standby mode
+
+    # Helper methods for actions
+    def mopping(self, target):
+        print(f"Mopping {target}.")
+
+    def grasping(self, item):
+        print(f"Grasping {item}.")
+
+    def placing_down(self, item, location):
+        print(f"Placing down {item} at {location}.")
+
+    def hanging(self, item, location):
+        print(f"Hanging {item} on {location}.")
+
+    def wiping(self, target):
+        print(f"Wiping {target}.")
+
+    def monitoring(self, area, aspect):
+        print(f"Monitoring {area} for {aspect}.")
+
+    # Run the FSM loop
+    def run(self):
+        while self.current_state != 'FINAL':
+            self.states[self.current_state]()
+
+# Create a butler robot and run the FSM
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+This script creates a butler robot FSM with defined states and transitions based on the actions necessary to tidy up a bathroom after a shower. Each state corresponds to a specific task, and the robot transitions through these states until it completes the cleanup.

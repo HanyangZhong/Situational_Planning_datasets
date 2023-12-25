@@ -1,0 +1,112 @@
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # States in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'MONITOR_ENVIRONMENT': self.monitor_environment_state,
+            'DETECT_CHILD_REACHING': self.detect_child_reaching_state,
+            'DISTRACT_CHILD': self.distract_child_state,
+            'CHECK_CHILD_RESPONSE': self.check_child_response_state,
+            'SECURE_SHARP_OBJECTS': self.secure_sharp_objects_state,
+            'CALM_DOWN_CHILD': self.calm_down_child_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Initial state
+        self.current_state = 'INITIAL'
+        # Variables to track child's behavior and safety
+        self.child_reaching_for_sharp_objects = False
+        self.child_distracted = False
+
+    def initial_state(self):
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def monitor_environment_state(self):
+        self.monitoring('environment')  # Continuously monitor the environment
+        self.current_state = 'DETECT_CHILD_REACHING'
+
+    def detect_child_reaching_state(self):
+        if self.detect_child_reaching():
+            self.current_state = 'DISTRACT_CHILD'
+        else:
+            self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def distract_child_state(self):
+        self.attracting('child', 'story')  # Attract the child to a safe activity
+        self.current_state = 'CHECK_CHILD_RESPONSE'
+
+    def check_child_response_state(self):
+        if self.detect_child_distracted():
+            self.current_state = 'SECURE_SHARP_OBJECTS'
+        if self.detect_child_reaching():
+            self.current_state = 'CALM_DOWN_CHILD'
+        else:
+            self.current_state = 'DISTRACT_CHILD'
+
+    def secure_sharp_objects_state(self):
+        self.grasping('sharp_objects')  # Grasp sharp objects
+        self.placing_down('sharp_objects', 'safe_location')  # Place them in a safe location
+        self.current_state = 'MONITOR_ENVIRONMENT'
+
+    def calm_down_child_state(self):
+        self.calming('child')  # Attempt to calm the child
+        if self.child_is_safe():
+            self.current_state = 'SECURE_SHARP_OBJECTS'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        self.calling_for_help()  # Call for human assistance
+        self.current_state = 'INITIAL'
+
+    # Function definitions for various actions
+    def monitoring(self, subject):
+        # Implement monitoring logic
+        pass
+
+    def detect_child_reaching(self):
+        self.child_reaching_for_sharp_objects = self.monitoring('environment','child')
+        # Implement logic to detect if the child is reaching for sharp objects
+        return self.child_reaching_for_sharp_objects
+
+    def detect_child_distracted(self):
+        self.child_distracted = self.monitoring('child')
+        # Implement logic to detect if the child is reaching for sharp objects
+        return self.child_distracted
+
+    def attracting(self, child, activity):
+        self.responding(child,activity)
+        # Implement logic to attract the child to a safe activity
+
+    def calming(self, child):
+        self.responding(child, activity, 'gently')
+        # Implement logic to calm the child
+
+    def child_is_safe(self):
+        state = self.monitoring('child')
+        # Implement logic to check if the child is safe
+        return state
+
+    def grasping(self, item):
+        # Implement grasping logic
+        pass
+
+    def responding(self, item, content,motion):
+        # Implement grasping logic
+        pass
+
+    def placing_down(self, item, location):
+        # Implement placing down logic
+        pass
+
+    def calling_for_help(self):
+        # Implement logic to call for human assistance
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()

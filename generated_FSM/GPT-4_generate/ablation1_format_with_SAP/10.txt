@@ -1,0 +1,68 @@
+Here is a simple representation of the state machine in Python. The robot is named ButlerRobotFSM which intuitively "sees" the situation and takes the required steps to assist the wheelchair user.
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        self.states = {
+            'idle': self.idle,
+            'evaluate_room': self.evaluate_room,
+            'clear_path': self.clear_path,
+            'assist': self.assist,
+        }
+        self.current_state = 'idle'
+
+    def transition(self, new_state):
+        # Switch to new state
+        self.current_state = new_state
+
+    def idle(self):
+        # Initially robot is in idle state
+        # lets consider robot is turned on by user
+        print("Turning on......")
+        self.transition('evaluate_room')
+
+    def evaluate_room(self):
+        # Robot asseses the situation
+        print("Evaluating the room......")
+        office_chair = self.check_obstruction()
+        
+        if office_chair:
+            self.transition('clear_path')
+        else:
+            self.transition('assist')
+
+    # Helper method to check whether there is an obstruction or not
+    def check_obstruction(self):
+        # this method will return True if there is an obstruction (office chair)
+        # False otherwise
+        return True
+
+    def clear_path(self):
+        # In this state, Robot will remove the office chair
+        print("Reaching, Gripping, Lifting......")
+        print("Transporting and Lowering.......")
+        print("Rotating and Releasing.......")
+        print("Path to desk is clear now")
+        self.transition('assist')
+
+    def assist(self):
+        # robot can now assist the person in the wheelchair
+        print("Assisting the person to the desk.......")
+        
+        # Later, based on requirement, robot can transition to different tasks/states
+        # like 'monitoring', 'calling for help', 'arranging books', etc.,
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create a robot and Run the FSM
+butler = ButlerRobotFSM()
+butler.run()
+```
+
+The robot starts in the 'idle' state, and transitions between 'evaluate_room', 'clear_path', and 'assist' states based on the situation in the study room. 
+
+This simple FSM could be extended with additional states or actions to represent more complex behaviours, for example states to handle additional obstacles, or to assist the person in other ways. 
+
+This code does not include any error handling or other robustness features that would be needed for a real robot.

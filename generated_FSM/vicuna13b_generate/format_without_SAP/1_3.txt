@@ -1,0 +1,141 @@
+(Butler)Robot(FSM)
+/************************************************************\
+* This class models a butler robot and its finite state machine      *
+* behavior. The robot can perform various actions to clean and       *
+* maintain a bathroom after a shower has been used.                *
+\************************************************************/
+
+import enum
+
+class RobotState(enum.Enum):
+	idle = 1
+	cleaning = 2
+	mopping = 3
+	drying = 4
+
+class ButlerRobotFSM(object):
+	"""
+	This class models a butler robot and its finite state machine
+	behavior. The robot can perform various actions to clean and
+	maintain a bathroom after a shower has been used.
+	"""
+
+	def __init__(self):
+		"""
+		Initializes the robot and sets its current state to idle.
+		"""
+		self.current_state = RobotState.idle
+
+	def run(self):
+		"""
+		Runs the state machine loop for the butler robot.
+		"""
+		while True:
+			self.current_state.handle_conditions()
+			self.current_state.handle_actions()
+			self.current_state = self.current_state.next_state()
+
+	def handle_conditions(self):
+		"""
+		Called by each state to check conditions for state transitions.
+		"""
+		pass
+
+	def handle_actions(self):
+		"""
+		Called by each state to execute actions based on the current state.
+		"""
+		pass
+
+	def get_next_state(self):
+		"""
+		Returns the next state for the current state.
+		"""
+		return RobotState.idle
+
+class StateHandler(object):
+	"""
+	Base class for state handlers. Contains common methods for
+	state transitions and actions.
+	"""
+
+	def handle_transitions(self, action):
+		"""
+		Called by the run() method to check for state transitions.
+		"""
+		if action in self.transitions:
+			return self.transitions[action]()
+		return self.current_state
+
+	def handle_actions(self):
+		"""
+		Called by the run() method to execute actions for the current state.
+		"""
+		pass
+
+	def transitions(self):
+		"""
+		Returns a dictionary mapping actions to functions that handle
+		state transitions.
+		"""
+		return {}
+
+	def current_state(self):
+		"""
+		Returns the current state of the state handler.
+		"""
+		return self.current_state
+
+class CleaningState(StateHandler):
+	"""
+	State handler for the cleaning state. Handles cleaning actions.
+	"""
+
+	def __init__(self):
+		self.transitions = {
+			RobotState.cleaning.value: self.cleaning_actions
+		}
+
+	def cleaning_actions(self):
+		"""
+		Called when the cleaning state is active. Removes the wet towel
+		from the sink, gathers all wet items, picks up the crumpled
+		bath mat, and mops the floor.
+		"""
+		pass
+
+class DryingState(StateHandler):
+	"""
+	State handler for the drying state. Handles drying actions.
+	"""
+
+	def __init__(self):
+		self.transitions = {
+			RobotState.drying.value: self.drying_actions
+		}
+
+	def drying_actions(self):
+		"""
+		Called when the drying state is active. Turns on the fan and
+		waits for the bathroom to dry.
+		"""
+		pass
+
+class Main(object):
+	"""
+	Main class for the butler robot. Contains the finite state machine
+	and state handlers.
+	"""
+
+	def __init__(self):
+		self.fsm = ButlerRobotFSM()
+		self.cleaning_state = CleaningState()
+		self.drying_state = DryingState()
+
+	def start(self):
+		"""
+		Starts the state machine for the butler robot.
+		"""
+		self.fsm.run()
+# Example usage
+if __name__ ==

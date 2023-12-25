@@ -1,0 +1,112 @@
+ Here are the detailed analysis and scores for each FSM code:
+
+**17_1 Analysis:**
+
+State Coverage: 7 - Covers key states like monitoring, engaging child, blocking stairs. Does not have detailed states for verifying safety.
+
+Transition Coverage: 8 - Has transitions from each state to address likely scenarios. No fallbacks if actions fail.  
+
+Cyclomatic Complexity: 5 - Linear transitions from one state to next. No redundancy or fallback states.
+
+Safety Mindset: 4 - Attempts to block stairs but no verification of child safety.
+
+Scalability: 8 - Additional states can be inserted without much change.
+
+Assistance UX: 6 - Distracts child but does not comfort or explain situation.
+
+Action Set Alignment: 8 - Uses collecting, delivering, inserting, calling verbs from standard action set.
+
+**Overall Benchmark Score: 6.4**
+
+**17_2 Analysis:** 
+
+State Coverage: 8 - Covers assessment, movement of child, barrier placement, getting help.
+
+Transition Coverage: 9 - Accounts for changes in situation to transition states.
+
+Cyclomatic Complexity: 7 - Some interconnections between states like calling for help.
+
+Safety Mindset: 7 - Safe lifting and transport but lacks safety verification.  
+
+Scalability: 8 - Additional complexity can be handled in states.
+
+Assistance UX: 7 - Transports child but lacks explain or comfort actions.
+
+Action Set Alignment: 9 - Uses variety of canonical action verbs.
+
+**Overall Benchmark Score: 7.7**
+
+
+**17_3 Analysis:**
+
+State Coverage: 5 - Relevant states missing like barrier placement, visual tracking.
+
+Transition Coverage: 4 - Disconnected states without factoring in situation changes.
+
+Cyclomatic Complexity: 3 - Largely linear state transitions.
+
+Safety Mindset: 7 - Closes gas valve for safety.
+
+Scalability: 7 - Additional states can be inserted modularly. 
+
+Assistance UX: 4 - Lacks any child engagement or communication.
+
+Action Set Alignment: 5 - Utilizes some canonical action verbs like closing, opening.
+
+**Overall Benchmark Score: 5.3**
+
+
+**17_4 Analysis:**
+
+State Coverage: 8 - Has assessment, barrier setup, child monitoring states. 
+
+Transition Coverage: 7 - Changes states based on presence of child near stairs.
+
+Cyclomatic Complexity: 6 - Some interconnections between states.
+
+Safety Mindset: 9 - Gets safety gate and monitors child.
+
+Scalability: 8 - Additional complexity can be handled.
+
+Assistance UX: 5 - No child engagement or communication actions.
+
+Action Set Alignment: 9 - Many canonical action verbs used.
+
+**Overall Benchmark Score: 7.4**
+
+**17_5 Analysis:**
+
+State Coverage: 8 - Assessment, movement, barrier, monitoring states covered.
+
+Transition Coverage: 7 - State changes based on risk levels. 
+
+Cyclomatic Complexity: 6 - Some interconnections between states.
+
+Safety Mindset: 9 - Moves child, blocks stairs, gets help if needed.  
+
+Scalability: 8 - Encapsulates complexity for extensions.
+
+Assistance UX: 7 - Comforts and explains situation to child.  
+
+Action Set Alignment: 5 - Uses some canonical action verbs at abstract level.
+
+**Overall Benchmark Score: 7.1**
+
+
+**17_6 Analysis:**  
+
+State Coverage: 8 - Assessment, redirection, barrier, monitoring states covered.
+
+Transition Coverage: 7 - Changes state based on detections.
+
+Cyclomatic Complexity: 5 - Mostly linear state transitions.  
+
+Safety Mindset: 7 - Barriers stairs but lacks safety verifications.
+
+Scalability: 9 - Clearly encapsulates complexity.
+
+Assistance UX: 7 - Transports child, explains stairs danger.
+
+Action Set Alignment: 7 - Uses variety of canonical action verbs.
+
+**Overall Benchmark Score: 7.3**

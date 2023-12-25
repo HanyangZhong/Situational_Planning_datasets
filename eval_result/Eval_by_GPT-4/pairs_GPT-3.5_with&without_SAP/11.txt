@@ -1,0 +1,37 @@
+Evaluation of 11_3:
+
+1. State Coverage: The bot is covering all the necessary states from assessing the patient's condition to fetching medicine and delivering it to the patient. There are however some missing states compared to "11_best" such as 'ENSURE_COMFORT' and 'MONITOR_PATIENT'. Therefore, the score is 7 out of 10.
+
+2. Transition Coverage: FSM transitions well through most states. But sequences like calling for help when medicine can't be reached don't loop back to the initial state or reassessing situation after failing to reach medicine are missing. Therefore, giving a score of 6 out of 10.
+
+3. Cyclomatic Complexity: The complexity is relatively simple with a straightforward path through the states, and lacks multiple following states connected to a single state. Therefore, the score given is 3 out of 10.
+
+4. Safety Mindset: This FSM scores low in this respect, as it doesn't monitor patient's condition after giving medicine or ensures comfort, filling certain safety gaps. So, the score is 4 out of 10.
+
+5. Scalability: This FSM is feature-complete and well-encapsulated facilitating easy extensions. But missing 'MONITOR_PATIENT' state can cause difficulty when scaling. So, the score of 6 out of 10.
+
+6. Assistance UX: The robot basically runs errands without any personalization or distinctive user experience. Therefore, the score given is 5 out of 10.
+
+7. Action Set Alignment: The actions are clear & aligned with the action set. However, there are not many different actions implemented and quite a few important ones are missing. Score awarded is 6 out of 10.
+
+Overall Benchmark Score for 11_3: (7+6+3+4+6+5+6)/7 = 5.28
+
+Evaluation of 11_4:
+
+1. State Coverage: The FSM includes the necessary states to handle the scene. But it lacks dedicated states for monitoring patient or ensuring comfort, So score is 7 out of 10.
+
+2. Transition Coverage: It has well connected transitions but doesn't include a loop for re-assessment in case of failure in reaching medicine. Thus, the score is 6 out of 10.  
+
+3. Cyclomatic Complexity: The FSM is not densely interconnected. Each state has only one or two possible following states, scoring 3 out of 10.
+
+4. Safety Mindset: It doesn't ensure the comfort of the patient or consistently monitor the patient's state after delivering the medicine. Hence, it scores a 4 out of 10.
+
+5. Scalability: The FSM is highly modular which aids in extension & incorporation of new states. However, absence of 'MONITOR_PATIENT' state could present challenges. Score given is 6 out of 10.
+
+6. Assistance UX: Although FSM could use more personalization, it manages to cleanly and simply express its actions. It scores a 6 out of 10.
+
+7. Action Set Alignment: FSM lacks variety in implemented actions. More actions from action set vocabulary could be implemented. Given score is 6 out of 10.
+
+Overall Benchmark Score for 11_4: (7+6+3+4+6+6+6)/7 = 5.42
+
+As we can see, while both 11_3 and 11_4 approach the problem differently, they carry similar strengths and weaknesses. However, 11_4 performs slightly better due to better user experience.

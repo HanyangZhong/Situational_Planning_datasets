@@ -1,0 +1,82 @@
+The Python program you've requested, implementing a Finite State Machine (FSM) using your provided scenario and action list would look like this:
+
+```python
+class ButlerRobotFSM:
+
+    def __init__(self):
+        # Define the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initialState,
+            'ASSESS_SITUATION': self.assessSituationState,
+            'REACH_BUTTON': self.reachButtonState,
+            'PRESS_BUTTON': self.pressButtonState,
+            'CALL_FOR_HELP': self.callForHelpState,
+        }
+        # Initial state
+        self.currentState = 'INITIAL'
+
+    def initialState(self):
+        # Initial state just transfers to the assessment state
+        self.currentState = 'ASSESS_SITUATION'
+
+    def assessSituationState(self):
+        # Assess the situation, if the woman is on the floor and unable to reach the button
+        # then go to the 'REACH_BUTTON' state, otherwise 'CALL_FOR_HELP'
+        if self.womanOnFloor() and self.buttonNotReached():
+            self.currentState = 'REACH_BUTTON'
+        else:
+            self.currentState = 'CALL_FOR_HELP'
+
+    def reachButtonState(self):
+        # Reach to the button, if successful, then press it. 
+        # If not successful, then change to 'CALL_FOR_HELP'
+        if self.reachForButton():
+            self.currentState = 'PRESS_BUTTON'
+        else:
+            self.currentState = 'CALL_FOR_HELP'
+
+    def pressButtonState(self):
+        # Press the button. If successful, then remain in this state,
+        # If not successful, then change to 'CALL_FOR_HELP'
+        if not self.pressButton():
+            self.currentState = 'CALL_FOR_HELP'
+
+    def callForHelpState(self):
+        # Call for help and go back to initial state 
+        self.callForHelp()
+        self.currentState = 'INITIAL'
+
+    # Following are the function definitions for the actions mentioned in each state
+
+    def womanOnFloor(self):
+        # Here should be the implementation of checking if woman is on the floor
+        pass
+
+    def buttonNotReached(self):
+        # Here should be the implementation of checking if woman can't reach the button
+        pass
+
+    def reachForButton(self):
+        # Here should be the logic for reaching the button
+        pass
+
+    def pressButton(self):
+        # Here should be the logic for pressing the button
+        pass
+
+    def callForHelp(self):
+        # Here should be the logic for calling for help
+        pass
+
+    def run(self):
+        while True:
+            self.states[self.currentState]()
+
+
+# Create an instance
+butlerRobot = ButlerRobotFSM()
+# Start the finite state machine
+butlerRobot.run()
+```
+
+The program begins with creating an instance for the robot butler finite state machine class and then initiating the state machine. The state machine then continuously runs, looping through the different states based on the conditions set in each state until it reaches the 'CALL_FOR_HELP' state where in assistance for help is made.

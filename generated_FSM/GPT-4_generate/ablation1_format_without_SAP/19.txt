@@ -1,0 +1,68 @@
+Alright. Here's a Python class definition named KitchenSafetyRobotFSM, outlining a finite state machine to handle the scenario. In this case, the robot is a safety robot with the main goal of maintaining the kitchen safety, namely keeping children away from potential dangers such as the boiling pot on the stove.
+
+Please note that this python code only includes the state machine logic and transitions. The implementation of specific actions such as Reaching for the child, Moving the child to a safe location, and Alerting the parent, are abstracted out as separate helper methods.
+
+```python
+class KitchenSafetyRobotFSM:
+    def __init__(self):
+        self.current_state = self.monitoring
+        self.child_near_stove = False
+
+    def run(self):
+        while True:
+            self.current_state()
+
+    def monitoring(self):
+        # Monitoring the kitchen for potential dangers
+
+        # if child is close to the stove, switch the state to protecting
+        if self.is_child_close_to_stove():
+            self.child_near_stove = True
+            self.current_state = self.protecting
+
+    def protecting(self):
+        # Protecting the child from potential harm
+
+        # Get the child away from the stove
+        self.reach_for_child()
+        self.move_child_to_safe_location()
+
+        # Once child is safe, go to alerting state
+        self.current_state = self.alerting
+
+    def alerting(self):
+        # Alerting the parent about the incident
+      
+        self.alert_parent()
+        
+        # Once the situation is handled, return to monitoring state
+        self.current_state = self.monitoring
+
+    def is_child_close_to_stove(self):
+        # Check if child is close to stove
+        # Actual implementation to be added
+        pass
+
+    def reach_for_child(self):
+        # Reach for child
+        # Actual implementation to be added
+        pass
+
+    def move_child_to_safe_location(self):
+        # Move the child to a safe location
+        # Actual implementation to be added
+        pass
+
+    def alert_parent(self):
+        # Alert the parent
+        # Actual implementation to be added
+        pass
+```
+
+In this state machine, there are three states:
+
+1. Monitoring: The robot is monitoring the kitchen, checking if a child is close to the stove.
+2. Protecting: The robot has detected that a child is close to the stove, it reaches for and moves the child to a safe location.
+3. Alerting: The robot alerts the parent about the situation, then returns to the monitoring state. 
+
+The FSM starts in the "monitoring" state, and can transition to the other states based on conditions and actions taking place. Once the "alerting" state is completed, the FSM moves back to the "monitoring" state.

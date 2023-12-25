@@ -1,0 +1,81 @@
+class ButlerRobotFSM:
+  
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'COVER_FLAME': self.cover_flame_state,
+            'DISPERSE_HEAT': self.disperse_heat_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if there is a fire risk and if heat needs to be dispersed
+        if self.is_fire_risk() and self.is_heat_buildup():
+            self.current_state = 'COVER_FLAME'
+        elif self.is_heat_buildup():
+            self.current_state = 'DISPERSE_HEAT'
+        else:
+            self.current_state = 'INITIAL'
+
+    def cover_flame_state(self):
+        # If there is a fire risk, cover the flame and disperse heat
+        self.cover_flame()
+        self.disperse_heat()
+        self.current_state = 'INITIAL'
+
+    def disperse_heat_state(self):
+        # If there is heat buildup, disperse heat and check if there is a fire risk
+        self.disperse_heat()
+        if self.is_fire_risk():
+            self.current_state = 'COVER_FLAME'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the situation cannot be handled by the robot
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+
+    def is_fire_risk(self):
+        # Check if there is a fire risk by assessing the proximity of flammable objects to the flame
+        flammable_objects_nearby = self.checking('flammable objects')
+        return flammable_objects_nearby
+
+    def is_heat_buildup(self):
+        # Check if there is heat buildup by assessing the temperature near the flame
+        heat_buildup_detected = self.monitoring('temperature')
+        return heat_buildup_detected
+
+    def cover_flame(self):
+        # Cover the flame to mitigate the fire risk
+        self.grasping('flame cover')
+        self.placing_down('flame cover', 'over the flame')
+
+    def disperse_heat(self):
+        # Disperse heat by turning on the extractor fan and opening the window
+        self.turning('extractor fan', 'on')
+        self.opening('window')
+
+    def call_for_help(self):
+        # Call for human assistance to handle the situation
+        self.calling('human assistance')
+
+    # Run the FSM loop
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
