@@ -1,0 +1,90 @@
+To create a better finite state machine (FSM) based on the provided feedback and scenario, we can make some enhancements to the existing model. Here's an improved FSM for the Butler Robot:
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'CLEANUP': self.cleanup_state,
+            'MONITOR': self.monitor_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Assessment of the situation
+        if self.is_spill_significant():
+            self.current_state = 'CLEANUP'
+        else:
+            self.current_state = 'MONITOR'
+
+    def cleanup_state(self):
+        # Cleaning up the spilled liquid
+        self.wipe_spill()
+        self.dispose_cleaning_material()
+        self.current_state = 'MONITOR'
+
+    def monitor_state(self):
+        # Continuous monitoring for potential risks or hazards
+        if self.is_floor_wet():
+            self.current_state = 'CLEANUP'
+        elif self.is_help_needed():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance
+        self.call_for_assistance()
+        self.current_state = 'MONITOR'
+
+    # Actions / Annotation Methods
+    def is_spill_significant(self):
+        spill_significant = self.checking('spill')
+        return spill_significant
+
+    def wipe_spill(self):
+        self.wiping('spill')
+
+    def dispose_cleaning_material(self):
+        self.dispensing('used cleaning material')
+
+    def is_floor_wet(self):
+        floor_wet = self.checking('floor wetness')
+        return floor_wet
+
+    def is_help_needed(self):
+        help_needed = self.checking('help needed')
+        return help_needed
+
+    def call_for_assistance(self):
+        self.call('human assistance')
+
+    # Run the FSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the Butler Robot FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()
+```
+
+In this improved FSM:
+
+1. Added "CALL_FOR_HELP" State:
+   - Purpose: This state is introduced to call for human assistance when necessary, considering the presence of pets and the complexity of the situation.
+   - Actions: It calls for human assistance when help is needed.
+   - Transition: After calling for help, the FSM transitions back to the MONITOR state.
+
+2. Enhanced "MONITOR" State:
+   - Purpose: This state not only monitors the floor but also checks if human assistance is needed.
+   - Actions: It checks for wet floors and the need for help.
+   - Transitions:
+     - If the floor is still wet, it transitions back to the CLEANUP state.
+     - If human assistance is needed, it transitions to the CALL_FOR_HELP state.
+     - If there are no immediate risks or assistance needed, it transitions back to the INITIAL state.
+
+These enhancements improve the FSM's coverage and safety considerations, ensuring that the Butler Robot can handle a wider range of scenarios and call for help when required. The FSM's action set aligns closely with the defined vocabulary, maintaining clarity and consistency.

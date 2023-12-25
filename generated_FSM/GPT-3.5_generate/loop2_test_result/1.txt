@@ -1,0 +1,262 @@
+Updated Finite State Machine:
+
+```python
+class BathroomButlerRobotFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'CHECK_SHOWER': self.check_shower_state,
+            'CLEAN_FLOOR': self.clean_floor_state,
+            'MOVE_BATH_MAT': self.move_bath_mat_state,
+            'DRY_FLOOR': self.dry_floor_state,
+            'CLEAN_TOWEL': self.clean_towel_state,
+            'CLEAR_FOG': self.clear_fog_state,
+            'VERIFY_CLEANUP': self.verify_cleanup_state,
+            'FINISH': self.finish_state
+        }
+
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+        # Variable to keep track of towel state
+        self.towel_dry = False
+
+        # Variable to keep track of shower cleanliness
+        self.shower_clean = False
+
+    def initial_state(self):
+        # Butler Robot initial state. Perform an initial check.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation based on the objects in the bathroom
+        if self.is_floor_slippery():
+            self.current_state = 'CHECK_SHOWER'
+        elif self.is_bath_mat_displaced():
+            self.current_state = 'MOVE_BATH_MAT'
+        elif self.is_towel_damp():
+            self.current_state = 'CLEAN_TOWEL'
+        elif self.is_mirror_fogged():
+            self.current_state = 'CLEAR_FOG'
+        else:
+            self.current_state = 'FINISH'
+
+    def check_shower_state(self):
+        # Check the shower for any spills or water
+        if self.is_shower_clean():
+            self.current_state = 'CLEAN_FLOOR'
+        else:
+            self.current_state = 'CHECK_SHOWER'
+
+    def clean_floor_state(self):
+        # Clean the floor to remove the water droplets
+        self.sweep_floor()
+        self.mop_floor()
+        self.current_state = 'VERIFY_CLEANUP'
+
+    def move_bath_mat_state(self):
+        # Move the bath mat to its original position
+        self.lift_bath_mat()
+        self.place_bath_mat()
+        self.current_state = 'ASSESS_SITUATION'
+
+    def dry_floor_state(self):
+        # Use a towel to dry the wet floor
+        self.reach_for_towel()
+        self.grasp_towel()
+        self.towel_dry = self.towel_drying()
+        if self.towel_dry:
+            self.lower_towel()
+            self.release_towel()
+            self.current_state = 'ASSESS_SITUATION'
+        else:
+            self.current_state = 'DRY_FLOOR'
+
+    def clean_towel_state(self):
+        # Clean the damp towel
+        self.reach_for_towel()
+        self.remove_towel_from_sink()
+        self.place_towel_in_laundry()
+        self.current_state = 'ASSESS_SITUATION'
+
+    def clear_fog_state(self):
+        # Clear the fog from the mirror and chrome fixtures
+        self.reach_for_mirror()
+        self.wipe_mirror()
+        self.spray_mirror_polish()
+        self.current_state = 'ASSESS_SITUATION'
+
+    def verify_cleanup_state(self):
+        # Verify that the cleanup is complete
+        if self.is_cleanup_complete():
+            self.current_state = 'ASSESS_SITUATION'
+        else:
+            self.current_state = 'CLEAN_FLOOR'
+
+    def finish_state(self):
+        # Finish the butler robot's task in the bathroom
+        self.current_state = 'FINISH'
+
+    # Actions / Annotation methods
+    def is_floor_slippery(self):
+        # Check if the bathroom floor is slippery
+        slippery = self.checking('floor slipperiness')
+        return slippery
+
+    def is_bath_mat_displaced(self):
+        # Check if the bath mat is displaced from its usual spot
+        displaced = self.checking('bath mat displacement')
+        return displaced
+
+    def is_towel_damp(self):
+        # Check if the towel is damp
+        damp = self.checking('towel dampness')
+        return damp
+
+    def is_mirror_fogged(self):
+        # Check if the mirror is fogged
+        fogged = self.checking('mirror fogging')
+        return fogged
+
+    def is_shower_clean(self):
+        # Check if the shower is clean
+        clean = self.checking('shower cleanliness')
+        return clean
+
+    def is_cleanup_complete(self):
+        # Check if the cleanup is complete
+        complete = self.checking('cleanup completeness')
+        return complete
+
+    def sweep_floor(self):
+        # Sweep the bathroom floor to remove water droplets
+        self.sweeping('floor')
+
+    def mop_floor(self):
+        # Mop the bathroom floor to clean it
+        self.mopping('floor')
+
+    def lift_bath_mat(self):
+        # Lift the bath mat from the wall
+        self.lifting('bath mat')
+
+    def place_bath_mat(self):
+        # Place the bath mat back in its usual spot
+        self.placing('bath mat', 'beside the tub')
+
+    def reach_for_towel(self):
+        # Reach for the towel on the sink
+        self.reaching('towel')
+
+    def grasp_towel(self):
+        # Grasp the towel to pick it up
+        self.grasping('towel')
+
+    def towel_drying(self):
+        # Dry the towel
+        dry = self.drying('towel')
+        return dry
+
+    def lower_towel(self):
+        # Lower the towel to its original position
+        self.lowering('towel')
+
+    def release_towel(self):
+        # Release the towel from the robot's grip
+        self.releasing('towel')
+
+    def remove_towel_from_sink(self):
+        # Remove the towel from the sink
+        self.removing('towel', 'sink')
+
+    def place_towel_in_laundry(self):
+        # Place the towel in the laundry area
+        self.placing('towel', 'laundry area')
+
+    def reach_for_mirror(self):
+        # Reach for the mirror
+        self.reaching('mirror')
+
+    def wipe_mirror(self):
+        # Wipe the mirror to remove fog
+        self.wiping('mirror')
+
+    def spray_mirror_polish(self):
+        # Spray mirror polish to prevent fogging
+        self.spraying('mirror', 'mirror polish')
+
+    def checking(self, item):
+        # Perform checking action
+        print(f"Checking {item}")
+        return True
+
+    def sweeping(self, item):
+        # Perform sweeping action
+        print(f"Sweeping {item}")
+
+    def mopping(self, item):
+        # Perform mopping action
+        print(f"Mopping {item}")
+
+    def lifting(self, item):
+        # Perform lifting action
+        print(f"Lifting {item}")
+
+    def placing(self, item, location):
+        # Perform placing action
+        print(f"Placing {item} {location}")
+
+    def reaching(self, item):
+        # Perform reaching action
+        print(f"Reaching for {item}")
+
+    def grasping(self, item):
+        # Perform grasping action
+        print(f"Grasping {item}")
+
+    def drying(self, item):
+        # Perform drying action
+        print(f"Drying {item}")
+        return True
+
+    def lowering(self, item):
+        # Perform lowering action
+        print(f"Lowering {item}")
+
+    def releasing(self, item):
+        # Perform releasing action
+        print(f"Releasing {item}")
+
+    def removing(self, item, location):
+        # Perform removing action
+        print(f"Removing {item} from {location}")
+
+    def placing(self, item, location):
+        # Perform placing action
+        print(f"Placing {item} in {location}")
+
+    def wiping(self, item):
+        # Perform wiping action
+        print(f"Wiping {item}")
+
+    def spraying(self, item, substance):
+        # Perform spraying action
+        print(f"Spraying {substance} on {item}")
+
+    def run(self):
+        while self.current_state != 'FINISH':
+            self.states[self.current_state]()  # Execute the current state
+
+# Create an instance of the BathroomButlerRobotFSM and run it
+butler_robot = BathroomButlerRobotFSM()
+butler_robot.run()
+```
+
+Changes made to the FSM:
+1. Added a new state "CHECK_SHOWER" to explicitly check the shower cleanliness before cleaning the floor.
+2. Added a new state "VERIFY_CLEANUP" to verify if the floor cleanup is complete before assessing the situation again.
+3. Modified the "CLEAN_FLOOR" state to transition to "VERIFY_CLEANUP" instead of "ASSESS_SITUATION".
+4. Added actions and methods for checking the

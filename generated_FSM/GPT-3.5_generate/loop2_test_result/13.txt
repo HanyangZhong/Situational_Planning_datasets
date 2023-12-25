@@ -1,0 +1,143 @@
+Based on the evaluation feedback, here is a revised finite state machine:
+
+class KitchenSafetyHFSM:
+    def __init__(self):
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS': self.assess_state,
+            'MONITOR_ENV': self.monitor_env_state,
+            'CONTINUE_ASSESS': self.continue_assess_state,
+            'REMOVE_HAZARD': self.remove_hazard_state,
+            'INFORM_WOMAN': self.inform_woman_state,
+            'MONITOR_WOMAN': self.monitor_woman_state,
+            'CONTINUE_MONITOR': self.continue_monitor_state,
+            'WAIT': self.wait_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+        }
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        print("Butler Robot: Assessing the situation...")
+        self.current_state = 'ASSESS'
+
+    def assess_state(self):
+        if self.has_hazard():
+            print("Butler Robot: Hazard detected!")
+            self.current_state = 'REMOVE_HAZARD'
+        else:
+            print("Butler Robot: No immediate hazard detected.")
+            self.current_state = 'MONITOR_ENV'
+
+    def monitor_env_state(self):
+        print("Butler Robot: Monitoring the environment...")
+        self.monitor('environment')
+        if self.has_hazard():
+            print("Butler Robot: Hazard detected during monitoring!")
+            self.current_state = 'REMOVE_HAZARD'
+        else:
+            print("Butler Robot: No hazard detected during monitoring.")
+            self.current_state = 'CONTINUE_ASSESS'
+
+    def continue_assess_state(self):
+        print("Butler Robot: Continuing with assessment...")
+        self.monitor('environment')
+        if self.has_hazard():
+            print("Butler Robot: Hazard detected during assessment!")
+            self.current_state = 'REMOVE_HAZARD'
+        else:
+            print("Butler Robot: No hazard detected during assessment.")
+            self.current_state = 'MONITOR_WOMAN'
+
+    def remove_hazard_state(self):
+        print("Butler Robot: Removing the hazard...")
+        self.reach('cleaning products')
+        self.grasp('cleaning products')
+        self.lift('cleaning products')
+        self.lower('cleaning products')
+        self.release('cleaning products')
+        print("Butler Robot: Hazard removed.")
+        self.current_state = 'INFORM_WOMAN'
+
+    def inform_woman_state(self):
+        print("Butler Robot: Informing the woman about the hazard...")
+        self.monitor('woman')
+        self.respond('woman', 'hazard removed')
+        print("Butler Robot: Woman informed.")
+        self.current_state = 'MONITOR_WOMAN'
+
+    def monitor_woman_state(self):
+        print("Butler Robot: Monitoring the woman...")
+        self.monitor('woman')
+        if self.is_help_needed():
+            print("Butler Robot: Help needed!")
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            print("Butler Robot: No help needed.")
+            self.current_state = 'CONTINUE_MONITOR'
+
+    def continue_monitor_state(self):
+        print("Butler Robot: Continuing to monitor...")
+        self.monitor('environment')
+        self.monitor('woman')
+        if self.is_help_needed():
+            print("Butler Robot: Help needed!")
+            self.current_state = 'CALL_FOR_HELP'
+
+    def wait_state(self):
+        print("Butler Robot: Waiting for further instructions...")
+        self.monitor('woman')
+        if self.is_help_needed():
+            print("Butler Robot: Help needed!")
+            self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        print("Butler Robot: Calling for help...")
+        self.call('emergency services')
+        print("Butler Robot: Help has been called.")
+        self.current_state = 'WAIT'
+
+    # Actions / Annotation functions
+    def has_hazard(self):
+        print("Butler Robot: Checking for hazards...")
+        hazard_present = self.checking('cleaning products')
+        return hazard_present
+
+    def reach(self, object):
+        print(f"Butler Robot: Reaching for {object}...")
+
+    def grasp(self, object):
+        print(f"Butler Robot: Gripping {object}...")
+
+    def lift(self, object):
+        print(f"Butler Robot: Lifting {object}...")
+
+    def lower(self, object):
+        print(f"Butler Robot: Lowering {object}...")
+
+    def release(self, object):
+        print(f"Butler Robot: Releasing {object}...")
+
+    def monitor(self, object):
+        print(f"Butler Robot: Monitoring {object}...")
+
+    def respond(self, object, message):
+        print(f"Butler Robot: Responding to {object} - {message}...")
+
+    def is_help_needed(self):
+        print("Butler Robot: Checking if help is needed...")
+        help_needed = self.checking('help needed')
+        return help_needed
+
+    def call(self, contact):
+        print(f"Butler Robot: Calling {contact}...")
+
+    # Run the HFSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+# Create an instance of the HFSM and run it
+kitchen_safety = KitchenSafetyHFSM()
+kitchen_safety.run()
+
+This revised FSM includes additional states for ongoing monitoring of the environment and the woman after resolving the initial hazard. This allows the robot to continuously assess and respond to any new hazards that may arise. The transitions have been updated to ensure the robot follows the appropriate sequence of steps. Additionally, the robot now also offers a more personalized and nuanced assistance experience by monitoring the environment and the woman's needs.

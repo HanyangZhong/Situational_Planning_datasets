@@ -1,0 +1,72 @@
+ Here is my analysis of the FSMs against the benchmark "11_1":
+
+For code "11_2":
+
+State Coverage: 9/10
+- Adds patient comfort, monitoring, calling for help states.
+- Covers most important states.
+
+Transition Coverage: 8/10 
+- Main transitions present, with branches for help if needed.
+- Slightly disconnected between comfort and monitoring.  
+
+Cyclomatic Complexity: 7/10
+- Fairly linear with some monitoring branches. 
+- Easy to understand and modify.
+
+Safety Mindset: 9/10
+- Monitors patient and calls for help if needed.
+- Focuses on ensuring safety.
+
+Scalability: 8/10
+- Code is still cleanly separated by states.
+- Checking methods are encapsulated.
+
+Assistance UX: 5/10 
+- Still very simple textual interactions.
+- Not personalized or context-aware.
+
+Action Set Alignment: 8/10
+- Uses action verbs like Checking, Calling for help.
+- Introduces "Comforting" outside of list.
+
+Overall Benchmark Score: 
+(9 + 8 + 7 + 9 + 8 + 5 + 8) / 7 = 8
+
+The revised FSM has excellent state coverage and safety mindset. Encapsulation is reasonable and action alignment is good. Main weakness remains the rigid textual UX. But overall a high quality assistive FSM.
+
+
+For code "11_3":
+
+State Coverage: 7/10
+- Has assessment, medicine retrieval and delivery states.
+- Lacks explicit monitoring or help states. 
+
+Transition Coverage: 7/10
+- Happy path flows work (assess > retrieve > deliver).
+- No branches for failure handling.
+
+Cyclomatic Complexity: 5/10  
+- Very linear flow with no alternate branches.
+- Not dynamically complex.
+
+Safety Mindset: 4/10
+- No explicit safety protections or checking.
+- Focuses only on happy path.
+
+Scalability: 7/10
+- States are cleanly separated. 
+- Mix of actions and states together.
+
+Assistance UX: 4/10
+- Textual and functional. No personality.  
+- Not natural language.
+
+Action Set Alignment: 10/10 
+- Uses 16 out of 56 benchmark action verbs.
+- Strictly constrained to reference list.
+
+Overall Benchmark Score:  
+(7 + 7 + 5 + 4 + 7 + 4 + 10) / 7 = 6.29
+
+This FSM has good action alignment but lacks coverage of safety states and transitions. It is very linearly structured without complexity or assistive personality. The overall score is pulled down by gaps in safety protections and UX polish.

@@ -1,0 +1,87 @@
+Revised Finite State Machine (FSM):
+
+```python
+class ButlerRobotFSM:
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'CAT_ON_COUNTER': self.cat_on_counter_state,
+            'CAT_NOT_ON_COUNTER': self.cat_not_on_counter_state,
+            'REMOVE_HAZARDS': self.remove_hazards_state,
+            'DISTRACT_CAT': self.distract_cat_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'COMPLETE': self.complete_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess the situation to determine if the cat is on the counter or not
+        if self.is_cat_on_counter():
+            self.current_state = 'CAT_ON_COUNTER'
+        else:
+            self.current_state = 'CAT_NOT_ON_COUNTER'
+
+    def cat_on_counter_state(self):
+        # Cat is on the counter, take action to help the cat
+        self.current_state = 'REMOVE_HAZARDS'
+
+    def cat_not_on_counter_state(self):
+        # Cat is not on the counter, continue monitoring the situation
+        if self.is_cat_on_counter():
+            self.current_state = 'CAT_ON_COUNTER'
+        else:
+            self.current_state = 'ASSESS_SITUATION'
+
+    def remove_hazards_state(self):
+        # Perform actions to remove hazards from cat's reach
+        self.removing_toxic_foods()
+        self.current_state = 'DISTRACT_CAT'
+
+    def distract_cat_state(self):
+        # Distract the cat with a toy
+        self.distracting_cat()
+        self.current_state = 'CALL_FOR_HELP'
+
+    def call_for_help_state(self):
+        # Call for human assistance if necessary
+        self.calling_for_help()
+        self.current_state = 'COMPLETE'
+
+    def complete_state(self):
+        # The FSM has completed its actions
+        pass
+
+    # Actions involved in the FSM
+
+    def is_cat_on_counter(self):
+        # Check if the cat is on the counter
+        return self.monitoring('cat', 'counter')
+
+    def removing_toxic_foods(self):
+        # Remove toxic foods from cat's reach
+        self.removing('toxic foods')
+
+    def distracting_cat(self):
+        # Distract the cat with a toy
+        self.distracting('cat', 'toy')
+
+    def calling_for_help(self):
+        # Call for human assistance if necessary
+        self.calling('human assistance')
+
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the FSM and run it
+butler_robot_fsm = ButlerRobotFSM()
+butler_robot_fsm.run()
+```

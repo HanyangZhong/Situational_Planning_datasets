@@ -1,0 +1,98 @@
+Revised Finite State Machine Model:
+
+class ButlerRobotFSM:
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'APPROACH_CHILD': self.approach_child_state,
+            'PROTECT_CHILD': self.protect_child_state,
+            'MONITOR_CHILD': self.monitor_child_state,
+            'WARN_CHILD': self.warn_child_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'END': self.end_state
+        }
+        self.current_state = 'INITIAL'
+        self.is_child_reached = False
+        self.is_child_protected = False
+
+    def initial_state(self):
+        # Assess the situation to determine the next action
+        if self.is_child_in_danger():
+            self.current_state = 'APPROACH_CHILD'
+        else:
+            self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Check if the child is in danger by reaching for sharp objects
+        if self.is_child_reaching():
+            self.current_state = 'APPROACH_CHILD'
+        elif self.is_child_protected:
+            self.current_state = 'END'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def approach_child_state(self):
+        # Approach the child to protect them from the danger
+        if self.is_child_reached:
+            self.current_state = 'MONITOR_CHILD'
+        else:
+            self.current_state = 'WARN_CHILD'
+
+    def protect_child_state(self):
+        # Take action to protect the child from the danger
+        self.remove_sharp_objects()
+        self.current_state = 'MONITOR_CHILD'
+
+    def monitor_child_state(self):
+        # Monitor the child to ensure ongoing safety
+        if self.is_child_in_danger():
+            self.current_state = 'PROTECT_CHILD'
+        else:
+            self.current_state = 'ASSESS_SITUATION'
+
+    def warn_child_state(self):
+        # Warn the child about the danger they are approaching
+        self.warn_child()
+        self.current_state = 'ASSESS_SITUATION'
+
+    def call_for_help_state(self):
+        # Call for help to assist in protecting the child
+        self.call_for_help()
+        self.current_state = 'END'
+
+    def end_state(self):
+        # End the FSM
+        pass
+
+    # Actions / Annotation functions
+    def is_child_in_danger(self):
+        # Check if the child is reaching towards sharp objects
+        return self.reaching("child", "sharp objects")
+
+    def is_child_reaching(self):
+        # Check if the child is reaching towards anything
+        return self.reaching("child")
+
+    def remove_sharp_objects(self):
+        # Remove the sharp objects from the child's reach
+        self.collecting("sharp objects")
+        self.placing_down("sharp objects")
+
+    def warn_child(self):
+        # Warn the child about the danger
+        self.warning("child", "sharp objects")
+
+    def call_for_help(self):
+        # Call for help to protect the child
+        self.calling_for_help()
+
+    # Run the FSM loop
+    def run(self):
+        while self.current_state != 'END':
+            self.states[self.current_state]()
+
+# Create an instance of the FSM and run it
+butler_robot = ButlerRobotFSM()
+butler_robot.run()

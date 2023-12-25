@@ -1,0 +1,87 @@
+Revised Finite State Machine:
+
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = (
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'REACH_BUTTON': self.reach_button_state,
+            'MOVE_CHAIR': self.move_chair_state,
+            'CALL_FOR_HELP': self.call_for_help_state,
+            'CHECK_CONDITION': self.check_condition_state,
+            'PROVIDE_COMFORT': self.provide_comfort_state
+        )
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with assessing the situation.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if the pregnant woman can reach the emergency button or needs help.
+        if self.can_reach_button():
+            self.current_state = 'REACH_BUTTON'
+        elif self.can_move_chair():
+            self.current_state = 'MOVE_CHAIR'
+        else:
+            self.current_state = 'CALL_FOR_HELP'
+
+    def reach_button_state(self):
+        # Attempt to reach the emergency button for the pregnant woman.
+        self.reach_button()
+        self.current_state = 'CHECK_CONDITION'
+
+    def move_chair_state(self):
+        # Move the chair closer to the pregnant woman.
+        self.move_chair()
+        self.current_state = 'REACH_BUTTON'
+
+    def call_for_help_state(self):
+        # Call for human assistance to help the pregnant woman.
+        self.call_for_help()
+        self.current_state = 'PROVIDE_COMFORT'
+
+    def check_condition_state(self):
+        # Check if the pregnant woman requires any medical attention.
+        if self.condition_critical():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'PROVIDE_COMFORT'
+
+    def provide_comfort_state(self):
+        # Provide comfort to the pregnant woman until help arrives.
+        self.provide_comfort()
+
+    # Actions / Annotation methods
+    def can_reach_button(self):
+        button_reachable = self.checking('button reachability')
+        return button_reachable
+
+    def can_move_chair(self):
+        chair_movable = self.checking('chair movability')
+        return chair_movable
+
+    def reach_button(self):
+        self.reaching('button')
+
+    def move_chair(self):
+        self.moving('chair')
+
+    def call_for_help(self):
+        self.calling('human assistance')
+
+    def condition_critical(self):
+        condition_critical = self.checking('critical condition')
+        return condition_critical
+
+    def provide_comfort(self):
+        self.comforting('pregnant woman')
+
+    # Run the HFSM loop
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+            
