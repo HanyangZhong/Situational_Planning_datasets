@@ -6,7 +6,9 @@ The paper is available at [arXiv](https://arxiv.org/abs/2312.16127) .
 
 <div align="center">
 <img src="img/image1.png">
-</div>- [LLM-SAP: Large Language Model Planning Based on Situational Awareness](#llm-sap-large-language-model-planning-based-on-situational-awareness)
+</div>
+
+- [LLM-SAP: Large Language Model Planning Based on Situational Awareness](#llm-sap-large-language-model-planning-based-on-situational-awareness)
   - [Dataset Introduction](#dataset-introduction)
   - [Quick Start](#quick-start)
     - [Generated Results](#generated-results)
@@ -36,8 +38,6 @@ The paper is available at [arXiv](https://arxiv.org/abs/2312.16127) .
         - [GPT-4+SAP \& GPT-4+EP05](#gpt-4sap--gpt-4ep05)
         - [GPT-4+SAP \& GPT-4+EP09](#gpt-4sap--gpt-4ep09)
   - [Citation](#citation)
-
-
 
 
 ## Dataset Introduction
