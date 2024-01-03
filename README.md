@@ -36,7 +36,7 @@ This dataset mainly includes hazardous scenarios from 24 home scenarios.
 This includes a list of scenes, scenario events, planning complexity, detailed scenario descriptions, corresponding image descriptions, best human-written finite state machine demonstrations, and approximate visualization images of the finite state machine.            
 The detailed scene content can be viewed and used in [CSV
 ](https://github.com/HanyangZhong/Situational_Planning_datasets/tree/main/datasets/24_home_hazard_scenario) or [JSON](https://github.com/HanyangZhong/Situational_Planning_datasets/tree/main/datasets/24_home_hazard_scenario) files under `dataset`.            
-In addition, we have prepared around 600 high-quality multimodal situational awareness planning datasets generated based on the SAP prompt method provided in this article, which can be used for fine-tuning [here](https://github.com/HanyangZhong/Situational_Planning_datasets/tree/main/datasets/Household_safety).            
+In addition, we have prepared around 600 high-quality multimodal situational awareness planning datasets generated based on the SAP prompt method provided in this article, which can be used for fine-tuning [github](https://github.com/HanyangZhong/Situational_Planning_datasets/tree/main/datasets/Household_safety) or [huggingface](https://huggingface.co/datasets/hzlama/Household_safety).            
 
 ## Quick Start
 <div align="center">
