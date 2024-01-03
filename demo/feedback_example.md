@@ -20,7 +20,7 @@
 # Step 1: Prompt GPT-4 with SAP to get the FSM 
 
 <div align="center">
-<img src="https://github.com/HanyangZhong/Situational_Planning_datasets/blob/main/datasets/24_home_hazard_scenario/eval_PIC/18.png">
+<img src="https://github.com/HanyangZhong/Situational_Planning_datasets/blob/main/datasets/24_home_hazard_scenario/eval_PIC/18.png" width="450px">
 </div>
 
 ## Ask1
