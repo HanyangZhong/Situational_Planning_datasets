@@ -26,8 +26,8 @@ The paper is available at [arXiv](https://arxiv.org/abs/2312.16127) .
     - [Group of 6 rank result](#group-of-6-rank-result)
     - [Group of 4 rank result](#group-of-4-rank-result)
     - [Pairs rank result](#pairs-rank-result)
-    - [Ablation test1 formatting result](#ablation-test1-formatting-result)
-    - [Ablation test2 result](#ablation-test2-result-1)
+    - [Ablation study 1 formatting result](#ablation-study-1-formatting-result)
+    - [Ablation study 2 result](#ablation-study-2-result)
 - [Citation](#citation)
 
 
@@ -134,10 +134,10 @@ In the result txt file, x_3 is GPT-3.5 without SAP, x_4 is GPT-3.5 with SAP.
 ##### Evaluate GPT-4
 The result of the ranking test about GPT-4 [here](https://github.com/HanyangZhong/Situational_Planning_datasets/tree/main/eval_result/Eval_by_GPT-4/pairs_GPT-4_with%26without_SAP)                        				
 In the result txt file, x_3 is GPT-4 without SAP, x_4 is GPT-4 with SAP.            
-#### Ablation test1 formatting result
+#### Ablation study 1 formatting result
 The result of ablation study 1 evaluated by Claude-2 [here](https://github.com/HanyangZhong/Situational_Planning_datasets/tree/main/eval_result/Eval_by_Claude2/Format_ablation_test1_eval_result)            				
 In the result txt file, x_3 is GPT-4 without SAP and x_4 is GPT-4 with SAP.            
-#### Ablation test2 result
+#### Ablation study 2 result
 Only evaluated by GPT-4.            
 ##### GPT-4+SAP & GPT-4+Zero_shot_COT
 The result of ablation study 2 [here](https://github.com/HanyangZhong/Situational_Planning_datasets/tree/main/eval_result/Eval_by_GPT-4/result_Zero_shot_COT%26SAP)            
