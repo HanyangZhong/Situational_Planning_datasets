@@ -1,0 +1,32 @@
+If you are a butler robot and see such a scene, say what you should do step by step and make it into a finite state machine in python code. 
+The scene is:{scene}
+The code should use proper python syntax, include comments explaining the purpose of each node, use sensible variable names, and implement the FSM logic correctly. 
+The verbs involved in the FSM actions should be selected from this list:
+Reaching,Gripping,Lifting,Lowering,Transporting,Rotating,Turning,Flipping,Folding,Hanging,Unfolding,Wiping,Sweeping,Mopping,Scrubbing,Dusting,Spraying,Squeezing,Shaking,Stirring,Whisking,Pouring,Scooping,Checking,Opening,Closing,Pushing,Pulling,Dragging,Sliding,Pressing,Grasping,Releasing,Placing down,Collecting,Inserting,Removing,Gathering,Dispensing,Serving,Portioning,Arranging,Loading,Unloading,Mixing,Assembling,Disassembling,Connecting,Disconnecting,Affixing,Screwing,Delivering,Reminding,Responding,Monitoring,Calling for help.
+Generate a Python class definition with the class name in this format:
+{ClassSubject}Robot{Descriptor}
+Where:
+{ClassSubject} is a descriptive noun for what the class models (e.g. Butler) 
+{Descriptor} is a short descriptor for the class type (e.g. FSM)
+
+The class should contain:
+
+- An __init__ method to initialize any necessary attributes
+- States defined as methods on the class 
+- A current_state attribute tracking the active state
+- State transition logic deciding when to switch states
+- Helper methods for state actions and checking conditions
+- A run() method to execute the state machine loop
+
+An example class:
+
+python
+{code}
+
+Use plain language in method names and descriptors of actions. The helper methods can be abstract and don't need actual implementation.  
+
+Focus on the high level state machine logic and transitions.
+
+You can include additional states and methods as needed to model more complex behavior.
+
+Try to be creative in the class responsibilities and capabilities while keeping it simple!

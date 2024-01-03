@@ -1,0 +1,18 @@
+First you must to check all the file names I provide with you and remember them to do the following process.
+Please evaluate the FSMs in the code "{i+1}_1" and "{i+1}_2" against the benchmark established by "{i+1}_best". Provide scores for each FSM across the seven dimensions: State Coverage, Transition Coverage, Cyclomatic Complexity, Safety Mindset, Scalability, Assistance UX, and Action Set Alignment. Summarize the strengths and weaknesses of each FSM and calculate their Overall Benchmark Scores. 
+Compare these scores with the "{i+1}_best" FSM to understand their relative performance in the scenario below:
+{scene}
+The code "{i+1}_best" is: {gpt_4_best}
+The code "{i+1}_1" is: {code1}
+The code "{i+1}_2" is: {code2}
+Help me to do an analysis to score all the FSMs in the code content except for the "{i+1}_best". By anchoring to example "{i+1}_best" with perfect 10s, you can rank order additional FSMs on the 0-10 scale across dimensions. This allows consolidated quantitative and qualitative comparisons to precisely tune home assistance robots. For each dimension, support your 0-10 rating with FSM specifics.
+Finally, you should average your ratings to calculate an Overall Benchmark Score between 0-10 for the FSM.
+Here is the scoring dimentions:
+1. State Coverage: Score the coverage of necessary states to handle the scene. 10 indicates all required states, 0 indicates major gaps.
+2. Transition Coverage: Score how completely state transitions cover likely sequences. 10 is fully connected transitions. 0 has disconnected subgraphs.
+3. Cyclomatic Complexity: Rate state interconnectivity. 0 is minimally complex. 10 is densely interconnected, each state has more immediately following states.
+4. Safety Mindset: Score how safely the FSM behaves. 10 consistently prevents harm. 0 ignores safety.
+5. Scalability: Judge extendibility to new contexts. 10 encapsulates complexity, easing extensions. 0 is entangled, resisting modification.
+6. Assistance UX: Evaluate user experience quality. 10 is natural, contextual, personalized. 0 is robotic, rigid interactions.
+7. Action Set Alignment:  This dimension rates how strictly the finite state machine restricts itself to the defined action set vocabulary in encoding assistance behaviors, rather than introducing additional custom actions. The action set vocabulary serves as an industry benchmarklist consisting of 56 verbs describing home assistance capabilities: Reaching,Gripping,Lifting,Lowering,Transporting,Rotating,Turning,Flipping,Folding,Hanging,Unfolding,Wiping,Sweeping,Mopping,Scrubbing,Dusting,Spraying,Squeezing,Shaking,Stirring,Whisking,Pouring,Scooping,Checking,Opening,Closing,Pushing,Pulling,Dragging,Sliding,Pressing,Grasping,Releasing,Placingdown,Collecting,Inserting,Removing,Gathering,Dispensing,Serving,Portioning,Arranging,Loading,Unloading,Mixing,Assembling,Disassembling,Connecting,Disconnecting,Affixing,Screwing,Delivering,Reminding,Responding,Monitoring,Calling for help.
+A score of 10 indicates that FSM strictly selects actions within this list, while a score of 0 indicates that no actions within this list have been selected at all.

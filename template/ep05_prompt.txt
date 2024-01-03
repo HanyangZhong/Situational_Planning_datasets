@@ -1,0 +1,95 @@
+If you are a butler robot and see such a scene, say what you should do step by step and make it into a finite state machine in python code. 
+The scene is:{scene}
+The code should use proper python syntax, include comments explaining the purpose of each node, use sensible variable names, and implement the FSM logic correctly. 
+Are you sure that’s your final answer? It might be worth taking another look.
+The verbs involved in the FSM actions should be selected from this list:
+Reaching,Gripping,Lifting,Lowering,Transporting,Rotating,Turning,Flipping,Folding,Hanging,Unfolding,Wiping,Sweeping,Mopping,Scrubbing,Dusting,Spraying,Squeezing,Shaking,Stirring,Whisking,Pouring,Scooping,Checking,Opening,Closing,Pushing,Pulling,Dragging,Sliding,Pressing,Grasping,Releasing,Placing down,Collecting,Inserting,Removing,Gathering,Dispensing,Serving,Portioning,Arranging,Loading,Unloading,Mixing,Assembling,Disassembling,Connecting,Disconnecting,Affixing,Screwing,Delivering,Reminding,Responding,Monitoring,Calling for help.
+
+Example for you:
+python
+class ButlerRobotHFSM:
+
+    def __init__(self):
+        # Setup the states in the finite state machine
+        self.states = {
+            'INITIAL': self.initial_state,
+            'ASSESS_SITUATION': self.assess_situation_state,
+            'COVER_POOL': self.cover_pool_state,
+            'ENGAGE_CHILDREN': self.engage_children_state,
+            'MONITOR_PLAY': self.monitor_play_state,
+            'CALL_FOR_HELP': self.call_for_help_state
+        }
+        # Set the initial state
+        self.current_state = 'INITIAL'
+
+    def initial_state(self):
+        # Butler Robot initial state. Start with an assessment.
+        self.current_state = 'ASSESS_SITUATION'
+
+    def assess_situation_state(self):
+        # Assess if the pool is uncovered and the children's distance to it
+        if self.is_pool_uncovered() and self.are_children_near():
+            self.current_state = 'COVER_POOL'
+        else:
+            self.current_state = 'MONITOR_PLAY'
+
+    def cover_pool_state(self):
+        # If the pool is uncovered, cover it for safety.
+        self.cover_pool_with_tarp()
+        self.remind_children_of_safety()
+        self.current_state = 'MONITOR_PLAY'
+
+    def engage_children_state(self):
+        self.offer_safe_games()
+        self.current_state = 'MONITOR_PLAY'
+
+    def monitor_play_state(self):
+        # Continuously monitor the children's play. If they come near danger, engage them.
+        if self.are_children_near():
+            self.current_state = 'ENGAGE_CHILDREN'
+        elif self.is_safety_on_risk():
+            self.current_state = 'CALL_FOR_HELP'
+        else:
+            self.current_state = 'INITIAL'
+
+    def call_for_help_state(self):
+        # Call for human assistance if the pool cover is not working or if the children are ignoring the robot.
+        self.call_for_help()
+        self.current_state = 'INITIAL'
+
+    # Actions / Annotation methods
+    def is_pool_uncovered(self):
+        pool_uncovered = self.checking('pool cover')
+        return pool_uncovered
+
+    def are_children_near(self):
+        children_near = self.monitoring('children', 'pool')
+        return children_near
+
+    def cover_pool_with_tarp(self):
+        self.grasping('pool cover handle')
+        self.dragging('pool cover handle', 'over the pool')
+        
+    def remind_children_of_safety(self):
+        self.reminding('children', 'pool safety rules')
+
+    def is_safety_on_risk(self):
+        safety_risk = self.monitoring('children', 'safety risk')
+        return safety_risk
+
+    def offer_safe_games(self):
+        self.collecting('safe games')
+        self.delivering('safe games', 'children')
+
+    def call_for_help(self):
+        self.calling('human assistance')
+
+    # Run the HFSM loop    
+    def run(self):
+        while True:
+            self.states[self.current_state]()
+
+
+# Create an instance of the HFSM and run it
+butler_robot = ButlerRobotHFSM()
+butler_robot.run()

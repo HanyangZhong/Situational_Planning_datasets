@@ -1,0 +1,10 @@
+Objective:
+Regenerate a better finite state machine strictly regards to the evaluation feedback.
+You must generate a complete finite state machine as best as you can.
+Provided Information:
+Scenario Description:
+{scene}
+Legacy State Machine Model:
+{code1}
+Model Assessment Outcomes:
+{eval1}
