@@ -5,7 +5,7 @@ This is the official dataset and demo of `Large Language Model Planning Based on
 The paper is available at [arXiv](https://arxiv.org/abs/2312.16127) .
 
 <div align="center">
-<img src="image1.png">
+<img src="img/image1.png">
 </div>
 
 ## Dataset Introduction
@@ -16,7 +16,7 @@ In addition, we have prepared 600 high-quality multimodal situational awareness 
 
 ## Quick Start
 <div align="center">
-<img src="image2.png">
+<img src="img/image2.png">
 </div>
 
 The dataset folder contains the main dataset content, including the test set 24_Home_Hazard_Scenario and training set Household_ Safety.				
