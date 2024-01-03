@@ -1,4 +1,4 @@
-# LLM-SAP: Large Language Model Planning Based on Situational Awareness
+# LLM-SAP: Large Language Model Situational Awareness Based Planning
 
 This is the official dataset and demo of `Large Language Model Planning Based on Situational Awareness`.
 
@@ -10,7 +10,7 @@ The paper is available at [arXiv](https://arxiv.org/abs/2312.16127) .
 
 ## Web page Navigation
 
-- LLM-SAP: Large Language Model Planning Based on Situational Awareness
+- LLM-SAP: Large Language Model Situational Awareness Based Planning
 - [Dataset Introduction](#dataset-introduction)
 - [Quick Start](#quick-start)
   - [Generated Results](#generated-results)
