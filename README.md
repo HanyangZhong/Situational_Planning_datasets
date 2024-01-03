@@ -16,7 +16,7 @@ In addition, we have prepared 600 high-quality multimodal situational awareness 
 
 ## Quick Start
 <div align="center">
-<img src="img/image_stepbystep.png">
+<img src="image1.png">
 </div>
 
 The dataset folder contains the main dataset content, including the test set 24_Home_Hazard_Scenario and training set Household_ Safety.
