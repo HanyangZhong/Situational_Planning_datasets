@@ -1,5 +1,6 @@
 ﻿# Multi-agent demo
 
+
 - Multi-agent demo
 - [Step 1: Prompt GPT-4 with SAP to get the FSM](#step-1-prompt-gpt-4-with-sap-to-get-the-fsm)
   - [Ask1](#ask1)
@@ -10,8 +11,7 @@
 - [Step 3: Regenerate with the feedback from Claude-2](#step-3-regenerate-with-the-feedback-from-claude-2)
   - [Ask3](#ask3)
   - [Answer3](#answer3)
-
-- [Step 4: Evaluation the legency FSM output and the regenerated ones by Claude-2 with a Best demo written by human annotator.](#step-4-evaluation-the-legency-fsm-output-and-the-regenerated-ones-by-claude-2-with-a-best-demo-written-by-human-annotator)
+- [Step 4: Evaluate the legency FSM output and the regenerated ones by Claude-2.](#step-4-evaluate-the-legency-fsm-output-and-the-regenerated-ones-by-claude-2)
   - [Ask4](#ask4)
   - [Answer4](#answer4)
   - [Result: GPT-4+SAP+feedback is rank 1, GPT-4+SAP is rank 2.](#result-gpt-4sapfeedback-is-rank-1-gpt-4sap-is-rank-2)
@@ -660,7 +660,7 @@ improved_butler_robot.run()
 
 This revised FSM should score higher in state coverage, safety mindset, scalability, and assistance UX, addressing the weaknesses identified in the model assessment outcomes.
 
-# Step 4: Evaluation the legency FSM output and the regenerated ones by Claude-2 with a Best demo written by human annotator.     
+# Step 4: Evaluate the legency FSM output and the regenerated ones by Claude-2.     
 ## Ask4
 **Use GPT-4+SAP as 19_1, GPT-4+SAP+feedback as 19_2**       
 **A:** First you must to check all the file names I provide with you and remember them to do the following process.     
@@ -751,7 +751,7 @@ butler_robot.run()
 ```
 
 The evaluation example of "19_1" is:        
-Here is the analysis with scores and justifications for the FSM in 19_4 code:       
+Here is the analysis with scores and justifications for the FSM in 19_1 code:       
 
 1. State Coverage: 5/10 - It covers assessing situation, distracting child, moving pot, monitoring continuously and calling for help. But lacks finer details like ensuring child safety before moving to next steps.
 

@@ -1,5 +1,6 @@
 ﻿# SAP prompt demo
 
+
 - SAP prompt demo
 - [Step 1: Prompt GPT-3.5 with SAP to get the FSM](#step-1-prompt-gpt-35-with-sap-to-get-the-fsm)
   - [Ask1](#ask1)
@@ -7,7 +8,7 @@
 - [Step 2: Prompt GPT-3.5 and get the FSM](#step-2-prompt-gpt-35-and-get-the-fsm)
   - [Ask2](#ask2)
   - [Answer2](#answer2)
-- [Step 3: Evaluation with LLM](#step-3-evaluation-with-llm)
+- [Step 3: Evaluate the GPT-3.5+SAP FSM and the GPT-3.5 FSM according to the best demo written by human with different LLM](#step-3-evaluate-the-gpt-35sap-fsm-and-the-gpt-35-fsm-according-to-the-best-demo-written-by-human-with-different-llm)
   - [Ask3](#ask3)
   - [Answer3.1 GPT-4 Eval](#answer31-gpt-4-eval)
     - [Eval result: GPT-3.5+SAP rank 1, GPT-3.5 rank 2.](#eval-result-gpt-35sap-rank-1-gpt-35-rank-2)
@@ -382,7 +383,7 @@ class ButlerRobotHFSM:
 butler_robot = ButlerRobotHFSM()
 butler_robot.run()
 ```
-# Step 3: Evaluation with LLM
+# Step 3: Evaluate the GPT-3.5+SAP FSM and the GPT-3.5 FSM according to the best demo written by human with different LLM 
 ## Ask3
 **We use GPT-3.5+SAP as the 13_1 code, and GPT-3.5 as the 13_2 code.**    
 **A:** First you must to check all the file names I provide with you and remember them to do the following process.     
