@@ -40,7 +40,7 @@ In addition, we have prepared around 600 high-quality multimodal situational awa
 
 ## Quick Start
 <div align="center">
-<img src="img/image2.png" width="300px">
+<img src="img/image2.png" width="400px">
 </div>
 
 The dataset folder contains the main dataset content, including the test set 24_Home_Hazard_Scenario and training set Household_ Safety.        
