@@ -8,6 +8,7 @@ The paper is available at [arXiv](https://arxiv.org/abs/2312.16127) .
 <img src="img/image1.png">
 </div>
 
+**Web Navigate**
 - [LLM-SAP: Large Language Model Planning Based on Situational Awareness](#llm-sap-large-language-model-planning-based-on-situational-awareness)
   - [Dataset Introduction](#dataset-introduction)
   - [Quick Start](#quick-start)
