@@ -5,7 +5,7 @@ This is the official datasets and demos of `Large Language Model Planning Based 
 The paper is available at [arXiv](http://1) .
 
 <div align="center">
-<img src="img/image_stepbystep.png">
+<img src="New_Second_1.pdf">
 </div>
 
 ## Dataset Introduction
