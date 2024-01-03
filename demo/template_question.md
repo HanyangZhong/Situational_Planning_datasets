@@ -504,8 +504,8 @@ butler_robot = ButlerRobotHFSM()
 butler_robot.run()
 # Note: The 'run' method would typically include conditions for graceful exit in a real-world implementation.
 
+The code "13_1" is: 
 ```python
-   The code "13_1" is: 
 class KitchenSafetyHFSM:
     def __init__(self):
         self.states = {
@@ -603,7 +603,7 @@ class KitchenSafetyHFSM:
 kitchen_safety = KitchenSafetyHFSM()
 kitchen_safety.run()
 ```
-   The code "13_2" is: 
+The code "13_2" is: 
 ```python
 class ButlerRobotHFSM:
 
