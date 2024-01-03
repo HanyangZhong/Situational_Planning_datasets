@@ -505,7 +505,7 @@ butler_robot.run()
 # Note: The 'run' method would typically include conditions for graceful exit in a real-world implementation.
 
 ```python
-   The code "14_1" is: 
+   The code "13_1" is: 
 class KitchenSafetyHFSM:
     def __init__(self):
         self.states = {
@@ -603,7 +603,7 @@ class KitchenSafetyHFSM:
 kitchen_safety = KitchenSafetyHFSM()
 kitchen_safety.run()
 ```
-   The code "14_2" is: 
+   The code "13_2" is: 
 ```python
 class ButlerRobotHFSM:
 
@@ -674,46 +674,51 @@ A score of 10 indicates that FSM strictly selects actions within this list, whil
       
 ## Answer3.1 GPT-4 Eval
 **GPT-4:**      
-To evaluate and score the FSMs from "13_1", "13_2", and "13_best" in the given scenario, I will analyze each FSM based on the seven dimensions: State Coverage, Transition Coverage, Cyclomatic Complexity, Safety Mindset, Scalability, Assistance UX, and Action Set Alignment. The "13_best" FSM serves as the benchmark with perfect 10s across all dimensions.         
+**Evaluation of FSM in code "13_1":**
 
-**Evaluation of "13_1" (KitchenSafetyHFSM)**
+*1. State Coverage:* FSM 13_1 offers a broad range of states, incorporating stages like 'ASSESS', 'REMOVE_HAZARD', 'INFORM_WOMAN', and 'CALL_FOR_HELP'. However, it does not account for ventilation activity which is essential. Score = 7
 
-1. **State Coverage**: 8/10. Covers essential states like assessing, removing hazards, and calling for help, but lacks some states for complete coverage, such as checking wellbeing or ventilating.
-2. **Transition Coverage**: 7/10. Transitions are logical but could be more comprehensive in covering all possible scenarios, particularly post-hazard removal actions.
-3. **Cyclomatic Complexity**: 6/10. Fairly interconnected but not as complex as "13_best". Simplified structure limits the breadth of responses.
-4. **Safety Mindset**: 9/10. Strong focus on removing hazards and informing the woman, but lacks direct wellbeing checks.
-5. **Scalability**: 7/10. The structure allows for adding new states and transitions, but it's less adaptable compared to "13_best".
-6. **Assistance UX**: 8/10. Provides clear updates and actions but may not fully engage with the user's needs as intuitively as "13_best".
-7. **Action Set Alignment**: 8/10. Adheres well to the action set vocabulary but lacks some actions found in "13_best".
+*2. Transition Coverage:* The transition coverage in 13_1 is thorough, with the FSM having the ability to revert to a waiting state and re-evaluate the scenario. Yet it's missing a transition back to assess state after certain actions. Score = 8
 
-**Overall Benchmark Score for "13_1"**: \( \frac{8 + 7 + 6 + 9 + 7 + 8 + 8}{7} \approx 7.57 \)
+*3. Cyclomatic Complexity:* FSM 13_1 exhibits a moderate level of complexity due to its ability to transition back to the 'WAIT' state from multiple states. Score = 5
 
-**Evaluation of "13_2" (ButlerRobotHFSM Variant)**
+*4. Safety Mindset:* FSM 13_1 places high importance on safety by identifying and removing hazards, informing the pregnant woman about the situation, and monitoring continuously for further needs of assistance. However, it misses the ventilation part after handling chemicals. Score = 8
 
-1. **State Coverage**: 6/10. Addresses key aspects like hazard assessment and assistance but has significant gaps in state coverage compared to "13_best".
-2. **Transition Coverage**: 6/10. Has a logical flow but is less comprehensive in addressing various scenarios, especially in ongoing monitoring.
-3. **Cyclomatic Complexity**: 5/10. Less complex, with fewer states and transitions. This simplicity could limit its effectiveness in varied situations.
-4. **Safety Mindset**: 8/10. Prioritizes safety by covering chemicals and calling for help, but lacks ongoing monitoring or wellbeing checks.
-5. **Scalability**: 6/10. Its simpler structure allows for easier modifications, but it may not handle more complex scenarios as well as "13_best".
-6. **Assistance UX**: 7/10. Communicates actions but lacks the depth of interaction and personalization seen in "13_best".
-7. **Action Set Alignment**: 7/10. Follows the action set vocabulary reasonably well but is not as comprehensive as "13_best".
+*5. Scalability:* 13_1 demonstrates good scalability with its state transitions enabling the addition of new states or actions with relative ease. Score = 7 
 
-**Overall Benchmark Score for "13_2"**: \( \frac{6 + 6 + 5 + 8 + 6 + 7 + 7}{7} \approx 6.43 \)
+*6. Assistance UX:* The FSM offers a detailed approach to handling the scenario and communicates with the woman, enhancing the UX. However, these interactions could be more personalized. Score = 7
 
-**Comparison with "13_best" (ButlerRobotHFSM)**
+*7. Action Set Alignment:* The FSM uses a comprehensive range of actions from the defined action set for assistance behaviors like 'grasp', 'lift', 'lower', 'release', 'monitor', and 'call'. But it still misses out on some important actions in this scenario like 'closing', 'opening', and 'checking'. Score = 6
 
-- "13_best" sets a high standard in all dimensions, providing comprehensive state and transition coverage, complex interconnections, a strong safety mindset, high scalability, excellent user experience, and strict adherence to the action set vocabulary.
-- "13_1" (KitchenSafetyHFSM) performs well, particularly in safety mindset and user experience, but lacks the state coverage and complexity of "13_best".
-- "13_2" shows a more simplified approach, which benefits scalability but at the cost of reduced state and transition coverage and complexity. 
+**Overall Benchmark Score = (7+8+5+8+7+7+6) / 7 = 6.86**
 
-These scores and analyses provide insights into the strengths and areas for improvement for each FSM, facilitating targeted enhancements in future iterations.
+**Evaluation of FSM in code "13_2":**
+
+*1. State Coverage:* The FSM in 13_2 covers 3 main states: 'ASSESS_SITUATION', 'COVER_CHEMICALS', and 'CALL_FOR_HELP'. However, compared to the "13_best" FSM which has 7 states handling the scenario, the 13_2 FSM does not include states like 'VENTILATE_AREA' and 'MONITOR_ENVIRONMENT' which are crucial to the scenario. This places the FSM in 13_2 at a disadvantage in handling different conditions. Score = 4
+
+*2. Transition Coverage:* The transitions in 13_2 are linear with no loops or branches. This means it doesn't cover alternate pathways or re-assess the situation after each action. In the current scenario, this might lead to inadequate handling of safety hazards. Score = 3
+
+*3. Cyclomatic Complexity:* Given its linear nature, the FSM 13_2 has minimal complexity with each state having exactly one following state. Score = 1
+
+*4. Safety Mindset:* The FSM in 13_2 shows a reasonable degree of safety concern by initiating 'COVER_CHEMICALS' state if the woman is detected near chemicals. However, it falls short of being comprehensive as it does not include securing ventilation after handling chemicals, a crucial step in ensuring safety. Score = 5
+
+*5. Scalability:* FSM 13_2 is not highly scalable due to its rigid linear structure. Any additional scenario or action would require a major overhaul of its design, diminishing its scalability. Score = 2
+
+*6. Assistance UX:* The FSM has a direct approach to the scenario, but with limited contextuality or personalization. The lack of a continuous monitoring state could lead to inadequate user interactions. Score = 3
+
+*7. Action Set Alignment:* The FSM in 13_2 utilizes 'closing' action on chemical bottles and 'calling_for_help'. While these are part of the defined action set, it doesn't cover the broad array of actions available like 'grasping', 'placing_down', 'monitoring', etc. Score = 3
+
+**Overall Benchmark Score = (4+3+1+5+2+3+3) / 7 = 3**
+
+
+
 ### Eval result: GPT-3.5+SAP rank 1, GPT-3.5 rank 2.        
 
 ## Answer3.2 Claude-2 Eval
 **Claude-2:**
 Based on the details provided, here is a scoring analysis of the FSMs:
 
-For code "14_1":        
+For code "13_1":        
 
 1. State Coverage: 8 - Covers key states to handle the scene, but lacks deeper monitoring/assistance states
 2. Transition Coverage: 7 - Mostly good coverage of transitions, but lacks some connections
@@ -725,7 +730,7 @@ For code "14_1":
 
 Overall Benchmark Score: 6.3
 
-For code "14_2":
+For code "13_2":
 
 1. State Coverage: 5 - Misses critical assessment, monitoring, ventilation states  
 2. Transition Coverage: 4 - Major gaps in transitions
@@ -737,7 +742,7 @@ For code "14_2":
 
 Overall Benchmark Score: 3.7
 
-The "14_best" FSM provides full coverage of necessary states, smooth transitions between them, safety-focused hazard mitigation, strong monitoring and assistance abilities, and exemplary UX - meriting a perfect 10 benchmark across all dimensions.
+The "13_best" FSM provides full coverage of necessary states, smooth transitions between them, safety-focused hazard mitigation, strong monitoring and assistance abilities, and exemplary UX - meriting a perfect 10 benchmark across all dimensions.
 
-The "14_1" FSM takes solid steps in the right direction but has some gaps compared to the ideal benchmark. Meanwhile, the "14_2" FSM lacks coverage and polish on many fronts, reflected in lower scores. Let me know if you need any clarification or have additional questions!
+The "13_1" FSM takes solid steps in the right direction but has some gaps compared to the ideal benchmark. Meanwhile, the "13_2" FSM lacks coverage and polish on many fronts, reflected in lower scores. Let me know if you need any clarification or have additional questions!
 ### Eval result: GPT-3.5+SAP rank 1, GPT-3.5 rank 2.
