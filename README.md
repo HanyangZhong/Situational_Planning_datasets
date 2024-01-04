@@ -154,7 +154,7 @@ In the result txt file, x_3 is GPT-4 with EP09 and x_4 is GPT-4 with SAP.
 
 ## Citation
 ```
-@misc{wang&zhong2024SAP_LLM,
+@article{wang&zhong2024SAP_LLM,
       title={LLM-SAP: Large Language Model Situational Awareness Based Planning}, 
       author={Liman Wang and Hanyang Zhong},
       year={2024},
