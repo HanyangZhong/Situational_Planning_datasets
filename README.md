@@ -2,6 +2,8 @@
 
 This is the official opensource for the paper `LLM-SAP: Large Language Model Situational Awareness Based Planning`.
 
+This paper has been accepted to ICME 2024 [Workshop_MML4SG 2024](https://vista-h.github.io/MML4SG_2024/).
+
 The paper is available at [arXiv](https://arxiv.org/abs/2312.16127).
 
 <div align="center">
