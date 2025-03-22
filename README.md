@@ -154,12 +154,14 @@ In the result txt file, x_3 is GPT-4 with EP09 and x_4 is GPT-4 with SAP.
 
 ## Citation
 ```
-@article{wang&zhong2024SAP_LLM,
-      title={LLM-SAP: Large Language Model Situational Awareness Based Planning}, 
-      author={Liman Wang and Hanyang Zhong},
-      year={2024},
-      eprint={2312.16127},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI}
-}
+@INPROCEEDINGS{10645429,
+  author={Wang, Liman and Zhong, Hanyang},
+  booktitle={2024 IEEE International Conference on Multimedia and Expo Workshops (ICMEW)}, 
+  title={LLM-SAP: Large Language Models Situational Awareness-Based Planning}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={1-6},
+  keywords={Ethics;Large language models;Refining;Decision making;Cognition;Real-time systems;Hazards},
+  doi={10.1109/ICMEW63481.2024.10645429}}
 ```
