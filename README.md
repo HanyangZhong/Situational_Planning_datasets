@@ -2,7 +2,7 @@
 
 This is the official opensource for the paper `LLM-SAP: Large Language Model Situational Awareness Based Planning`.
 
-The paper is available at [arXiv](https://arxiv.org/abs/2312.16127).
+The paper is available at [arXiv](https://arxiv.org/abs/2312.16127) and [IEEE](https://ieeexplore.ieee.org/document/10645429).
 
 <div align="center">
 <img src="img/image1.png">
